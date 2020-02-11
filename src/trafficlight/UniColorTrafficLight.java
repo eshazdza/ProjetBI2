@@ -1,3 +1,7 @@
+package trafficlight;
+
+import lightbulb.Lightbulb;
+
 import java.util.ArrayList;
 
 public class UniColorTrafficLight extends TrafficLight {

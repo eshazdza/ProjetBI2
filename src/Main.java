@@ -1,3 +1,11 @@
+import direction.Direction;
+import direction.DirectionException;
+import factory.Factory;
+import factory.FactoryException;
+import intersection.Intersection;
+import lightbulb.Lightbulb;
+import trafficlight.TrafficLight;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -44,6 +52,34 @@ public class Main {
 
         System.out.println(trafficLight);
 
+        Direction direction = new Direction();
+
+        System.out.println(direction);
+//        try {
+//            direction.addTrafficLight(trafficLight);
+//        } catch (DirectionException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+        Direction direction1 = new Direction();
+        TrafficLight trafficLight1 = new TrafficLight();
+
+//        try {
+//            direction1.addTrafficLight(trafficLight1);
+//        } catch (DirectionException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+        ArrayList<Direction> directions = new ArrayList<>();
+        directions.add(direction);
+        directions.add(direction1);
+
+        try {
+            Intersection intersection = Factory.makeIntersection(directions);
+            System.out.println(intersection);
+        } catch (FactoryException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 }

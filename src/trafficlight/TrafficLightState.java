@@ -1,3 +1,5 @@
+package trafficlight;
+
 public enum TrafficLightState {
 
     OFF {
@@ -15,13 +17,13 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageManualMode() {
-            System.out.println("You must turn on the TrafficLight first");
+            System.out.println("You must turn on the trafficlight.TrafficLight first");
             return OFF;
         }
 
         @Override
         TrafficLightState engageAutoMode() {
-            System.out.println("You must turn on the TrafficLight first");
+            System.out.println("You must turn on the trafficlight.TrafficLight first");
             return OFF;
         }
 

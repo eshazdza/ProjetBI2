@@ -1,3 +1,5 @@
+package lightbulb;
+
 public enum LightbulbState {
 
 

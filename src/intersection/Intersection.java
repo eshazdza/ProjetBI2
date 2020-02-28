@@ -13,6 +13,12 @@ public class Intersection {
         this.state = state;
     }
 
+    public Intersection(Direction direction1, Direction direction2, IntersectionState state){
+        this.directions = new ArrayList<>();
+        this.addDirection(direction1);
+        this.addDirection(direction2);
+        this.state = state;
+    }
 
     @Override
     public String toString() {
@@ -20,5 +26,13 @@ public class Intersection {
                 "directions=" + directions +
                 ", state=" + state +
                 '}';
+    }
+
+    public void addDirection(Direction direction){
+        this.directions.add(direction);
+    }
+
+    public IntersectionState getState() {
+        return state.readState();
     }
 }

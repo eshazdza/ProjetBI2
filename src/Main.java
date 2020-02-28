@@ -55,28 +55,38 @@ public class Main {
         Direction direction = new Direction();
 
         System.out.println(direction);
-//        try {
-//            direction.addTrafficLight(trafficLight);
-//        } catch (DirectionException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            direction.addTrafficLight(trafficLight);
+        } catch (DirectionException e) {
+            System.out.println(e.getMessage());
+        }
 
         Direction direction1 = new Direction();
         TrafficLight trafficLight1 = new TrafficLight();
 
-//        try {
-//            direction1.addTrafficLight(trafficLight1);
-//        } catch (DirectionException e) {
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            direction1.addTrafficLight(trafficLight1);
+        } catch (DirectionException e) {
+            System.out.println(e.getMessage());
+        }
 
         ArrayList<Direction> directions = new ArrayList<>();
         directions.add(direction);
         directions.add(direction1);
 
         try {
-            Intersection intersection = Factory.makeIntersection(directions);
-            System.out.println(intersection);
+            Intersection intersection = Factory.makeIntersectionFromList(directions);
+            System.out.println(intersection.getState());
+        } catch (FactoryException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Direction direction2 = new Direction();
+        Direction direction3 = new Direction();
+
+        try {
+            Intersection intersection2 = Factory.makeIntersection(direction2, direction3);
+            System.out.println(intersection2.getState());
         } catch (FactoryException e) {
             System.out.println(e.getMessage());
         }

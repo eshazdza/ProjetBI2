@@ -35,4 +35,7 @@ public class Intersection {
     public IntersectionState getState() {
         return state.readState();
     }
+
+
+
 }

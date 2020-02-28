@@ -44,7 +44,21 @@ public class Factory extends Throwable {
 
 
     /* *************** DIRECTION *************** */
+    public static Direction makeControlledDirectionFromList(boolean hasPriority, ArrayList<TrafficLight> trafficLights) {
+        if (trafficLights.size() > 0) {
+            return new Direction(hasPriority, trafficLights);
+        } else {
+            return new Direction(hasPriority);
+        }
+    }
 
+    public static Direction makeUncontrolledDirection(boolean hasPriority){
+        return new Direction(hasPriority);
+    }
+
+    public static Direction makeUncontrolledDirection(){
+        return new Direction();
+    }
 
     /* *************** END DIRECTION *************** */
 
@@ -61,6 +75,7 @@ public class Factory extends Throwable {
                 if (direction.hasTrafficLight()) {
                     trafficLight++;
                 }
+//                TODO : handle priority
             }
 
 //            if at least one direction has a traffic light, every direction must have one.
@@ -83,6 +98,7 @@ public class Factory extends Throwable {
      * @throws FactoryException
      */
     public static Intersection makeIntersection(Direction direction1, Direction direction2) throws FactoryException {
+//        TODO : handle priority
         if (direction1.hasTrafficLight()) {
             if (direction2.hasTrafficLight()) {
                 return new ControlledIntersection(direction1, direction2, IntersectionState.CONTROLLED);

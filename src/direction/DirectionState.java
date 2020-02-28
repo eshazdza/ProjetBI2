@@ -9,6 +9,9 @@ public enum DirectionState {
         }
     },
     CONTROLLED {
-
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 }

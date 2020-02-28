@@ -31,6 +31,7 @@ public class Direction {
         if (!trafficLight.isBinded()) {
             this.trafficLights.add(trafficLight);
             trafficLight.setBinded(true);
+            this.state = DirectionState.CONTROLLED;
         } else {
             throw new DirectionException("Traffic light is already binded to another direction. Cannot add the traffic light.");
         }

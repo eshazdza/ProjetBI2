@@ -1,18 +1,25 @@
-package factory;
+package controller.factory;
 
-import direction.Direction;
-import intersection.ControlledIntersection;
-import intersection.Intersection;
-import intersection.IntersectionState;
-import lightbulb.Lightbulb;
-import trafficlight.BiColorTrafficLight;
-import trafficlight.TrafficLight;
-import trafficlight.TriColorTrafficLight;
-import trafficlight.UniColorTrafficLight;
+import controller.direction.Direction;
+import controller.intersection.ControlledIntersection;
+import controller.intersection.Intersection;
+import controller.intersection.IntersectionState;
+import controller.lightbulb.Lightbulb;
+import controller.trafficlight.BiColorTrafficLight;
+import controller.trafficlight.TrafficLight;
+import controller.trafficlight.TriColorTrafficLight;
+import controller.trafficlight.UniColorTrafficLight;
 
 import java.util.ArrayList;
 
 public class Factory extends Throwable {
+
+
+    /* *************** LIGHTBULB *************** */
+    public static Lightbulb makeLightBulb() {
+        return new Lightbulb();
+    }
+    /* *************** END LIGHTBULB *************** */
 
     /* *************** TRAFFIC LIGHT *************** */
 
@@ -52,11 +59,11 @@ public class Factory extends Throwable {
         }
     }
 
-    public static Direction makeUncontrolledDirection(boolean hasPriority){
+    public static Direction makeUncontrolledDirection(boolean hasPriority) {
         return new Direction(hasPriority);
     }
 
-    public static Direction makeUncontrolledDirection(){
+    public static Direction makeUncontrolledDirection() {
         return new Direction();
     }
 
@@ -67,7 +74,7 @@ public class Factory extends Throwable {
         if (directions.size() < 2) {
             throw new FactoryException("Intersection must contain a least two directions.");
         } else {
-//            check if every direction has a traffic light
+//            check if every controller.direction has a traffic light
             int trafficLight = 0;
 
             for (Direction direction :
@@ -78,9 +85,9 @@ public class Factory extends Throwable {
 //                TODO : handle priority
             }
 
-//            if at least one direction has a traffic light, every direction must have one.
+//            if at least one controller.direction has a traffic light, every controller.direction must have one.
             if (trafficLight > 0 && trafficLight != directions.size()) {
-                throw new FactoryException("One direction does not have a traffic light. Cannot create intersection.");
+                throw new FactoryException("One controller.direction does not have a traffic light. Cannot create controller.intersection.");
             } else if (trafficLight == 0) {
 //                If no Direction has a traffic light : the Intersection state is uncontrolled
                 return new Intersection(directions, IntersectionState.YOLO);
@@ -103,11 +110,11 @@ public class Factory extends Throwable {
             if (direction2.hasTrafficLight()) {
                 return new ControlledIntersection(direction1, direction2, IntersectionState.CONTROLLED);
             } else {
-                throw new FactoryException("One direction does not have a traffic light. Cannot create intersection.");
+                throw new FactoryException("One controller.direction does not have a traffic light. Cannot create controller.intersection.");
             }
         } else {
             if (direction2.hasTrafficLight()) {
-                throw new FactoryException("One direction does not have a traffic light. Cannot create intersection.");
+                throw new FactoryException("One controller.direction does not have a traffic light. Cannot create controller.intersection.");
             } else {
                 return new Intersection(direction1, direction2, IntersectionState.YOLO);
             }

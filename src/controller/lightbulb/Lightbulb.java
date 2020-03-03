@@ -1,10 +1,10 @@
-package lightbulb;
+package controller.lightbulb;
 
 import java.awt.*;
 
 /**
- * lightbulb.Lightbulb
- * We use state pattern for the lightbulb since, while currently trivial, behavior could change in the future (ie. a smarter LightBulb could blink, change color, etc...)
+ * controller.lightbulb.Lightbulb
+ * We use state pattern for the controller.lightbulb since, while currently trivial, behavior could change in the future (ie. a smarter LightBulb could blink, change color, etc...)
  */
 public class Lightbulb{
 
@@ -14,7 +14,7 @@ public class Lightbulb{
     /* *******************   CONSTRUCTORS         ******************* */
 
     /**
-     * lightbulb.Lightbulb color defaults to Orange if no color is defined.
+     * controller.lightbulb.Lightbulb color defaults to Orange if no color is defined.
      * Will always be off whenever we first "plug it in"
      */
     public Lightbulb() {

@@ -1,4 +1,4 @@
-package lightbulb;
+package controller.lightbulb;
 
 public enum LightbulbState {
 

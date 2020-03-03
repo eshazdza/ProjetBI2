@@ -1,6 +1,6 @@
-package intersection;
+package controller.intersection;
 
-import direction.Direction;
+import controller.direction.Direction;
 
 import java.util.ArrayList;
 

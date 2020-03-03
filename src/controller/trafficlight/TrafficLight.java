@@ -1,6 +1,6 @@
-package trafficlight;
+package controller.trafficlight;
 
-import lightbulb.Lightbulb;
+import controller.lightbulb.Lightbulb;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class TrafficLight {
 
     @Override
     public String toString() {
-        return "trafficlight.TrafficLight{" +
+        return "controller.trafficlight.TrafficLight{" +
                 "lightbulbs=" + lightbulbs +
                 ", state=" + state +
                 this.getClass() +

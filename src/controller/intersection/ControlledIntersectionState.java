@@ -1,54 +1,53 @@
-package trafficlight;
+package controller.intersection;
 
-public enum TrafficLightState {
-
+public enum  ControlledIntersectionState {
     OFF {
         @Override
-        TrafficLightState turnOn() {
+        ControlledIntersectionState turnOn() {
             System.out.println("Traffic light going in standby.");
             return STANDBY;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        ControlledIntersectionState turnOff() {
             System.out.println("Already Off.");
             return OFF;
         }
 
         @Override
-        TrafficLightState engageManualMode() {
-            System.out.println("You must turn on the trafficlight.TrafficLight first");
+        ControlledIntersectionState engageManualMode() {
+            System.out.println("You must turn on the controller.trafficlight.TrafficLight first");
             return OFF;
         }
 
         @Override
-        TrafficLightState engageAutoMode() {
-            System.out.println("You must turn on the trafficlight.TrafficLight first");
+        ControlledIntersectionState engageAutoMode() {
+            System.out.println("You must turn on the controller.trafficlight.TrafficLight first");
             return OFF;
         }
 
     },
     STANDBY {
         @Override
-        TrafficLightState turnOn() {
+        ControlledIntersectionState turnOn() {
             System.out.println("Already On.");
             return STANDBY;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        ControlledIntersectionState turnOff() {
             System.out.println("turning the trafficLight off.");
             return OFF;
         }
 
         @Override
-        TrafficLightState engageManualMode() {
+        ControlledIntersectionState engageManualMode() {
             System.out.println("engaging Manual Mode.");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState engageAutoMode() {
+        ControlledIntersectionState engageAutoMode() {
             System.out.println("engaging Automatic Mode.");
             return AUTO;
         }
@@ -57,62 +56,63 @@ public enum TrafficLightState {
 
     MANUAL {
         @Override
-        TrafficLightState turnOn() {
+        ControlledIntersectionState turnOn() {
             System.out.println("Already On");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        ControlledIntersectionState turnOff() {
             System.out.println("Going to standby");
             return STANDBY;
         }
 
         @Override
-        TrafficLightState engageManualMode() {
+        ControlledIntersectionState engageManualMode() {
             System.out.println("Already in Manual Mode");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState engageAutoMode() {
+        ControlledIntersectionState engageAutoMode() {
             System.out.println("Going to Automatic mode");
             return AUTO;
         }
     },
     AUTO {
         @Override
-        TrafficLightState turnOn() {
+        ControlledIntersectionState turnOn() {
             System.out.println("Already On");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        ControlledIntersectionState turnOff() {
             System.out.println("Going to standby");
             return STANDBY;
         }
 
         @Override
-        TrafficLightState engageManualMode() {
+        ControlledIntersectionState engageManualMode() {
             System.out.println("Going to manual mode");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState engageAutoMode() {
+        ControlledIntersectionState engageAutoMode() {
             System.out.println("already in auto");
             return AUTO;
         }
     };
 
 
-    abstract TrafficLightState turnOn();
+    abstract ControlledIntersectionState turnOn();
 
-    abstract TrafficLightState turnOff();
+    abstract ControlledIntersectionState turnOff();
 
-    abstract TrafficLightState engageManualMode();
+    abstract ControlledIntersectionState engageManualMode();
 
-    abstract TrafficLightState engageAutoMode();
+    abstract ControlledIntersectionState engageAutoMode();
+
 
 }

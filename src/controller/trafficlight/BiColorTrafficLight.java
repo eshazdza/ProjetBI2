@@ -1,6 +1,6 @@
-package trafficlight;
+package controller.trafficlight;
 
-import lightbulb.Lightbulb;
+import controller.lightbulb.Lightbulb;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class BiColorTrafficLight extends TrafficLight {
     @Override
     public void addLightBulb(Lightbulb lightbulb) {
         if (this.lightbulbs.size() == 2) {
-            System.out.println("cannot add anymore lightbulb (max 2).");
+            System.out.println("cannot add anymore controller.lightbulb (max 2).");
         } else {
             super.addLightBulb(lightbulb);
         }

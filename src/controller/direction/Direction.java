@@ -1,6 +1,6 @@
-package direction;
+package controller.direction;
 
-import trafficlight.TrafficLight;
+import controller.trafficlight.TrafficLight;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class Direction {
             trafficLight.setBinded(true);
             this.state = DirectionState.CONTROLLED;
         } else {
-            throw new DirectionException("Traffic light is already binded to another direction. Cannot add the traffic light.");
+            throw new DirectionException("Traffic light is already binded to another controller.direction. Cannot add the traffic light.");
         }
     }
 

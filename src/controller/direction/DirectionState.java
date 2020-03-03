@@ -1,4 +1,4 @@
-package direction;
+package controller.direction;
 
 public enum DirectionState {
 

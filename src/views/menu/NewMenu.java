@@ -1,7 +1,13 @@
 package views.menu;
 
+import entities.lightbulb.Lightbulb;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import factory.Factory;
+import javafx.scene.layout.GridPane;
+import Main.Main;
 
 public class NewMenu extends Menu {
 
@@ -26,6 +32,7 @@ public class NewMenu extends Menu {
     public void setActionEvents() {
         newLightBulb.setOnAction(e -> {
             System.out.println("new Lightbulb");
+            createLightbulb();
         });
 
         newTrafficLight.setOnAction(e -> {
@@ -42,5 +49,8 @@ public class NewMenu extends Menu {
 
     }
 
+    public void createLightbulb(){
+        Lightbulb lightbulb = Factory.makeLightbulb();
+    }
 
 }

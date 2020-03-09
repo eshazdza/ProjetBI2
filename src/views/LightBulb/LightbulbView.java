@@ -1,22 +1,31 @@
 package views.LightBulb;
 
+import controllers.LightbulbController;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-public class LightbulbView {
+import java.util.EventListener;
 
-    private GridPane gridPane ;
+public class LightbulbView implements EventListener {
+
+    private GridPane gridPane;
     private Scene scene;
 
     private Label header;
 
-    public LightbulbView() {
-        this.gridPane= new GridPane();
+    private LightbulbController lightbulbController;
+
+    public LightbulbView(LightbulbController lightbulbController) {
+
+        this.gridPane = new GridPane();
         this.scene = new Scene(gridPane);
         this.header = new Label("Create a new Lightbulb : ");
-//        gridPane.add(header);
+        this.lightbulbController = lightbulbController;
     }
+
+
+
 
 
 

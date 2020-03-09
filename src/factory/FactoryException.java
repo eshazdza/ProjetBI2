@@ -1,4 +1,4 @@
-package controller.factory;
+package factory;
 
 public class FactoryException extends Throwable {
     private String message;

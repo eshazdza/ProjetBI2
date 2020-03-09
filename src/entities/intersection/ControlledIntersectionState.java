@@ -1,4 +1,4 @@
-package controller.intersection;
+package entities.intersection;
 
 public enum  ControlledIntersectionState {
     OFF {
@@ -16,13 +16,13 @@ public enum  ControlledIntersectionState {
 
         @Override
         ControlledIntersectionState engageManualMode() {
-            System.out.println("You must turn on the controller.trafficlight.TrafficLight first");
+            System.out.println("You must turn on the entities.trafficlight.TrafficLight first");
             return OFF;
         }
 
         @Override
         ControlledIntersectionState engageAutoMode() {
-            System.out.println("You must turn on the controller.trafficlight.TrafficLight first");
+            System.out.println("You must turn on the entities.trafficlight.TrafficLight first");
             return OFF;
         }
 

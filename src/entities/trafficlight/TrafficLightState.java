@@ -1,4 +1,4 @@
-package controller.trafficlight;
+package entities.trafficlight;
 
 public enum TrafficLightState {
 
@@ -17,13 +17,13 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageManualMode() {
-            System.out.println("You must turn on the controller.trafficlight.TrafficLight first");
+            System.out.println("You must turn on the entities.trafficlight.TrafficLight first");
             return OFF;
         }
 
         @Override
         TrafficLightState engageAutoMode() {
-            System.out.println("You must turn on the controller.trafficlight.TrafficLight first");
+            System.out.println("You must turn on the entities.trafficlight.TrafficLight first");
             return OFF;
         }
 

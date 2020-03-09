@@ -1,11 +1,11 @@
 
-import controller.direction.Direction;
-import controller.direction.DirectionException;
-import controller.factory.Factory;
-import controller.factory.FactoryException;
-import controller.intersection.Intersection;
-import controller.lightbulb.Lightbulb;
-import controller.trafficlight.TrafficLight;
+import entities.direction.Direction;
+import entities.direction.DirectionException;
+import factory.Factory;
+import factory.FactoryException;
+import entities.intersection.Intersection;
+import entities.lightbulb.Lightbulb;
+import entities.trafficlight.TrafficLight;
 import java.util.ArrayList;
 
 public class MainV1 {

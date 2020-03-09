@@ -1,4 +1,4 @@
-package controller.direction;
+package entities.direction;
 
 public class DirectionException extends Throwable {
     public DirectionException(String message) {

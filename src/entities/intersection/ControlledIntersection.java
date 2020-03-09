@@ -1,7 +1,7 @@
-package controller.intersection;
+package entities.intersection;
 
-import controller.direction.Direction;
-import controller.triggerButton.TriggerButton;
+import entities.direction.Direction;
+import entities.triggerButton.TriggerButton;
 
 import java.util.ArrayList;
 

@@ -1,3 +1,5 @@
+package Main;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -10,7 +12,12 @@ import views.menu.FileMenu;
 import views.tools.ConfirmBox;
 
 public class Main extends Application {
-    private Stage mainWindow;
+    private static Stage mainWindow;
+
+    public static Stage getMainWindow() {
+        return mainWindow;
+    }
+
 
     public static void main(String[] args) {
         launch(args);

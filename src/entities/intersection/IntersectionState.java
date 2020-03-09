@@ -1,4 +1,4 @@
-package controller.intersection;
+package entities.intersection;
 
 public enum IntersectionState {
     YOLO {

@@ -1,4 +1,4 @@
-package controller.triggerButton;
+package entities.triggerButton;
 
 import java.util.EventListener;
 

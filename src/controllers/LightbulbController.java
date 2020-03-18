@@ -1,31 +1,18 @@
 package controllers;
 
 import entities.lightbulb.Lightbulb;
-import views.LightBulb.LightbulbView;
-
-import java.util.EventListener;
+import javafx.fxml.FXML;
+import javafx.scene.paint.Color;
 
 public class LightbulbController {
 
+    @FXML
     private Lightbulb lightbulb = new Lightbulb();
 
-    public LightbulbController(Lightbulb lightbulb) {
-        this.lightbulb = lightbulb;
-//        lightbulbView.addListener();
+    public void setColor(Color color) {
+        System.out.println("set fill : " + color);
+        lightbulb.setStyle("-fx-fill: blue");
+        System.out.println(lightbulb.getStyle());
     }
-
-    public void switchOnOff() {
-        lightbulb.performRequest();
-    }
-
-    public void updateView() {
-
-    }
-
-    /* *************** LISTERNERS *************** */
-    public void addListener(EventListener eventListener) {
-        this.addListener(eventListener);
-    }
-    /* *************** END LISTERNER *************** */
 
 }

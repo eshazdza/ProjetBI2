@@ -2,8 +2,8 @@ package entities.trafficlight;
 
 import entities.lightbulb.Lightbulb;
 
-import java.awt.*;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 public class TrafficLight {
 

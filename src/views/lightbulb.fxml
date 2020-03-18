@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+
+<?import entities.lightbulb.Lightbulb?>
+
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LightbulbController">
+   <children>
+      <Lightbulb  layoutX="100.0" layoutY="100.0" radius="100.0" strokeType="INSIDE" fx:id="lightbulb" styleClass="lightbulb" />
+   </children>
+</Pane>

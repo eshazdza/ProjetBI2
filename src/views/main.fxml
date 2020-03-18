@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="mainRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../assets/theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <Menu mnemonicParsing="false" text="New">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#newLightbulb" text="Lightbulb" />
+                                <MenuItem mnemonicParsing="false" onAction="#newTrafficLight" text="Traffic Light" />
+                                <MenuItem mnemonicParsing="false" onAction="#newDirection" text="Direction" />
+                                <MenuItem mnemonicParsing="false" onAction="#newIntersection" text="Intersection" />
+                            </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <bottom>
+        <HBox BorderPane.alignment="CENTER">
+            <children>
+                <Label prefHeight="16.0" prefWidth="705.0" text="Traffic Light Simulator 2020" textAlignment="JUSTIFY" />
+            </children>
+        </HBox>
+    </bottom>
+   <center>
+      <Pane fx:id="actionWindow" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 0;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Welcome To Traffic Light Simulator 2020 V1" />
+         </children>
+      </Pane>
+   </center>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="assetsWindow">
+
+      </VBox>
+   </left>
+</BorderPane>

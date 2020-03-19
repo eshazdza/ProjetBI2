@@ -1,5 +1,6 @@
 package controllers;
 
+import Main.Main;
 import entities.lightbulb.Lightbulb;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,19 +27,18 @@ public class LightbulbCreatorController {
 
     private MainController mainController;
 
-    void initData(Lightbulb lightbulb) {
+    void initData(Lightbulb lightbulb, MainController controller) {
         lightbulbDraw.setColor(lightbulb.getColor());
         lightbulbDraw.setFill(lightbulb.getColor());
+        this.mainController = controller;
     }
 
-    void initData() {
+
+    void initData(MainController controller){
         lightbulbDraw.setColor(Color.BEIGE);
         lightbulbDraw.setFill(Color.BEIGE);
+        this.mainController = controller;
     }
-
-//    void initData(MainController controller){
-//        this.mainController = controller;
-//    }
 
     public void pickColor() {
         Color color = colorPicker.getValue();
@@ -51,7 +51,7 @@ public class LightbulbCreatorController {
     }
 
     public void deleteBulb() {
-//        mainController.newLightbulb();
+        mainController.newLightbulb();
         ObjectIO.delete(lightbulbDraw);
     }
 

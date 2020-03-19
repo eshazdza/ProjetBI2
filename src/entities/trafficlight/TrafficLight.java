@@ -29,6 +29,7 @@ public class TrafficLight {
     public TrafficLight(){
         this.lightbulbs = new ArrayList<Lightbulb>();
         this.addLightBulb(new Lightbulb(Color.RED));
+        this.addLightBulb(new Lightbulb(Color.BLUE));
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
     }

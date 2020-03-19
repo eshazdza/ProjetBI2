@@ -1,6 +1,7 @@
-package controllers;
+package controllers.lightbulb;
 
 import Main.Main;
+import controllers.MainController;
 import entities.lightbulb.Lightbulb;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,19 +23,20 @@ public class LightbulbCreatorController {
     @FXML
     private Button saveButton = new Button();
 
+    // TODO : handle delete button state (ie. not active when nothing to delete...)
     @FXML
     private Button deleteButton = new Button();
 
     private MainController mainController;
 
-    void initData(Lightbulb lightbulb, MainController controller) {
+    public void initData(Lightbulb lightbulb, MainController controller) {
         lightbulbDraw.setColor(lightbulb.getColor());
         lightbulbDraw.setFill(lightbulb.getColor());
         this.mainController = controller;
     }
 
 
-    void initData(MainController controller){
+    public void initData(MainController controller){
         lightbulbDraw.setColor(Color.BEIGE);
         lightbulbDraw.setFill(Color.BEIGE);
         this.mainController = controller;

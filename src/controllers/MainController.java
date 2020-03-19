@@ -1,7 +1,10 @@
 package controllers;
 
-import com.sun.javafx.scene.control.LabeledText;
+import controllers.lightbulb.LightbulbCreatorController;
+import controllers.trafficlight.TrafficlightController;
+import controllers.trafficlight.TrafficlightCreatorController;
 import entities.lightbulb.Lightbulb;
+import entities.trafficlight.TrafficLight;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +25,6 @@ import tools.ObjectIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.server.ExportException;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -51,11 +53,10 @@ public class MainController implements Initializable {
         stage = (Stage) mainRoot.getScene().getWindow();
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbCreator.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulbCreator.fxml"));
             actionContent = loader.load();
             LightbulbCreatorController controller = loader.getController();
             controller.initData(this);
-//            controller.initData();
 
             actionWindow.getChildren().clear();
             actionWindow.getChildren().add(actionContent);
@@ -71,7 +72,7 @@ public class MainController implements Initializable {
         Lightbulb lightbulb = ObjectIO.open(bulbName);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbCreator.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulbCreator.fxml"));
             actionContent = loader.load();
             LightbulbCreatorController controller = loader.getController();
             controller.initData(lightbulb, this);
@@ -86,7 +87,24 @@ public class MainController implements Initializable {
 
 
     public void newTrafficLight() {
-        System.out.println("tl");
+        stage = (Stage) mainRoot.getScene().getWindow();
+
+        TrafficLight trafficLight = new TrafficLight();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlightCreator.fxml"));
+            actionContent = loader.load();
+
+            TrafficlightCreatorController controller = loader.getController();
+            controller.initData(trafficLight);
+
+
+            actionWindow.getChildren().clear();
+            actionWindow.getChildren().add(actionContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void newDirection() {

@@ -13,6 +13,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import tools.ObjectIO;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class TrafficlightController {
 
     @FXML
@@ -39,19 +42,21 @@ public class TrafficlightController {
                     public void handle(MouseEvent event) {
                         if (event.getButton() == MouseButton.SECONDARY) {
                             ContextMenu contextMenu = new ContextMenu();
+
                             MenuItem moveUpItem = new MenuItem("Move Up");
                             MenuItem moveDownItem = new MenuItem("Move Down");
                             MenuItem deleteItem = new MenuItem("Remove");
 
-
+                            moveUpItem.setOnAction(event1 -> moveUpBulb(trafficLight, l));
+                            moveDownItem.setOnAction(event1 -> moveDownBulb(trafficLight, l));
                             deleteItem.setOnAction(event1 -> removeBulb(trafficLight, l));
+
                             contextMenu.getItems().addAll(moveUpItem, moveDownItem, deleteItem);
                             contextMenu.show(pane, event.getScreenX(), event.getScreenY());
 
                         }
                     }
                 });
-                System.out.println(l.getColor());
                 bulbContainer.getChildren().add(pane);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -88,6 +93,23 @@ public class TrafficlightController {
 
     public void handleDragDetected() {
         System.out.println("drag detected");
+    }
+
+
+    public void moveUpBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
+        int index = trafficLight.getLightbulbs().indexOf(lightbulb);
+        if (index > 0) {
+            Collections.swap(trafficLight.getLightbulbs(), index, index - 1);
+            this.initData(trafficLight);
+        }
+    }
+
+    public void moveDownBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
+        int index = trafficLight.getLightbulbs().indexOf(lightbulb);
+        if (index<(trafficLight.getLightbulbs().size()-1)){
+            Collections.swap(trafficLight.getLightbulbs(), index, index + 1);
+            this.initData(trafficLight);
+        }
     }
 
 }

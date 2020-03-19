@@ -5,17 +5,18 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.trafficlight.TrafficlightCreatorController">
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.trafficlight.TrafficlightCreatorController" fx:id="rootPane">
     <children>
-        <HBox >
-            <children>
-                <Button mnemonicParsing="false" text="Run" onAction="#runTrafficLight"/>
-                <Button mnemonicParsing="false" text="Save" onAction="#saveTrafficLight"/>
-                <Button mnemonicParsing="false" text="Delete" onAction="#deleteTrafficLight"/>
+            <HBox>
+                <children>
+                    <Button mnemonicParsing="false" text="Run" onAction="#runTrafficLight"/>
+                    <Button mnemonicParsing="false" text="Save" onAction="#saveTrafficLight"/>
+                    <Button mnemonicParsing="false" text="Delete" onAction="#deleteTrafficLight"/>
 
-               <fx:include source="trafficlight.fxml" fx:id="trafficlight"/>
+                    <fx:include source="trafficlight.fxml" fx:id="trafficlight"/>
+                </children>
+            </HBox>
 
-            </children>
-        </HBox>
     </children>
 </Pane>

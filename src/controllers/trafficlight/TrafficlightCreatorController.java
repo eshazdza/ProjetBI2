@@ -6,8 +6,11 @@ import entities.trafficlight.TrafficLight;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -24,8 +27,13 @@ public class TrafficlightCreatorController {
     @FXML
     private StackPane trafficlight;
 
+    @FXML
+    private Pane rootPane;
+
+
     public void initData(TrafficLight trafficLight) {
         trafficlightController.initData(trafficLight);
+
     }
 
     public void runTrafficLight() {

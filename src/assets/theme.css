@@ -126,6 +126,8 @@ TRAFFIC LIGHT
     -fx-padding: 10px;
     -fx-min-width: 100px;
     -fx-min-height: 100px;
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
 }
 
 /**

@@ -1,6 +1,5 @@
 package controllers;
 
-import com.sun.javafx.scene.control.LabeledText;
 import controllers.lightbulb.LightbulbCreatorController;
 import controllers.trafficlight.TrafficlightCreatorController;
 import entities.lightbulb.Lightbulb;
@@ -12,8 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,7 +19,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import tools.ConfirmBox;
 import tools.ObjectIO;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -191,17 +188,22 @@ public class MainController implements Initializable {
                     public void handle(MouseEvent event) {
                         try {
                             String targetName = ((Text) event.getTarget()).getText();
-                            System.out.println(targetName);
+                            if (targetName.contains(".lightbulb") || targetName.contains(".trafficlight") || targetName.contains(".direction")){
+                                System.out.println("drag started");
+                                Dragboard db = treeCell.startDragAndDrop(TransferMode.ANY);
+                                ClipboardContent content = new ClipboardContent();
+                                content.putString(targetName);
+                                db.setContent(content);
+                                event.consume();
+                            }
+
                         } catch (ClassCastException e) {
                             e.getStackTrace();
                         }
-
                     }
                 });
                 return treeCell;
             }
-
-
         });
 
 

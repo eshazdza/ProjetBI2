@@ -6,10 +6,9 @@
 
 
 
-<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.trafficlight.TrafficlightController" styleClass="trafficlightBG">
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.trafficlight.TrafficlightController" styleClass="trafficlightBG" onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop" onDragDetected="#handleDragDetected">
    <children>
-<!--      <Rectangle arcHeight="5.0" arcWidth="5.0" height="348.0" stroke="BLACK" strokeType="INSIDE"-->
-<!--                 width="200.0"/>-->
+
       <VBox alignment="CENTER" fx:id="bulbContainer">
       </VBox>
    </children>

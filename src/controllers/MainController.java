@@ -54,7 +54,8 @@ public class MainController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbCreator.fxml"));
             actionContent = loader.load();
             LightbulbCreatorController controller = loader.getController();
-            controller.initData(this);
+//            controller.initData(this);
+            controller.initData();
 
             actionWindow.getChildren().clear();
             actionWindow.getChildren().add(actionContent);

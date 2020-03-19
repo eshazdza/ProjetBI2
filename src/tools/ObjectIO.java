@@ -8,9 +8,7 @@ import java.nio.file.*;
 public class ObjectIO {
 
     public static void save(Lightbulb object) {
-        System.out.println("saving object");
-        System.out.println("Object is serializable");
-        System.out.println("Object is a Lightbulb");
+
         try {
             FileOutputStream f = new FileOutputStream(new File("src\\assets\\objects\\lightbulbs\\" + object.getColor() + ".lightbulb"));
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -49,8 +47,13 @@ public class ObjectIO {
 
 
             System.out.println("Building object from file");
-            return (Lightbulb) ois.readObject();
+            Lightbulb lightbulb = (Lightbulb) ois.readObject();
+            System.out.println("derp");
 
+            ois.close();
+            fi.close();
+
+            return lightbulb;
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {

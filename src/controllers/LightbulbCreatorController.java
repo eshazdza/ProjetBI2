@@ -29,12 +29,16 @@ public class LightbulbCreatorController {
     void initData(Lightbulb lightbulb) {
         lightbulbDraw.setColor(lightbulb.getColor());
         lightbulbDraw.setFill(lightbulb.getColor());
-        System.out.println(lightbulbDraw);
     }
 
-    void initData(MainController controller){
-        this.mainController = controller;
+    void initData() {
+        lightbulbDraw.setColor(Color.BEIGE);
+        lightbulbDraw.setFill(Color.BEIGE);
     }
+
+//    void initData(MainController controller){
+//        this.mainController = controller;
+//    }
 
     public void pickColor() {
         Color color = colorPicker.getValue();
@@ -47,7 +51,7 @@ public class LightbulbCreatorController {
     }
 
     public void deleteBulb() {
-        mainController.newLightbulb();
+//        mainController.newLightbulb();
         ObjectIO.delete(lightbulbDraw);
     }
 

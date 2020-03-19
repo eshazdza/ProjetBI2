@@ -95,7 +95,6 @@ public class Lightbulb extends Circle implements Serializable {
         color = Color.color(red, green, blue, opacity);
         this.setState(state);
 
-        ois.close();
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
@@ -106,8 +105,6 @@ public class Lightbulb extends Circle implements Serializable {
         oos.writeDouble(color.getBlue());
         oos.writeDouble(color.getOpacity());
         oos.writeBytes(state.getStateString());
-
-        oos.close();
 
     }
 

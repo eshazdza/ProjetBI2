@@ -1,7 +1,7 @@
 package controllers;
 
+import com.sun.javafx.scene.control.LabeledText;
 import controllers.lightbulb.LightbulbCreatorController;
-import controllers.trafficlight.TrafficlightController;
 import controllers.trafficlight.TrafficlightCreatorController;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
@@ -11,14 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import tools.ConfirmBox;
 import tools.ObjectIO;
 
@@ -146,6 +146,7 @@ public class MainController implements Initializable {
 
     public void buildMenu() {
         assetsWindow.getChildren().clear();
+
         TreeItem<String> rootItem = new TreeItem<>("Assets");
         rootItem.setExpanded(true);
 
@@ -167,6 +168,42 @@ public class MainController implements Initializable {
 
         rootItem.getChildren().addAll(lightbulbsItem, trafficLightItem, directionsItem, intersectionItem);
         TreeView<String> assetsMenu = new TreeView<>(rootItem);
+//        TreeView<String> assetsMenu = new TreeView<>();
+
+        assetsMenu.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+            @Override
+            public TreeCell<String> call(TreeView<String> param) {
+                TreeCell<String> treeCell = new TreeCell<>() {
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty && item != null) {
+                            setText(item);
+                            setGraphic(getTreeItem().getGraphic());
+                        } else {
+                            setText(null);
+                            setGraphic(null);
+                        }
+                    }
+                };
+
+                treeCell.setOnDragDetected(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        try {
+                            String targetName = ((Text) event.getTarget()).getText();
+                            System.out.println(targetName);
+                        } catch (ClassCastException e) {
+                            e.getStackTrace();
+                        }
+
+                    }
+                });
+                return treeCell;
+            }
+
+
+        });
+
 
         Button refreshButton = new Button("Refresh Assets");
 

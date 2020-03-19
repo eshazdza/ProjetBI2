@@ -12,8 +12,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import tools.ObjectIO;
-
-import java.util.Collection;
 import java.util.Collections;
 
 public class TrafficlightController {
@@ -111,5 +109,11 @@ public class TrafficlightController {
             this.initData(trafficLight);
         }
     }
+
+    public void runTrafficLight(){
+        System.out.println("running");
+
+    }
+
 
 }

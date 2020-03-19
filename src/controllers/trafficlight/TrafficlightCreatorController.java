@@ -3,6 +3,7 @@ package controllers.trafficlight;
 import controllers.lightbulb.LightbulbController;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
+import entities.triggerButton.SwitchButton;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,14 +31,17 @@ public class TrafficlightCreatorController {
     @FXML
     private Pane rootPane;
 
+    @FXML
+    private SwitchButton switchButton;
+
 
     public void initData(TrafficLight trafficLight) {
         trafficlightController.initData(trafficLight);
-
+        System.out.println(switchButton.getText());
     }
 
-    public void runTrafficLight() {
-        System.out.println("run");
+    public void handleSwitchButton(){
+        switchButton.switchOnOff();
     }
 
     public void saveTrafficLight() {

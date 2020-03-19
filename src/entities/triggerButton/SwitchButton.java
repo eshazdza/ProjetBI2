@@ -9,6 +9,7 @@ public class SwitchButton extends Button {
     public SwitchButton() {
         super();
         this.state = SwitchButtonState.OFF;
+        this.setText("Turn On");
     }
 
     public void switchOnOff() {

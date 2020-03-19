@@ -3,6 +3,7 @@ package controllers.lightbulb;
 import Main.Main;
 import controllers.MainController;
 import entities.lightbulb.Lightbulb;
+import entities.triggerButton.SwitchButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -56,6 +57,7 @@ public class LightbulbCreatorController {
         mainController.newLightbulb();
         ObjectIO.delete(lightbulbDraw);
     }
+
 
 
 }

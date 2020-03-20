@@ -13,7 +13,7 @@
    <HBox  >
       <VBox alignment="CENTER" fx:id="bulbContainer" styleClass="trafficlightBG">
       </VBox>
-      <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase" fx:id="switchPhaseButton"/>
+      <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase" fx:id="switchPhaseButton" disable="true"/>
    </HBox>
    </children>
 </StackPane>

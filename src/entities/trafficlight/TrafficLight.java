@@ -3,6 +3,7 @@ package entities.trafficlight;
 import entities.lightbulb.Lightbulb;
 
 import java.util.ArrayList;
+
 import javafx.scene.paint.Color;
 
 public class TrafficLight {
@@ -26,7 +27,7 @@ public class TrafficLight {
         this.isBinded = false;
     }
 
-    public TrafficLight(){
+    public TrafficLight() {
         this.lightbulbs = new ArrayList<Lightbulb>();
         this.addLightBulb(new Lightbulb(Color.RED));
         this.addLightBulb(new Lightbulb(Color.BLUE));
@@ -44,13 +45,13 @@ public class TrafficLight {
         this.lightbulbs = lightbulbs;
     }
 
-    public void addLightBulb(Lightbulb lightbulb){
-         this.lightbulbs.add(lightbulb);
+    public void addLightBulb(Lightbulb lightbulb) {
+        this.lightbulbs.add(lightbulb);
     }
 
-    public void performRequest(String request){
-        switch (request){
-            case "STANDBY" :
+    public String performRequest(String request) {
+        switch (request) {
+            case "STANDBY":
                 this.state = this.state.turnOn();
                 System.out.println(this.state.getStateString());
                 break;
@@ -62,11 +63,15 @@ public class TrafficLight {
                 this.state = this.state.engageManualMode();
                 System.out.println(this.state.getStateString());
                 break;
-            case "AUTO" :
+            case "AUTO":
                 this.state = this.state.engageAutoMode();
                 System.out.println(this.state.getStateString());
                 break;
+            default:
+                return this.state.getStateString();
+
         }
+        return this.state.getStateString();
     }
 
     public boolean isBinded() {
@@ -78,7 +83,6 @@ public class TrafficLight {
     }
 
 
-
     @Override
     public String toString() {
         return "entities.trafficlight.TrafficLight{" +
@@ -88,5 +92,8 @@ public class TrafficLight {
                 '}';
     }
 
-    public void switchLight(){};
+    public void switchLight() {
+    }
+
+    ;
 }

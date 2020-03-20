@@ -120,14 +120,6 @@ public class TrafficlightController {
 
     public void runTrafficLight() {
         this.trafficLight.performRequest("STANDBY");
-//        switch (this.mode) {
-//            case "AUTO":
-//                this.runAutoMode();
-//                break;
-//            case "MANUAL":
-//                this.runManualMode();
-//                break;
-//        }
     }
 
     public void turnOffTrafficLight() {
@@ -136,10 +128,21 @@ public class TrafficlightController {
 
     public void runAutoMode() {
         this.trafficLight.performRequest("AUTO");
+        if (this.trafficLight.performRequest("GET").equals("AUTO")){
+            switchPhaseButton.setDisable(true);
+        }
     }
 
     public void runManualMode() {
         this.trafficLight.performRequest("MANUAL");
+    }
+
+    public void enableSwitchPhase(){
+        System.out.println("zndopqmd");
+        System.out.println(this.trafficLight.performRequest("GET"));
+        if (this.trafficLight.performRequest("GET").equals("MANUAL")){
+            switchPhaseButton.setDisable(false);
+        }
     }
 
     public void switchPhase() {

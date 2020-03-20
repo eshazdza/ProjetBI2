@@ -76,6 +76,7 @@ public class TrafficlightCreatorController {
                 manualButton.setDisable(true);
                 autoButton.setDisable(false);
                 trafficlightController.runManualMode();
+                trafficlightController.enableSwitchPhase();
                 break;
         }
         trafficlightController.setMode(mode);
@@ -89,6 +90,5 @@ public class TrafficlightCreatorController {
     public void deleteTrafficLight() {
         System.out.println("delete");
     }
-
 
 }

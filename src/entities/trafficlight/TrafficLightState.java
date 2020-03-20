@@ -27,6 +27,11 @@ public enum TrafficLightState {
             return OFF;
         }
 
+        @Override
+        String getStateString(){
+            return "OFF";
+        }
+
     },
     STANDBY {
         @Override
@@ -51,6 +56,11 @@ public enum TrafficLightState {
         TrafficLightState engageAutoMode() {
             System.out.println("engaging Automatic Mode.");
             return AUTO;
+        }
+
+        @Override
+        String getStateString(){
+            return "STANDBY";
         }
 
     },
@@ -79,6 +89,11 @@ public enum TrafficLightState {
             System.out.println("Going to Automatic mode");
             return AUTO;
         }
+
+        @Override
+        String getStateString(){
+            return "MANUAL";
+        }
     },
     AUTO {
         @Override
@@ -104,6 +119,10 @@ public enum TrafficLightState {
             System.out.println("already in auto");
             return AUTO;
         }
+        @Override
+        String getStateString(){
+            return "AUTO";
+        }
     };
 
 
@@ -114,5 +133,7 @@ public enum TrafficLightState {
     abstract TrafficLightState engageManualMode();
 
     abstract TrafficLightState engageAutoMode();
+
+    abstract String getStateString();
 
 }

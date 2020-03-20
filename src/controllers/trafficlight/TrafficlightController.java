@@ -6,12 +6,14 @@ import entities.trafficlight.TrafficLight;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import tools.ObjectIO;
+
 import java.util.Collections;
 
 public class TrafficlightController {
@@ -19,7 +21,13 @@ public class TrafficlightController {
     @FXML
     private VBox bulbContainer;
 
+    @FXML
+    private Button switchPhaseButton;
+
     private TrafficLight trafficLight;
+
+    private String mode = "MANUAL";
+
 
     public void initData(TrafficLight trafficLight) {
         bulbContainer.getChildren().clear();
@@ -74,23 +82,19 @@ public class TrafficlightController {
     }
 
     public void handleDragEntered(DragEvent event) {
-        System.out.println("drag entered");
         event.consume();
     }
 
     public void handleDragDrop(DragEvent event) {
-        System.out.println("drag dropp");
         if (event.getDragboard().hasString()) {
             String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
             Lightbulb lightbulb = ObjectIO.open(fileName);
-            System.out.println(lightbulb);
             this.trafficLight.addLightBulb(lightbulb);
             this.initData(trafficLight);
         }
     }
 
     public void handleDragDetected() {
-        System.out.println("drag detected");
     }
 
 
@@ -104,15 +108,42 @@ public class TrafficlightController {
 
     public void moveDownBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
-        if (index<(trafficLight.getLightbulbs().size()-1)){
+        if (index < (trafficLight.getLightbulbs().size() - 1)) {
             Collections.swap(trafficLight.getLightbulbs(), index, index + 1);
             this.initData(trafficLight);
         }
     }
 
-    public void runTrafficLight(){
-        System.out.println("running");
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
+    public void runTrafficLight() {
+        this.trafficLight.performRequest("STANDBY");
+//        switch (this.mode) {
+//            case "AUTO":
+//                this.runAutoMode();
+//                break;
+//            case "MANUAL":
+//                this.runManualMode();
+//                break;
+//        }
+    }
+
+    public void turnOffTrafficLight() {
+        this.trafficLight.performRequest("OFF");
+    }
+
+    public void runAutoMode() {
+        this.trafficLight.performRequest("AUTO");
+    }
+
+    public void runManualMode() {
+        this.trafficLight.performRequest("MANUAL");
+    }
+
+    public void switchPhase() {
+        System.out.println("switching phase");
     }
 
 

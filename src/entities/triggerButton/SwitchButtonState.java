@@ -7,6 +7,10 @@ public enum SwitchButtonState {
             button.setText("Turn Off");
             return ON;
         }
+        @Override
+        String getState(){
+            return "OFF";
+        }
     },
     ON {
         @Override
@@ -14,9 +18,14 @@ public enum SwitchButtonState {
             button.setText("Turn On");
             return OFF;
         }
+        @Override
+        String getState(){
+            return "ON";
+        }
     };
 
     abstract SwitchButtonState switchOnOff(SwitchButton button);
+    abstract String getState();
 
 }
 

@@ -16,4 +16,7 @@ public class SwitchButton extends Button {
         this.state = this.state.switchOnOff(this);
     }
 
+    public String getState() {
+        return this.state.getState();
+    }
 }

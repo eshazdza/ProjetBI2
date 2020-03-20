@@ -52,15 +52,19 @@ public class TrafficLight {
         switch (request){
             case "STANDBY" :
                 this.state = this.state.turnOn();
+                System.out.println(this.state.getStateString());
                 break;
             case "OFF":
                 this.state = this.state.turnOff();
+                System.out.println(this.state.getStateString());
                 break;
             case "MANUAL":
                 this.state = this.state.engageManualMode();
+                System.out.println(this.state.getStateString());
                 break;
             case "AUTO" :
                 this.state = this.state.engageAutoMode();
+                System.out.println(this.state.getStateString());
                 break;
         }
     }

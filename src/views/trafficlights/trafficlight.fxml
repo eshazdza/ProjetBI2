@@ -5,11 +5,15 @@
 <?import javafx.scene.shape.Rectangle?>
 
 
-
-<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.trafficlight.TrafficlightController" styleClass="trafficlightBG" onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop" onDragDetected="#handleDragDetected">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.trafficlight.TrafficlightController"  onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop" onDragDetected="#handleDragDetected">
    <children>
 
-      <VBox alignment="CENTER" fx:id="bulbContainer">
+   <HBox  >
+      <VBox alignment="CENTER" fx:id="bulbContainer" styleClass="trafficlightBG">
       </VBox>
+      <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase" fx:id="switchPhaseButton"/>
+   </HBox>
    </children>
 </StackPane>

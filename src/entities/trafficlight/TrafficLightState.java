@@ -41,7 +41,7 @@ public enum TrafficLightState {
             return "OFF";
         }
 
-        //        ON FullON state we turn all the lights ON
+//        ON FullON state we turn all the lights ON
         @Override
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
             for (Lightbulb l :
@@ -205,7 +205,7 @@ public enum TrafficLightState {
 
         @Override
         String getStateString() {
-            return "STANDBY";
+            return "FULLON";
         }
 
         @Override

@@ -17,6 +17,7 @@ import tools.ObjectIO;
 
 import java.awt.*;
 import java.util.Collections;
+import java.util.ListIterator;
 
 public class TrafficlightController {
 
@@ -32,12 +33,21 @@ public class TrafficlightController {
 
     private LightbulbController bulbController;
 
+
+    /**
+     * Initialize the view data
+     *
+     * @param trafficLight TrafficLight
+     *                     The linked traffic light
+     * @param editMode     boolean
+     *                     Can the trafficlight be edited
+     */
     public void initData(TrafficLight trafficLight, boolean editMode) {
 
         bulbContainer.getChildren().clear();
         this.trafficLight = trafficLight;
 
-//        If we are in edit mode (window is requested from TrafficLightCreatorController
+//        If we are in edit mode
 //        We turn all the lights on if the traffic light is off
         if (editMode && trafficLight.getStateString().equals("OFF")) {
             trafficLight.performRequest("FULLON");
@@ -88,33 +98,53 @@ public class TrafficlightController {
         }
     }
 
+    /**
+     * Remove a bulb from a traffic light
+     *
+     * @param trafficLight TrafficLight
+     * @param lightbulb    Lightbulb
+     */
     public void removeBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         trafficLight.getLightbulbs().remove(lightbulb);
         this.initData(trafficLight, true);
     }
 
+    /**
+     * @param event DragEvent
+     */
     public void setOnDragOver(DragEvent event) {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     }
 
+    /**
+     * @param event DragEvent
+     */
     public void handleDragEntered(DragEvent event) {
         event.consume();
     }
 
+    /**
+     * @param event DragEvent
+     */
     public void handleDragDrop(DragEvent event) {
-        if (event.getDragboard().hasString()) {
-            String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
-            Lightbulb lightbulb = ObjectIO.open(fileName);
-            this.trafficLight.addLightBulb(lightbulb);
-            this.initData(trafficLight, true);
+        if (trafficLight.getStateString().equals("OFF") || trafficLight.getStateString().equals("FULLON")) {
+            if (event.getDragboard().hasString()) {
+                String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
+                Lightbulb lightbulb = ObjectIO.open(fileName);
+                lightbulb.performRequest("ON");
+                this.trafficLight.addLightBulb(lightbulb);
+                this.initData(trafficLight, true);
+            }
         }
     }
 
-    public void handleDragDetected() {
-    }
-
-
+    /**
+     * Move a bulb up in the TrafficLight's list and reload the view
+     *
+     * @param trafficLight TrafficLight
+     * @param lightbulb    Lightbulb
+     */
     public void moveUpBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index > 0) {
@@ -123,6 +153,12 @@ public class TrafficlightController {
         }
     }
 
+    /**
+     * Move a bulb down in the TrafficLight's list and reload the view
+     *
+     * @param trafficLight TrafficLight
+     * @param lightbulb    Lightbulb
+     */
     public void moveDownBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index < (trafficLight.getLightbulbs().size() - 1)) {
@@ -131,6 +167,11 @@ public class TrafficlightController {
         }
     }
 
+    /**
+     * Change the execution mode of the Trafficlight (AUTO OR MANUAL)
+     *
+     * @param mode String
+     */
     public void setMode(String mode) {
         this.mode = mode;
     }
@@ -164,7 +205,21 @@ public class TrafficlightController {
     }
 
     public void switchPhase() {
-        getBulbs();
+//        If the first light of the list ("Last" of the sequence) is on,
+//        We turn on the last of the list (next in the sequence).
+        if (trafficLight.getLightbulbs().get(0).getStateString().equals("ON")) {
+            trafficLight.getLightbulbs().get(0).performRequest("OFF");
+            trafficLight.getLightbulbs().get(trafficLight.getLightbulbs().size() - 1).performRequest("ON");
+        } else {
+            for (Lightbulb l :
+                    trafficLight.getLightbulbs()) {
+                if (l.getStateString().equals("ON")) {
+                    l.performRequest("OFF");
+                    trafficLight.getLightbulbs().get(trafficLight.getLightbulbs().indexOf(l) - 1).performRequest("ON");
+                }
+            }
+        }
+        this.initData(trafficLight, false);
     }
 
     public void getBulbs() {
@@ -173,8 +228,6 @@ public class TrafficlightController {
             System.out.println(l);
         }
 
-
     }
-
 
 }

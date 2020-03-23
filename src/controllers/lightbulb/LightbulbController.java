@@ -4,6 +4,7 @@ import entities.lightbulb.Lightbulb;
 import entities.triggerButton.SwitchButton;
 import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class LightbulbController {
 
@@ -13,14 +14,22 @@ public class LightbulbController {
     @FXML
     private SwitchButton button;
 
-    public void setColor(Color color) {
-        System.out.println("set fill : " + color);
+    public void setColorAndFill(Color color) {
         lightbulb.setFill(color);
-        System.out.println(lightbulb.getStyle());
+        lightbulb.setColor(color);
     }
 
-    public void switchBtn(){
+    public void setColor(Color color) {
+        lightbulb.setColor(color);
+    }
+
+    public void setFill(Paint paint) {
+        lightbulb.setFill(paint);
+    }
+
+    public void switchBtn() {
         button.switchOnOff();
+        lightbulb.performRequest();
     }
 
 }

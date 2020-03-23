@@ -12,8 +12,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import tools.ObjectIO;
 
+import java.awt.*;
 import java.util.Collections;
 
 public class TrafficlightController {
@@ -28,21 +30,34 @@ public class TrafficlightController {
 
     private String mode = "MANUAL";
 
+    private LightbulbController bulbController;
 
-    public void initData(TrafficLight trafficLight) {
+    public void initData(TrafficLight trafficLight, boolean editMode) {
+
         bulbContainer.getChildren().clear();
         this.trafficLight = trafficLight;
+
+//        If we are in edit mode (window is requested from TrafficLightCreatorController
+//        We turn all the lights on if the traffic light is off
+        if (editMode && trafficLight.getStateString().equals("OFF")) {
+            trafficLight.performRequest("FULLON");
+        }
+
 //        We add each lightbulb of the traffic light to the view
         for (Lightbulb l :
                 trafficLight.getLightbulbs()) {
             try {
-
+//                Load FXML view and related controller
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulb.fxml"));
                 final Pane pane = loader.load();
 
                 LightbulbController bulbController = loader.getController();
-                bulbController.setColor(l.getColor());
 
+//                Set the color of the bulbs
+                bulbController.setColor(l.getColor());
+                bulbController.setFill(l.getFill());
+
+//                Context Menu on each bulb
                 pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -63,17 +78,19 @@ public class TrafficlightController {
                         }
                     }
                 });
+
+//                Add the bulbs to the view
                 bulbContainer.getChildren().add(pane);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-
     public void removeBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         trafficLight.getLightbulbs().remove(lightbulb);
-        this.initData(trafficLight);
+        this.initData(trafficLight, true);
     }
 
     public void setOnDragOver(DragEvent event) {
@@ -90,7 +107,7 @@ public class TrafficlightController {
             String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
             Lightbulb lightbulb = ObjectIO.open(fileName);
             this.trafficLight.addLightBulb(lightbulb);
-            this.initData(trafficLight);
+            this.initData(trafficLight, true);
         }
     }
 
@@ -102,7 +119,7 @@ public class TrafficlightController {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index > 0) {
             Collections.swap(trafficLight.getLightbulbs(), index, index - 1);
-            this.initData(trafficLight);
+            this.initData(trafficLight, true);
         }
     }
 
@@ -110,7 +127,7 @@ public class TrafficlightController {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index < (trafficLight.getLightbulbs().size() - 1)) {
             Collections.swap(trafficLight.getLightbulbs(), index, index + 1);
-            this.initData(trafficLight);
+            this.initData(trafficLight, true);
         }
     }
 
@@ -120,15 +137,18 @@ public class TrafficlightController {
 
     public void runTrafficLight() {
         this.trafficLight.performRequest("STANDBY");
+        this.initData(trafficLight, false);
     }
 
     public void turnOffTrafficLight() {
+        switchPhaseButton.setDisable(true);
         this.trafficLight.performRequest("OFF");
+        this.initData(trafficLight, true);
     }
 
     public void runAutoMode() {
         this.trafficLight.performRequest("AUTO");
-        if (this.trafficLight.performRequest("GET").equals("AUTO")){
+        if (this.trafficLight.performRequest("GET").equals("AUTO")) {
             switchPhaseButton.setDisable(true);
         }
     }
@@ -137,16 +157,23 @@ public class TrafficlightController {
         this.trafficLight.performRequest("MANUAL");
     }
 
-    public void enableSwitchPhase(){
-        System.out.println("zndopqmd");
-        System.out.println(this.trafficLight.performRequest("GET"));
-        if (this.trafficLight.performRequest("GET").equals("MANUAL")){
+    public void enableSwitchPhase() {
+        if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
             switchPhaseButton.setDisable(false);
         }
     }
 
     public void switchPhase() {
-        System.out.println("switching phase");
+        getBulbs();
+    }
+
+    public void getBulbs() {
+        for (Lightbulb l :
+                trafficLight.getLightbulbs()) {
+            System.out.println(l);
+        }
+
+
     }
 
 

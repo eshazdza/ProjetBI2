@@ -18,7 +18,6 @@ public class Lightbulb extends Circle implements Serializable {
     private static final Long serialVersionUID = 6529685098267757690L;
 
     private transient Color color;
-
     private transient LightbulbState state;
 
     /* *******************   CONSTRUCTORS         ******************* */
@@ -31,6 +30,7 @@ public class Lightbulb extends Circle implements Serializable {
         super();
         this.color = Color.ORANGE;
         this.state = LightbulbState.OFF;
+        this.setFill(Color.BLACK);
     }
 
     /**
@@ -40,6 +40,7 @@ public class Lightbulb extends Circle implements Serializable {
         super();
         this.color = color;
         this.state = LightbulbState.OFF;
+        this.setFill(Color.BLACK);
     }
 
     /* *******************   END   CONSTRUCTORS      ******************* */
@@ -67,13 +68,29 @@ public class Lightbulb extends Circle implements Serializable {
         }
     }
 
+    public String getStateString() {
+        return this.state.getStateString();
+    }
+
     /* *******************   END   GETTERS AND SETTERS      ******************* */
 
     public void performRequest() {
-        this.state = this.state.switchLight();
-        System.out.println(this.getColor());
+        this.state = this.state.switchLight(this);
     }
 
+    public void performRequest(String request) {
+        switch (request) {
+            case "ON":
+                this.state = this.state.turnON(this);
+                break;
+            case "OFF":
+                this.state = this.state.turnOFF(this);
+                break;
+            default:
+                System.out.println(this.getStateString());
+                break;
+        }
+    }
 
     @Override
     public String toString() {

@@ -52,26 +52,29 @@ public class TrafficLight {
     public String performRequest(String request) {
         switch (request) {
             case "STANDBY":
-                this.state = this.state.turnOn();
-                System.out.println(this.state.getStateString());
+                this.state = this.state.turnOn(this.getLightbulbs());
                 break;
             case "OFF":
-                this.state = this.state.turnOff();
-                System.out.println(this.state.getStateString());
+                this.state = this.state.turnOff(this.getLightbulbs());
                 break;
             case "MANUAL":
                 this.state = this.state.engageManualMode();
-                System.out.println(this.state.getStateString());
                 break;
             case "AUTO":
                 this.state = this.state.engageAutoMode();
-                System.out.println(this.state.getStateString());
+                break;
+            case "FULLON":
+                this.state = this.state.engageFullON(this.getLightbulbs());
                 break;
             default:
                 return this.state.getStateString();
 
         }
         return this.state.getStateString();
+    }
+
+    public String getStateString(){
+        return  this.state.getStateString();
     }
 
     public boolean isBinded() {
@@ -95,5 +98,4 @@ public class TrafficLight {
     public void switchLight() {
     }
 
-    ;
 }

@@ -42,20 +42,18 @@ public class TrafficlightCreatorController {
 
 
     public void initData(TrafficLight trafficLight) {
-        trafficlightController.initData(trafficLight);
+        trafficlightController.initData(trafficLight, true);
     }
 
     public void handleSwitchButton() {
         switchButton.switchOnOff();
         switch (switchButton.getState()){
             case "ON":
-                System.out.println("ON");
                 trafficlightController.runTrafficLight();
                 manualButton.setDisable(false);
                 autoButton.setDisable(false);
                 break;
             case "OFF":
-                System.out.println("OFF");
                 trafficlightController.turnOffTrafficLight();
                 manualButton.setDisable(true);
                 autoButton.setDisable(true);

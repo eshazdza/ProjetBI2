@@ -19,6 +19,7 @@ public class Lightbulb extends Circle implements Serializable {
 
     private transient Color color;
     private transient LightbulbState state;
+    private boolean isPanicSignal = false;
 
     /* *******************   CONSTRUCTORS         ******************* */
 
@@ -72,6 +73,15 @@ public class Lightbulb extends Circle implements Serializable {
         return this.state.getStateString();
     }
 
+    public boolean isPanicSignal() {
+        return isPanicSignal;
+    }
+
+    public void setPanicSignal(boolean panicSignal) {
+        isPanicSignal = panicSignal;
+        System.out.println(this);
+    }
+
     /* *******************   END   GETTERS AND SETTERS      ******************* */
 
     public void performRequest() {
@@ -97,6 +107,7 @@ public class Lightbulb extends Circle implements Serializable {
         return "Lightbulb{" +
                 "color=" + color +
                 ", state=" + state +
+                ", isPanicSignal=" + isPanicSignal +
                 '}';
     }
 

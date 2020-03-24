@@ -30,7 +30,6 @@ public class TrafficLight {
     public TrafficLight() {
         this.lightbulbs = new ArrayList<Lightbulb>();
         this.addLightBulb(new Lightbulb(Color.RED));
-        this.addLightBulb(new Lightbulb(Color.BLUE));
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
     }
@@ -66,6 +65,9 @@ public class TrafficLight {
             case "FULLON":
                 this.state = this.state.engageFullON(this.getLightbulbs());
                 break;
+            case "PANIC":
+                this.state = this.state.engagePanicMode(this.getLightbulbs());
+                break;
             default:
                 return this.state.getStateString();
 
@@ -73,8 +75,8 @@ public class TrafficLight {
         return this.state.getStateString();
     }
 
-    public String getStateString(){
-        return  this.state.getStateString();
+    public String getStateString() {
+        return this.state.getStateString();
     }
 
     public boolean isBinded() {

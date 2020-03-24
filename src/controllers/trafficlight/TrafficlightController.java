@@ -12,12 +12,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import tools.AlertBox;
+import tools.Blinker;
 import tools.ObjectIO;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ListIterator;
+
 
 public class TrafficlightController {
 
@@ -76,13 +77,17 @@ public class TrafficlightController {
 
                             MenuItem moveUpItem = new MenuItem("Move Up");
                             MenuItem moveDownItem = new MenuItem("Move Down");
+                            MenuItem addPanicSignalItem = new MenuItem("Set as panic signal");
+                            MenuItem removePanicSignalItem = new MenuItem("Unset as panic signal");
                             MenuItem deleteItem = new MenuItem("Remove");
 
                             moveUpItem.setOnAction(event1 -> moveUpBulb(trafficLight, l));
                             moveDownItem.setOnAction(event1 -> moveDownBulb(trafficLight, l));
+                            addPanicSignalItem.setOnAction(event1 -> setAsPanic(l));
+                            removePanicSignalItem.setOnAction(event1 -> unsetAsPanic(l));
                             deleteItem.setOnAction(event1 -> removeBulb(trafficLight, l));
 
-                            contextMenu.getItems().addAll(moveUpItem, moveDownItem, deleteItem);
+                            contextMenu.getItems().addAll(moveUpItem, moveDownItem, addPanicSignalItem, removePanicSignalItem, deleteItem);
                             contextMenu.show(pane, event.getScreenX(), event.getScreenY());
 
                         }
@@ -96,6 +101,24 @@ public class TrafficlightController {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Set a bulb as a panic signal (will blink when traffic light goes in panic mode)
+     *
+     * @param lightbulb Lightbulb
+     */
+    public void setAsPanic(Lightbulb lightbulb) {
+        lightbulb.setPanicSignal(true);
+    }
+
+    /**
+     * Unset a bulb as a panic signal
+     *
+     * @param lightbulb Lightbulb
+     */
+    public void unsetAsPanic(Lightbulb lightbulb) {
+        lightbulb.setPanicSignal(false);
     }
 
     /**
@@ -176,17 +199,26 @@ public class TrafficlightController {
         this.mode = mode;
     }
 
+    /**
+     * Turn the traffic light on
+     */
     public void runTrafficLight() {
         this.trafficLight.performRequest("STANDBY");
         this.initData(trafficLight, false);
     }
 
+    /**
+     * Turn the traffic light off
+     */
     public void turnOffTrafficLight() {
         switchPhaseButton.setDisable(true);
         this.trafficLight.performRequest("OFF");
         this.initData(trafficLight, true);
     }
 
+    /**
+     * Run the traffic light in automatic mode
+     */
     public void runAutoMode() {
         this.trafficLight.performRequest("AUTO");
         if (this.trafficLight.performRequest("GET").equals("AUTO")) {
@@ -194,40 +226,80 @@ public class TrafficlightController {
         }
     }
 
+    /**
+     * Run the traffic light in manual mode
+     */
     public void runManualMode() {
         this.trafficLight.performRequest("MANUAL");
     }
 
+    /**
+     * Run the traffic light in panic mode
+     *
+     * @param fromCreator boolean : has the method been called from the traffic light creator/editor ?
+     *                    NO : the traffic light depends on a direction or intersection controller which will control the blinking of the lightbulbs
+     *                    YES : the traffic light is in control of the blinking
+     */
+    public void runPanicMode(boolean fromCreator) {
+
+        ArrayList<Lightbulb> panicSignals = new ArrayList<>();
+
+        for (Lightbulb l :
+                trafficLight.getLightbulbs()) {
+            if (l.isPanicSignal()) {
+                this.trafficLight.performRequest("PANIC");
+                if (this.trafficLight.performRequest("GET").equals("PANIC")) {
+                    switchPhaseButton.setDisable(true);
+                    panicSignals.add(l);
+                    this.initData(trafficLight, false);
+                }
+            }
+        }
+
+//        Check that a panic signal bulb has been chosen by the user
+//        Run the blinking thread if yes
+        if (panicSignals.size() == 0) {
+            AlertBox.display("No Panic Signal", "You have not set an alert signal bulb.");
+        } else {
+            System.out.println("cleh");
+        }
+
+    }
+
+    /**
+     * Control the switch phase button
+     */
     public void enableSwitchPhase() {
         if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
             switchPhaseButton.setDisable(false);
         }
     }
 
+    /**
+     * Switch from different phase when the traffic light is in manual mode
+     */
     public void switchPhase() {
+
+//        IF the traffic light contains only one bulb, we switch it on/off
+        if (trafficLight.getLightbulbs().size() == 1) {
+            trafficLight.getLightbulbs().get(0).performRequest();
+        } else {
 //        If the first light of the list ("Last" of the sequence) is on,
 //        We turn on the last of the list (next in the sequence).
-        if (trafficLight.getLightbulbs().get(0).getStateString().equals("ON")) {
-            trafficLight.getLightbulbs().get(0).performRequest("OFF");
-            trafficLight.getLightbulbs().get(trafficLight.getLightbulbs().size() - 1).performRequest("ON");
-        } else {
-            for (Lightbulb l :
-                    trafficLight.getLightbulbs()) {
-                if (l.getStateString().equals("ON")) {
-                    l.performRequest("OFF");
-                    trafficLight.getLightbulbs().get(trafficLight.getLightbulbs().indexOf(l) - 1).performRequest("ON");
+            if (trafficLight.getLightbulbs().get(0).getStateString().equals("ON")) {
+                trafficLight.getLightbulbs().get(0).performRequest("OFF");
+                trafficLight.getLightbulbs().get(trafficLight.getLightbulbs().size() - 1).performRequest("ON");
+            } else {
+                for (Lightbulb l :
+                        trafficLight.getLightbulbs()) {
+                    if (l.getStateString().equals("ON")) {
+                        l.performRequest("OFF");
+                        trafficLight.getLightbulbs().get(trafficLight.getLightbulbs().indexOf(l) - 1).performRequest("ON");
+                    }
                 }
             }
         }
         this.initData(trafficLight, false);
-    }
-
-    public void getBulbs() {
-        for (Lightbulb l :
-                trafficLight.getLightbulbs()) {
-            System.out.println(l);
-        }
-
     }
 
 }

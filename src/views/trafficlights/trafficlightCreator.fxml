@@ -16,6 +16,7 @@
                     <SwitchButton text="Turn On" onAction="#handleSwitchButton" fx:id="switchButton"/>
                     <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton" fx:id="manualButton" disable="true"/>
                     <Button mnemonicParsing="false" text="Auto" onAction="#handleModeButton" fx:id="autoButton" disable="true"/>
+                    <Button mnemonicParsing="false" text="Panic" onAction="#handleModeButton" fx:id="panicButton" disable="true"/>
                 </VBox>
                 <Button mnemonicParsing="false" text="Save" onAction="#saveTrafficLight"/>
                 <Button mnemonicParsing="false" text="Delete" onAction="#deleteTrafficLight"/>

@@ -1,23 +1,12 @@
 package controllers.trafficlight;
 
-import controllers.lightbulb.LightbulbController;
-import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
 import entities.triggerButton.SwitchButton;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import javax.annotation.processing.Generated;
 
 public class TrafficlightCreatorController {
 
@@ -40,6 +29,9 @@ public class TrafficlightCreatorController {
     @FXML
     private Button autoButton;
 
+    @FXML
+    private Button panicButton;
+
 
     public void initData(TrafficLight trafficLight) {
         trafficlightController.initData(trafficLight, true);
@@ -52,11 +44,13 @@ public class TrafficlightCreatorController {
                 trafficlightController.runTrafficLight();
                 manualButton.setDisable(false);
                 autoButton.setDisable(false);
+                panicButton.setDisable(false);
                 break;
             case "OFF":
                 trafficlightController.turnOffTrafficLight();
                 manualButton.setDisable(true);
                 autoButton.setDisable(true);
+                panicButton.setDisable(true);
                 break;
         }
 
@@ -68,13 +62,21 @@ public class TrafficlightCreatorController {
             case "AUTO":
                 autoButton.setDisable(true);
                 manualButton.setDisable(false);
+                panicButton.setDisable(false);
                 trafficlightController.runAutoMode();
                 break;
             case "MANUAL":
                 manualButton.setDisable(true);
                 autoButton.setDisable(false);
+                panicButton.setDisable(false);
                 trafficlightController.runManualMode();
                 trafficlightController.enableSwitchPhase();
+                break;
+            case "PANIC":
+                panicButton.setDisable(true);
+                autoButton.setDisable(false);
+                manualButton.setDisable(false);
+                trafficlightController.runPanicMode(true);
                 break;
         }
         trafficlightController.setMode(mode);

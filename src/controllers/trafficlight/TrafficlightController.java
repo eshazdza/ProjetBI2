@@ -13,8 +13,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import tools.AlertBox;
-import tools.Blinker;
+import tools.BlinkerThread;
 import tools.ObjectIO;
+import tools.PhaseSwitcherThread;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,9 @@ public class TrafficlightController {
 
     private LightbulbController bulbController;
 
-    private Blinker blinker;
+    private BlinkerThread blinker;
+
+    private PhaseSwitcherThread phaseSwitcher;
 
     private ArrayList<Lightbulb> panicSignals = new ArrayList<>();
 
@@ -48,7 +51,6 @@ public class TrafficlightController {
      *                     Can the trafficlight be edited
      */
     public void initData(TrafficLight trafficLight, boolean editMode) {
-
         bulbContainer.getChildren().clear();
         this.trafficLight = trafficLight;
 
@@ -218,25 +220,38 @@ public class TrafficlightController {
      */
     public void turnOffTrafficLight() {
         switchPhaseButton.setDisable(true);
-        this.trafficLight.performRequest("OFF");
         if (blinker != null) {
             blinker.stopThread();
         }
+        this.trafficLight.performRequest("OFF");
         this.initData(trafficLight, true);
     }
 
     /**
      * Run the traffic light in automatic mode
+     * runAutoModeFromCreator needs to implements a Thread runner
+     * since it does not depends on a direction or intersection
+     * It also needs to update the various buttons affiliated to the TrafficlightCreator
      */
-    public void runAutoMode() {
+    public void runAutoModeFromCreator() {
         this.trafficLight.performRequest("AUTO");
         if (this.trafficLight.performRequest("GET").equals("AUTO")) {
             if (blinker != null) {
                 blinker.stopThread();
             }
             switchPhaseButton.setDisable(true);
+            this.initData(trafficLight, false);
+
+            phaseSwitcher = new PhaseSwitcherThread(trafficLight.getLightbulbs(), this, trafficLight);
+            phaseSwitcher.startThread();
+            Thread backgroundThread = new Thread(phaseSwitcher);
+            backgroundThread.setDaemon(true);
+            backgroundThread.start();
+
         }
     }
+
+
 
     /**
      * Run the traffic light in manual mode
@@ -267,7 +282,7 @@ public class TrafficlightController {
                 switchPhaseButton.setDisable(true);
                 this.initData(trafficLight, false);
 
-                blinker = new Blinker(panicSignals, this, trafficLight);
+                blinker = new BlinkerThread(panicSignals, this, trafficLight);
                 blinker.startThread();
                 Thread backgroundThread = new Thread(blinker);
                 backgroundThread.setDaemon(true);
@@ -311,6 +326,18 @@ public class TrafficlightController {
             }
         }
         this.initData(trafficLight, false);
+    }
+
+    public ArrayList<Lightbulb> getOnLights(){
+        ArrayList<Lightbulb> onBulbs = new ArrayList<>();
+
+        for (Lightbulb l :
+                trafficLight.getLightbulbs()) {
+            if (l.getStateString().equals("ON")){
+                onBulbs.add(l);
+            }
+        }
+        return onBulbs;
     }
 
 }

@@ -7,26 +7,27 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 
-public class Blinker implements Runnable {
+public class BlinkerThread implements Runnable {
 
     private ArrayList<Lightbulb> lightbulbs;
     private TrafficlightController trafficlightController;
     private TrafficLight trafficLight;
     private boolean stopThread = false;
 
-    public Blinker(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight) {
+    public BlinkerThread(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight) {
         this.lightbulbs = lightbulbs;
         this.trafficlightController = trafficlightController;
         this.trafficLight = trafficLight;
     }
 
     public void stopThread() {
-        if (lightbulbs.get(0).getStateString().equals("OFF")) {
-            try {
-                Thread.sleep(499);
-            }catch (InterruptedException e){
-                e.printStackTrace();
+        if (lightbulbs.size() > 0 && lightbulbs.get(0).getStateString().equals("OFF")) {
+            for (Lightbulb l :
+                    lightbulbs) {
+                l.performRequest();
             }
+            trafficlightController.initData(trafficLight, false);
+
         }
         this.stopThread = true;
     }

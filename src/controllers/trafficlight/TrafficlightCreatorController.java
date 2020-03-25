@@ -63,7 +63,7 @@ public class TrafficlightCreatorController {
                 autoButton.setDisable(true);
                 manualButton.setDisable(false);
                 panicButton.setDisable(false);
-                trafficlightController.runAutoMode();
+                trafficlightController.runAutoModeFromCreator();
                 break;
             case "MANUAL":
                 manualButton.setDisable(true);

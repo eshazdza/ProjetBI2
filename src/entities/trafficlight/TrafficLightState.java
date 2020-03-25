@@ -105,9 +105,10 @@ public enum TrafficLightState {
                     bulbs) {
                 if (!l.isPanicSignal()) {
                     l.performRequest("OFF");
-                }else{
-                    l.performRequest("ON");
                 }
+//                } else {
+//                    l.performRequest("ON");
+//                }
             }
 
             return PANIC;
@@ -158,7 +159,7 @@ public enum TrafficLightState {
                     bulbs) {
                 if (!l.isPanicSignal()) {
                     l.performRequest("OFF");
-                }else{
+                } else {
                     l.performRequest("ON");
                 }
             }
@@ -209,7 +210,7 @@ public enum TrafficLightState {
                     bulbs) {
                 if (!l.isPanicSignal()) {
                     l.performRequest("OFF");
-                }else{
+                } else {
                     l.performRequest("ON");
                 }
             }
@@ -272,7 +273,7 @@ public enum TrafficLightState {
                     bulbs) {
                 if (!l.isPanicSignal()) {
                     l.performRequest("OFF");
-                }else{
+                } else {
                     l.performRequest("ON");
                 }
             }
@@ -288,6 +289,12 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
+            System.out.println("turning the trafficLight off.");
+            for (Lightbulb l :
+                    bulbs) {
+                System.out.println(l);
+                l.performRequest("OFF");
+            }
             return OFF;
         }
 

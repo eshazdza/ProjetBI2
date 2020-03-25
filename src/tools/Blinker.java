@@ -12,6 +12,7 @@ public class Blinker implements Runnable {
     private ArrayList<Lightbulb> lightbulbs;
     private TrafficlightController trafficlightController;
     private TrafficLight trafficLight;
+    private boolean stopThread = false;
 
     public Blinker(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight) {
         this.lightbulbs = lightbulbs;
@@ -19,31 +20,42 @@ public class Blinker implements Runnable {
         this.trafficLight = trafficLight;
     }
 
+    public void stopThread() {
+        if (lightbulbs.get(0).getStateString().equals("OFF")) {
+            try {
+                Thread.sleep(499);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        this.stopThread = true;
+    }
+
+
+    public void startThread() {
+        this.stopThread = false;
+    }
+
     @Override
     public void run() {
-
-        try
-        {
-            Platform.runLater(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-//                        System.out.println(status);
-                    for (Lightbulb l :
-                            lightbulbs) {
-                        l.performRequest();
+        while (!stopThread) {
+            try {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Lightbulb l :
+                                lightbulbs) {
+                            l.performRequest();
+                        }
+                        trafficlightController.initData(trafficLight, false);
                     }
-                    trafficlightController.initData(trafficLight, false);
-                }
-            });
+                });
 
-            Thread.sleep(500);
-            run();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
+                Thread.sleep(500);
+                run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

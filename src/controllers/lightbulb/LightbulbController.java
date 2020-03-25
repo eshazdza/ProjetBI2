@@ -32,11 +32,4 @@ public class LightbulbController {
         lightbulb.performRequest();
     }
 
-    public boolean isPanicSignal(){
-        return lightbulb.isPanicSignal();
-    }
-
-    public void setPanic(boolean isPanicSignal){
-        this.lightbulb.setPanicSignal(isPanicSignal);
-    }
 }

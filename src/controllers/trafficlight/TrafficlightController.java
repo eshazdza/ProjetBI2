@@ -3,7 +3,6 @@ package controllers.trafficlight;
 import controllers.lightbulb.LightbulbController;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +33,10 @@ public class TrafficlightController {
     private String mode = "MANUAL";
 
     private LightbulbController bulbController;
+
+    private Blinker blinker;
+
+    private ArrayList<Lightbulb> panicSignals = new ArrayList<>();
 
 
     /**
@@ -110,6 +113,7 @@ public class TrafficlightController {
      * @param lightbulb Lightbulb
      */
     public void setAsPanic(Lightbulb lightbulb) {
+        panicSignals.add(lightbulb);
         lightbulb.setPanicSignal(true);
     }
 
@@ -119,6 +123,7 @@ public class TrafficlightController {
      * @param lightbulb Lightbulb
      */
     public void unsetAsPanic(Lightbulb lightbulb) {
+        panicSignals.remove(lightbulb);
         lightbulb.setPanicSignal(false);
     }
 
@@ -214,6 +219,9 @@ public class TrafficlightController {
     public void turnOffTrafficLight() {
         switchPhaseButton.setDisable(true);
         this.trafficLight.performRequest("OFF");
+        if (blinker != null) {
+            blinker.stopThread();
+        }
         this.initData(trafficLight, true);
     }
 
@@ -223,6 +231,9 @@ public class TrafficlightController {
     public void runAutoMode() {
         this.trafficLight.performRequest("AUTO");
         if (this.trafficLight.performRequest("GET").equals("AUTO")) {
+            if (blinker != null) {
+                blinker.stopThread();
+            }
             switchPhaseButton.setDisable(true);
         }
     }
@@ -232,6 +243,9 @@ public class TrafficlightController {
      */
     public void runManualMode() {
         this.trafficLight.performRequest("MANUAL");
+        if (blinker != null) {
+            blinker.stopThread();
+        }
     }
 
     /**
@@ -243,30 +257,22 @@ public class TrafficlightController {
      */
     public void runPanicMode(boolean fromCreator) {
 
-        ArrayList<Lightbulb> panicSignals = new ArrayList<>();
-
-        for (Lightbulb l :
-                trafficLight.getLightbulbs()) {
-            if (l.isPanicSignal()) {
-                this.trafficLight.performRequest("PANIC");
-                if (this.trafficLight.performRequest("GET").equals("PANIC")) {
-                    switchPhaseButton.setDisable(true);
-                    panicSignals.add(l);
-                    this.initData(trafficLight, false);
-                }
-            }
-        }
-
 //        Check that a panic signal bulb has been chosen by the user
 //        Run the blinking thread if yes
         if (panicSignals.size() == 0) {
             AlertBox.display("No Panic Signal", "You have not set an alert signal bulb.");
         } else {
+            this.trafficLight.performRequest("PANIC");
+            if (this.trafficLight.performRequest("GET").equals("PANIC")) {
+                switchPhaseButton.setDisable(true);
+                this.initData(trafficLight, false);
 
-            Blinker blinker  = new Blinker(panicSignals, this, trafficLight);
-            Thread backgroundThread = new Thread(blinker);
-            backgroundThread.setDaemon(true);
-            backgroundThread.start();
+                blinker = new Blinker(panicSignals, this, trafficLight);
+                blinker.startThread();
+                Thread backgroundThread = new Thread(blinker);
+                backgroundThread.setDaemon(true);
+                backgroundThread.start();
+            }
         }
 
     }

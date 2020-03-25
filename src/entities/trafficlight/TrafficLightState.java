@@ -154,6 +154,15 @@ public enum TrafficLightState {
         @Override
         TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
             System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                }else{
+                    l.performRequest("ON");
+                }
+            }
+
             return PANIC;
         }
     },
@@ -196,6 +205,15 @@ public enum TrafficLightState {
         @Override
         TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
             System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                }else{
+                    l.performRequest("ON");
+                }
+            }
+
             return PANIC;
         }
     },
@@ -250,6 +268,15 @@ public enum TrafficLightState {
         @Override
         TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
             System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                }else{
+                    l.performRequest("ON");
+                }
+            }
+
             return PANIC;
         }
     },

@@ -46,7 +46,7 @@ public class Main extends Application {
 
 
         Scene scene = new Scene(borderPane, 800, 600);
-
+        scene.getStylesheets().add("theme/theme.css");
         mainWindow.setScene(scene);
         mainWindow.show();
 

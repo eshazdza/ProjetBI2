@@ -3,6 +3,7 @@ package tools;
 import controllers.trafficlight.TrafficlightController;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 
@@ -18,23 +19,30 @@ public class Blinker implements Runnable {
         this.trafficLight = trafficLight;
     }
 
-    public void start() {
-        Thread blinkerThread = new Thread(this);
-        blinkerThread.start();
-    }
-
     @Override
     public void run() {
 
-        for (Lightbulb l :
-                this.lightbulbs) {
-            l.performRequest();
+        try
+        {
+            Platform.runLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+//                        System.out.println(status);
+                    for (Lightbulb l :
+                            lightbulbs) {
+                        l.performRequest();
+                    }
+                    trafficlightController.initData(trafficLight, false);
+                }
+            });
+
+            Thread.sleep(500);
+            run();
         }
-        trafficlightController.initData(trafficLight, false);
-        try {
-            Thread.sleep(1000);
-            this.run();
-        } catch (InterruptedException e) {
+        catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
     }

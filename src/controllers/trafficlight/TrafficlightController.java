@@ -3,6 +3,7 @@ package controllers.trafficlight;
 import controllers.lightbulb.LightbulbController;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -261,7 +262,11 @@ public class TrafficlightController {
         if (panicSignals.size() == 0) {
             AlertBox.display("No Panic Signal", "You have not set an alert signal bulb.");
         } else {
-            System.out.println("cleh");
+
+            Blinker blinker  = new Blinker(panicSignals, this, trafficLight);
+            Thread backgroundThread = new Thread(blinker);
+            backgroundThread.setDaemon(true);
+            backgroundThread.start();
         }
 
     }

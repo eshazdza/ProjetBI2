@@ -2,8 +2,9 @@ package entities.trafficlight;
 
 import entities.lightbulb.Lightbulb;
 
-import java.awt.*;
 import java.util.ArrayList;
+
+import javafx.scene.paint.Color;
 
 public class TrafficLight {
 
@@ -26,7 +27,7 @@ public class TrafficLight {
         this.isBinded = false;
     }
 
-    public TrafficLight(){
+    public TrafficLight() {
         this.lightbulbs = new ArrayList<Lightbulb>();
         this.addLightBulb(new Lightbulb(Color.RED));
         this.state = TrafficLightState.OFF;
@@ -43,25 +44,39 @@ public class TrafficLight {
         this.lightbulbs = lightbulbs;
     }
 
-    public void addLightBulb(Lightbulb lightbulb){
-         this.lightbulbs.add(lightbulb);
+    public void addLightBulb(Lightbulb lightbulb) {
+        this.lightbulbs.add(lightbulb);
     }
 
-    public void performRequest(String request){
-        switch (request){
-            case "STANDBY" :
-                this.state = this.state.turnOn();
+    public String performRequest(String request) {
+        switch (request) {
+            case "STANDBY":
+                this.state = this.state.turnOn(this.getLightbulbs());
                 break;
             case "OFF":
-                this.state = this.state.turnOff();
+                this.state = this.state.turnOff(this.getLightbulbs());
                 break;
             case "MANUAL":
                 this.state = this.state.engageManualMode();
                 break;
-            case "AUTO" :
+            case "AUTO":
                 this.state = this.state.engageAutoMode();
                 break;
+            case "FULLON":
+                this.state = this.state.engageFullON(this.getLightbulbs());
+                break;
+            case "PANIC":
+                this.state = this.state.engagePanicMode(this.getLightbulbs());
+                break;
+            default:
+                return this.state.getStateString();
+
         }
+        return this.state.getStateString();
+    }
+
+    public String getStateString() {
+        return this.state.getStateString();
     }
 
     public boolean isBinded() {
@@ -73,7 +88,6 @@ public class TrafficLight {
     }
 
 
-
     @Override
     public String toString() {
         return "entities.trafficlight.TrafficLight{" +
@@ -83,5 +97,7 @@ public class TrafficLight {
                 '}';
     }
 
-    public void switchLight(){};
+    public void switchLight() {
+    }
+
 }

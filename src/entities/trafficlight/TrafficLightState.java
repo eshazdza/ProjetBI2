@@ -1,16 +1,25 @@
 package entities.trafficlight;
 
+import entities.lightbulb.Lightbulb;
+
+import java.util.ArrayList;
+
 public enum TrafficLightState {
 
     OFF {
         @Override
-        TrafficLightState turnOn() {
+        TrafficLightState turnOn(ArrayList<Lightbulb> bulbs) {
             System.out.println("Traffic light going in standby.");
+
+            bulbs.stream().skip(1).forEach((l) ->
+                    l.performRequest()
+            );
+
             return STANDBY;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
             System.out.println("Already Off.");
             return OFF;
         }
@@ -27,17 +36,42 @@ public enum TrafficLightState {
             return OFF;
         }
 
+        @Override
+        String getStateString() {
+            return "OFF";
+        }
+
+        //        ON FullON state we turn all the lights ON
+        @Override
+        TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest();
+            }
+            return FULLON;
+        }
+
+        @Override
+        TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
+            System.out.println("You must turn on the trafficlight first");
+            return OFF;
+        }
     },
+
     STANDBY {
         @Override
-        TrafficLightState turnOn() {
+        TrafficLightState turnOn(ArrayList<Lightbulb> bulbs) {
             System.out.println("Already On.");
             return STANDBY;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
             System.out.println("turning the trafficLight off.");
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest("OFF");
+            }
             return OFF;
         }
 
@@ -53,17 +87,44 @@ public enum TrafficLightState {
             return AUTO;
         }
 
+        @Override
+        String getStateString() {
+            return "STANDBY";
+        }
+
+        @Override
+        TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Goind to fullOn");
+            return FULLON;
+        }
+
+        @Override
+        TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                }
+//                } else {
+//                    l.performRequest("ON");
+//                }
+            }
+
+            return PANIC;
+        }
+
     },
 
     MANUAL {
         @Override
-        TrafficLightState turnOn() {
+        TrafficLightState turnOn(ArrayList<Lightbulb> bulbs) {
             System.out.println("Already On");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
             System.out.println("Going to standby");
             return STANDBY;
         }
@@ -79,16 +140,42 @@ public enum TrafficLightState {
             System.out.println("Going to Automatic mode");
             return AUTO;
         }
+
+        @Override
+        String getStateString() {
+            return "MANUAL";
+        }
+
+        @Override
+        TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Goind to fullOn");
+            return FULLON;
+        }
+
+        @Override
+        TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                } else {
+                    l.performRequest("ON");
+                }
+            }
+
+            return PANIC;
+        }
     },
     AUTO {
         @Override
-        TrafficLightState turnOn() {
+        TrafficLightState turnOn(ArrayList<Lightbulb> bulbs) {
             System.out.println("Already On");
             return MANUAL;
         }
 
         @Override
-        TrafficLightState turnOff() {
+        TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
             System.out.println("Going to standby");
             return STANDBY;
         }
@@ -104,15 +191,157 @@ public enum TrafficLightState {
             System.out.println("already in auto");
             return AUTO;
         }
+
+        @Override
+        String getStateString() {
+            return "AUTO";
+        }
+
+        @Override
+        TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Goind to fullOn");
+            return FULLON;
+        }
+
+        @Override
+        TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                } else {
+                    l.performRequest("ON");
+                }
+            }
+
+            return PANIC;
+        }
+    },
+    /**
+     * FULL ON state
+     * Every light is on
+     * This state is used for the editor
+     */
+    FULLON {
+        /**
+         * We always go to STAND BY before turning ON
+         * STANDBY mode means turning all lights OFF but the first one
+         */
+        @Override
+        TrafficLightState turnOn(ArrayList<Lightbulb> bulbs) {
+
+            bulbs.stream().skip(1).forEach((l) -> {
+                l.performRequest();
+            });
+
+            return STANDBY;
+        }
+
+        @Override
+        TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
+            return OFF;
+        }
+
+        @Override
+        TrafficLightState engageManualMode() {
+            System.out.println("engaging Manual Mode.");
+            return MANUAL;
+        }
+
+        @Override
+        TrafficLightState engageAutoMode() {
+            System.out.println("engaging Automatic Mode.");
+            return AUTO;
+        }
+
+        @Override
+        String getStateString() {
+            return "FULLON";
+        }
+
+        @Override
+        TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
+            System.out.println("already in fullOn");
+            return FULLON;
+        }
+
+        @Override
+        TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
+            System.out.println("Going in PanicMode");
+            for (Lightbulb l :
+                    bulbs) {
+                if (!l.isPanicSignal()) {
+                    l.performRequest("OFF");
+                } else {
+                    l.performRequest("ON");
+                }
+            }
+
+            return PANIC;
+        }
+    },
+    PANIC {
+        @Override
+        TrafficLightState turnOn(ArrayList<Lightbulb> bulbs) {
+            return STANDBY;
+        }
+
+        @Override
+        TrafficLightState turnOff(ArrayList<Lightbulb> bulbs) {
+            System.out.println("turning the trafficLight off.");
+            for (Lightbulb l :
+                    bulbs) {
+                System.out.println(l);
+                l.performRequest("OFF");
+            }
+            return OFF;
+        }
+
+        @Override
+        TrafficLightState engageManualMode() {
+            System.out.println("engaging Manual Mode.");
+            return MANUAL;
+        }
+
+        @Override
+        TrafficLightState engageAutoMode() {
+            System.out.println("engaging Automatic Mode.");
+            return AUTO;
+        }
+
+        @Override
+        String getStateString() {
+            return "PANIC";
+        }
+
+        @Override
+        TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
+            System.out.println("already in fullOn");
+            return FULLON;
+        }
+
+        @Override
+        TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs) {
+            System.out.println("already in PanicMode");
+            return PANIC;
+        }
+
     };
 
 
-    abstract TrafficLightState turnOn();
+    abstract TrafficLightState turnOn(ArrayList<Lightbulb> bulbs);
 
-    abstract TrafficLightState turnOff();
+    abstract TrafficLightState turnOff(ArrayList<Lightbulb> bulbs);
 
     abstract TrafficLightState engageManualMode();
 
     abstract TrafficLightState engageAutoMode();
+
+    abstract TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs);
+
+    abstract TrafficLightState engagePanicMode(ArrayList<Lightbulb> bulbs);
+
+    abstract String getStateString();
 
 }

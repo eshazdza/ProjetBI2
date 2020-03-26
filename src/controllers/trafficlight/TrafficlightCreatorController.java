@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import tools.ObjectIO;
 
 public class TrafficlightCreatorController {
 
@@ -15,7 +16,7 @@ public class TrafficlightCreatorController {
     private TrafficlightController trafficlightController;
 
     @FXML
-    private StackPane trafficlight;
+    private TrafficLight trafficlight;
 
     @FXML
     private Pane rootPane;
@@ -39,7 +40,7 @@ public class TrafficlightCreatorController {
 
     public void handleSwitchButton() {
         switchButton.switchOnOff();
-        switch (switchButton.getState()){
+        switch (switchButton.getState()) {
             case "ON":
                 trafficlightController.runTrafficLight();
                 manualButton.setDisable(false);
@@ -60,23 +61,26 @@ public class TrafficlightCreatorController {
         String mode = ((Button) event.getSource()).getText().toUpperCase();
         switch (mode) {
             case "AUTO":
-                autoButton.setDisable(true);
-                manualButton.setDisable(false);
-                panicButton.setDisable(false);
-                trafficlightController.runAutoModeFromCreator();
+                if (trafficlightController.runAutoModeFromCreator()) {
+                    autoButton.setDisable(true);
+                    manualButton.setDisable(false);
+                    panicButton.setDisable(false);
+                }
                 break;
             case "MANUAL":
-                manualButton.setDisable(true);
-                autoButton.setDisable(false);
-                panicButton.setDisable(false);
-                trafficlightController.runManualMode();
-                trafficlightController.enableSwitchPhase();
+                if (trafficlightController.runManualMode()) {
+                    manualButton.setDisable(true);
+                    autoButton.setDisable(false);
+                    panicButton.setDisable(false);
+                    trafficlightController.enableSwitchPhase();
+                }
                 break;
             case "PANIC":
-                panicButton.setDisable(true);
-                autoButton.setDisable(false);
-                manualButton.setDisable(false);
-                trafficlightController.runPanicMode(true);
+                if (trafficlightController.runPanicMode(true)) {
+                    panicButton.setDisable(true);
+                    autoButton.setDisable(false);
+                    manualButton.setDisable(false);
+                }
                 break;
         }
         trafficlightController.setMode(mode);
@@ -84,7 +88,8 @@ public class TrafficlightCreatorController {
 
 
     public void saveTrafficLight() {
-        System.out.println("save tl");
+//        By design the bulbs have to have been saved previously so we don't really need to check their existence in the file system at this point...
+        ObjectIO.save(trafficlightController.getTrafficLight());
     }
 
     public void deleteTrafficLight() {

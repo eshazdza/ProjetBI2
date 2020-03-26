@@ -162,7 +162,7 @@ public class TrafficlightController {
         if (trafficLight.getStateString().equals("OFF") || trafficLight.getStateString().equals("FULLON")) {
             if (event.getDragboard().hasString()) {
                 String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
-                Lightbulb lightbulb = ObjectIO.open(fileName);
+                Lightbulb lightbulb = (Lightbulb) ObjectIO.open(fileName);
                 lightbulb.performRequest("ON");
                 this.trafficLight.addLightBulb(lightbulb);
                 this.initData(trafficLight, true);
@@ -236,7 +236,7 @@ public class TrafficlightController {
      * since it does not depends on a direction or intersection
      * It also needs to update the various buttons affiliated to the TrafficlightCreator
      */
-    public void runAutoModeFromCreator() {
+    public boolean runAutoModeFromCreator() {
         this.trafficLight.performRequest("AUTO");
         if (this.trafficLight.performRequest("GET").equals("AUTO")) {
             if (blinker != null) {
@@ -253,22 +253,27 @@ public class TrafficlightController {
             Thread backgroundThread = new Thread(phaseSwitcher);
             backgroundThread.setDaemon(true);
             backgroundThread.start();
-
+            return true;
         }
+        return false;
     }
 
 
     /**
      * Run the traffic light in manual mode
      */
-    public void runManualMode() {
+    public boolean runManualMode() {
         this.trafficLight.performRequest("MANUAL");
-        if (blinker != null) {
-            blinker.stopThread();
+        if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
+            if (blinker != null) {
+                blinker.stopThread();
+            }
+            if (phaseSwitcher != null) {
+                phaseSwitcher.stopThread();
+            }
+            return true;
         }
-        if(phaseSwitcher != null){
-            phaseSwitcher.stopThread();
-        }
+        return false;
     }
 
     /**
@@ -278,14 +283,14 @@ public class TrafficlightController {
      *                    NO : the traffic light depends on a direction or intersection controller which will control the blinking of the lightbulbs
      *                    YES : the traffic light is in control of the blinking
      */
-    public void runPanicMode(boolean fromCreator) {
+    public boolean runPanicMode(boolean fromCreator) {
 
 //        Check that a panic signal bulb has been chosen by the user
 //        Run the blinking thread if yes
         if (panicSignals.size() == 0) {
             AlertBox.display("No Panic Signal", "You have not set an alert signal bulb.");
         } else {
-            if(phaseSwitcher != null){
+            if (phaseSwitcher != null) {
                 phaseSwitcher.stopThread();
             }
             this.trafficLight.performRequest("PANIC");
@@ -298,8 +303,12 @@ public class TrafficlightController {
                 Thread backgroundThread = new Thread(blinker);
                 backgroundThread.setDaemon(true);
                 backgroundThread.start();
+                return true;
             }
+
         }
+
+        return false;
 
     }
 
@@ -349,6 +358,10 @@ public class TrafficlightController {
             }
         }
         return onBulbs;
+    }
+
+    public TrafficLight getTrafficLight(){
+        return trafficLight;
     }
 
 }

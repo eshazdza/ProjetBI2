@@ -41,7 +41,7 @@ public class PhaseSwitcherThread implements Runnable {
                 i = lightbulbs.indexOf(currentBulb);
                 while (i >= 0) {
                     if (stopThread){
-                        break;;
+                        break;
                     }
                     currentBulb = lightbulbs.get(i);
                     try {

@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollBar;
 import javafx.stage.Stage;
 import tools.ConfirmBox;
 
@@ -24,7 +23,7 @@ public class Main extends Application {
             closeProgram(primaryStage);
         });
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1280, 720);
         scene.getStylesheets().add("assets/theme.css");
 
         primaryStage.setScene(scene);

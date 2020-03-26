@@ -21,7 +21,8 @@ public class BlinkerThread implements Runnable {
     }
 
     public void stopThread() {
-        if (lightbulbs.size() > 0 && lightbulbs.get(0).getStateString().equals("OFF")) {
+//        There must always be at least  one bulb ON in the trafficlight
+        if (lightbulbs.size() > 0 && lightbulbs.get(0).getStateString().equals("OFF") && trafficlightController.getOnLights().size() == 0) {
             for (Lightbulb l :
                     lightbulbs) {
                 l.performRequest();

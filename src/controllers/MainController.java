@@ -66,7 +66,7 @@ public class MainController implements Initializable {
     public void newLightbulb(String bulbName) {
         stage = (Stage) mainRoot.getScene().getWindow();
 
-        Lightbulb lightbulb = ObjectIO.open(bulbName);
+        Lightbulb lightbulb = (Lightbulb)ObjectIO.open(bulbName);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulbCreator.fxml"));
@@ -88,6 +88,27 @@ public class MainController implements Initializable {
 
         TrafficLight trafficLight = new TrafficLight();
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlightCreator.fxml"));
+            actionContent = loader.load();
+
+            TrafficlightCreatorController controller = loader.getController();
+            controller.initData(trafficLight);
+
+
+            actionWindow.getChildren().clear();
+            actionWindow.getChildren().add(actionContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void newTrafficLight(String trafficlightName) {
+        stage = (Stage) mainRoot.getScene().getWindow();
+
+        TrafficLight trafficLight =(TrafficLight) ObjectIO.open(trafficlightName);
+        System.out.println(trafficLight);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlightCreator.fxml"));
             actionContent = loader.load();
@@ -156,10 +177,16 @@ public class MainController implements Initializable {
          * Load the light bulbs files name and add them to the menu
          */
         File[] lightbulbsFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\lightbulbs\\");
+        File[] trafficlightFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\trafficlights\\");
 
         for (int i = 0; i < lightbulbsFiles.length; i++) {
             TreeItem<String> bulb = new TreeItem<>(lightbulbsFiles[i].getName());
             lightbulbsItem.getChildren().add(bulb);
+        }
+
+        for (int i = 0; i < trafficlightFiles.length; i++) {
+            TreeItem<String> trafficlight = new TreeItem<>(trafficlightFiles[i].getName());
+            trafficLightItem.getChildren().add(trafficlight);
         }
 
 
@@ -220,14 +247,13 @@ public class MainController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                     TreeItem<String> item = assetsMenu.getSelectionModel().getSelectedItem();
-                    System.out.println("Selected Text : " + item.getValue());
 
                     if (item.getValue().contains(".lightbulb")) {
                         newLightbulb(item.getValue());
                     }
 
                     if (item.getValue().contains(".trafficlight")) {
-                        newTrafficLight();
+                        newTrafficLight(item.getValue());
                     }
 
                     if (item.getValue().contains(".direction")) {

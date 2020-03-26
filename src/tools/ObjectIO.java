@@ -1,16 +1,31 @@
 package tools;
 
 import entities.lightbulb.Lightbulb;
+import entities.trafficlight.TrafficLight;
+import javafx.scene.LightBase;
+import javafx.scene.effect.Light;
 
 import java.io.*;
 import java.nio.file.*;
 
 public class ObjectIO {
 
-    public static void save(Lightbulb object) {
+    public static void save(Object object) {
+        String path;
 
+        if (object instanceof Lightbulb) {
+            System.out.println("lightbulb");
+            path = "src\\assets\\objects\\lightbulbs\\" + ((Lightbulb) object).getColor() + ".lightbulb";
+        } else if (object instanceof TrafficLight) {
+            System.out.println(object);
+            path = "src\\assets\\objects\\trafficlights\\" + TrafficLight.getTLId() + ".trafficlight";
+        } else {
+            System.out.println("wait wat");
+            path = "src\\assets\\objects\\";
+        }
+        System.out.println(path);
         try {
-            FileOutputStream f = new FileOutputStream(new File("src\\assets\\objects\\lightbulbs\\" + object.getColor() + ".lightbulb"));
+            FileOutputStream f = new FileOutputStream(new File(path));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(object);
@@ -20,16 +35,25 @@ public class ObjectIO {
             f.close();
 
             System.out.println("Opening Input Stream");
-            FileInputStream fi = new FileInputStream(new File("src\\assets\\objects\\lightbulbs\\" + object.getColor() + ".lightbulb"));
+            FileInputStream fi = new FileInputStream(new File(path));
             ObjectInputStream ois = new ObjectInputStream(fi);
 
             System.out.println("Building object from file");
-            Lightbulb lightbulb = (Lightbulb) ois.readObject();
+
+
+            Object readObject = null;
+
+            if (object instanceof Lightbulb) {
+                readObject = (Lightbulb) ois.readObject();
+            } else if (object instanceof TrafficLight) {
+                readObject = (TrafficLight) ois.readObject();
+            }
+
 
             ois.close();
             fi.close();
 
-            System.out.println(lightbulb);
+            System.out.println(readObject);
 
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -40,20 +64,27 @@ public class ObjectIO {
         }
     }
 
-    public static Lightbulb open(String fileName) {
+    public static Object open(String fileName) {
+        String path = "src\\assets\\objects\\lightbulbs\\" + fileName;
+
+        if (fileName.contains(".lightbulb")) {
+            path = "src\\assets\\objects\\lightbulbs\\" + fileName;
+
+        } else if (fileName.contains(".trafficlight")) {
+            path = "src\\assets\\objects\\trafficlights\\" + fileName;
+        }
+
         try {
-            FileInputStream fi = new FileInputStream(new File("src\\assets\\objects\\lightbulbs\\" + fileName));
+            FileInputStream fi = new FileInputStream(new File(path));
             ObjectInputStream ois = new ObjectInputStream(fi);
 
-
-            System.out.println("Building object from file");
-            Lightbulb lightbulb = (Lightbulb) ois.readObject();
-            System.out.println("derp");
+            Object readObject = ois.readObject();
 
             ois.close();
             fi.close();
 
-            return lightbulb;
+            return readObject;
+
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {

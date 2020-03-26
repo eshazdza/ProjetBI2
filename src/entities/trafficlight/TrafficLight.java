@@ -2,15 +2,23 @@ package entities.trafficlight;
 
 import entities.lightbulb.Lightbulb;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class TrafficLight {
+public class TrafficLight extends StackPane implements Serializable {
 
     protected ArrayList<Lightbulb> lightbulbs;
-    protected TrafficLightState state;
-    protected boolean isBinded;
+    protected transient TrafficLightState state;
+    private boolean isBinded;
+
+    // Must implement some sort of naming for identifiyng the object when saving or w/e but in the meantime
+    private static int id=0;
 
     /* *******************   CONSTRUCTORS         ******************* */
 
@@ -18,6 +26,7 @@ public class TrafficLight {
         this.lightbulbs = lightbulbs;
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
+        id++;
     }
 
     public TrafficLight(Lightbulb lightbulb) {
@@ -25,6 +34,7 @@ public class TrafficLight {
         this.addLightBulb(lightbulb);
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
+        id++;
     }
 
     public TrafficLight() {
@@ -32,6 +42,7 @@ public class TrafficLight {
         this.addLightBulb(new Lightbulb(Color.RED));
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
+        id++;
     }
 
     /* *******************   END   CONSTRUCTORS      ******************* */
@@ -46,6 +57,10 @@ public class TrafficLight {
 
     public void addLightBulb(Lightbulb lightbulb) {
         this.lightbulbs.add(lightbulb);
+    }
+
+    public static int getTLId() {
+        return id;
     }
 
     public String performRequest(String request) {
@@ -79,6 +94,27 @@ public class TrafficLight {
         return this.state.getStateString();
     }
 
+    private void setState(String state) {
+        switch (state){
+            case "OFF":
+                this.state =  TrafficLightState.OFF;
+                break;
+            case "MANUAL":
+                this.state =  TrafficLightState.MANUAL;
+                break;
+            case "AUTO":
+                this.state =  TrafficLightState.AUTO;
+                break;
+            case "FULLON":
+                this.state =  TrafficLightState.FULLON;
+                break;
+            case "PANIC":
+                this.state =  TrafficLightState.PANIC;
+                break;
+            default:this.state =  TrafficLightState.STANDBY;
+        }
+    }
+
     public boolean isBinded() {
         return isBinded;
     }
@@ -97,7 +133,22 @@ public class TrafficLight {
                 '}';
     }
 
-    public void switchLight() {
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+
+        ois.defaultReadObject();
+
+        String state = ois.readLine();
+        this.setState(state);
+
     }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+
+        oos.defaultWriteObject();
+
+        oos.writeBytes(state.getStateString());
+
+    }
+
 
 }

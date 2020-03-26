@@ -6,7 +6,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import tools.ObjectIO;
 
 public class TrafficlightCreatorController {
@@ -34,7 +33,18 @@ public class TrafficlightCreatorController {
     private Button panicButton;
 
 
+    @FXML
+    private TextField tlName;
+
+
     public void initData(TrafficLight trafficLight) {
+        tlName.setText(trafficLight.getName());
+
+        tlName.focusedProperty().addListener((ov, oldV, newV) -> {
+            if (!newV) {
+                trafficLight.setName(tlName.getText());
+            }
+        });
         trafficlightController.initData(trafficLight, true);
     }
 
@@ -89,11 +99,17 @@ public class TrafficlightCreatorController {
 
     public void saveTrafficLight() {
 //        By design the bulbs have to have been saved previously so we don't really need to check their existence in the file system at this point...
-        ObjectIO.save(trafficlightController.getTrafficLight());
+        if (trafficlightController.getTrafficLight().getName() == null || trafficlightController.getTrafficLight().getName().isBlank()) {
+            System.out.println("you must naaaame meeee");
+            System.out.println(trafficlight.getName());
+        } else {
+            ObjectIO.save(trafficlightController.getTrafficLight());
+        }
     }
 
+
     public void deleteTrafficLight() {
-        System.out.println("delete");
+        ObjectIO.delete(trafficlightController.getTrafficLight());
     }
 
 }

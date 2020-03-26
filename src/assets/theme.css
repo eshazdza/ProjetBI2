@@ -105,6 +105,13 @@ Root
 }
 
 /**
+TEXTFIELD
+ */
+.text-field{
+    -fx-background-color: -fx-my-menu-color-highlighted;
+}
+
+/**
 ASSETS MENU
  */
 

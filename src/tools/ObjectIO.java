@@ -11,18 +11,8 @@ import java.nio.file.*;
 public class ObjectIO {
 
     public static void save(Object object) {
-        String path;
+        String path = getPath(object);
 
-        if (object instanceof Lightbulb) {
-            System.out.println("lightbulb");
-            path = "src\\assets\\objects\\lightbulbs\\" + ((Lightbulb) object).getColor() + ".lightbulb";
-        } else if (object instanceof TrafficLight) {
-            System.out.println(object);
-            path = "src\\assets\\objects\\trafficlights\\" + TrafficLight.getTLId() + ".trafficlight";
-        } else {
-            System.out.println("wait wat");
-            path = "src\\assets\\objects\\";
-        }
         System.out.println(path);
         try {
             FileOutputStream f = new FileOutputStream(new File(path));
@@ -96,10 +86,10 @@ public class ObjectIO {
         return new Lightbulb();
     }
 
-    public static void delete(Lightbulb lightbulb) {
+    public static void delete(Object object) {
 
-        String path = "src\\assets\\objects\\lightbulbs\\" + lightbulb.getColor() + ".lightbulb";
-        System.out.println(path);
+        String path = getPath(object);
+
         try {
             Files.deleteIfExists(Paths.get(path));
         } catch (NoSuchFileException e) {
@@ -114,6 +104,21 @@ public class ObjectIO {
     public static File[] getFilesNameFromDir(String directory) {
         File folder = new File(directory);
         return folder.listFiles();
+    }
+
+    private static String getPath(Object object){
+        String path;
+        if (object instanceof Lightbulb) {
+            System.out.println("lightbulb");
+            path = "src\\assets\\objects\\lightbulbs\\" + ((Lightbulb) object).getColor() + ".lightbulb";
+        } else if (object instanceof TrafficLight) {
+            System.out.println(object);
+            path = "src\\assets\\objects\\trafficlights\\" + ((TrafficLight) object).getName() + ".trafficlight";
+        } else {
+            System.out.println("wait wat");
+            path = "src\\assets\\objects\\";
+        }
+        return path;
     }
 
 

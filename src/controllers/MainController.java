@@ -108,7 +108,6 @@ public class MainController implements Initializable {
         stage = (Stage) mainRoot.getScene().getWindow();
 
         TrafficLight trafficLight =(TrafficLight) ObjectIO.open(trafficlightName);
-        System.out.println(trafficLight);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlightCreator.fxml"));
             actionContent = loader.load();

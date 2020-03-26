@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -29,6 +30,7 @@ public class TrafficlightController {
     @FXML
     private Button switchPhaseButton;
 
+
     private TrafficLight trafficLight;
 
     private String mode = "MANUAL";
@@ -42,6 +44,7 @@ public class TrafficlightController {
     private ArrayList<Lightbulb> panicSignals = new ArrayList<>();
 
 
+
     /**
      * Initialize the view data
      *
@@ -53,7 +56,7 @@ public class TrafficlightController {
     public void initData(TrafficLight trafficLight, boolean editMode) {
         bulbContainer.getChildren().clear();
         this.trafficLight = trafficLight;
-
+        System.out.println(trafficLight.getName());
 //        If we are in edit mode
 //        We turn all the lights on if the traffic light is off
         if (editMode && trafficLight.getStateString().equals("OFF")) {

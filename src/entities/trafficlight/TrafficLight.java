@@ -17,8 +17,7 @@ public class TrafficLight extends StackPane implements Serializable {
     protected transient TrafficLightState state;
     private boolean isBinded;
 
-    // Must implement some sort of naming for identifiyng the object when saving or w/e but in the meantime
-    private static int id=0;
+    private String name = null;
 
     /* *******************   CONSTRUCTORS         ******************* */
 
@@ -26,7 +25,6 @@ public class TrafficLight extends StackPane implements Serializable {
         this.lightbulbs = lightbulbs;
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
-        id++;
     }
 
     public TrafficLight(Lightbulb lightbulb) {
@@ -34,7 +32,6 @@ public class TrafficLight extends StackPane implements Serializable {
         this.addLightBulb(lightbulb);
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
-        id++;
     }
 
     public TrafficLight() {
@@ -42,7 +39,6 @@ public class TrafficLight extends StackPane implements Serializable {
         this.addLightBulb(new Lightbulb(Color.RED));
         this.state = TrafficLightState.OFF;
         this.isBinded = false;
-        id++;
     }
 
     /* *******************   END   CONSTRUCTORS      ******************* */
@@ -59,9 +55,6 @@ public class TrafficLight extends StackPane implements Serializable {
         this.lightbulbs.add(lightbulb);
     }
 
-    public static int getTLId() {
-        return id;
-    }
 
     public String performRequest(String request) {
         switch (request) {
@@ -123,6 +116,13 @@ public class TrafficLight extends StackPane implements Serializable {
         isBinded = binded;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     @Override
     public String toString() {

@@ -4,10 +4,9 @@
 <?import entities.lightbulb.Lightbulb?>
 <?import javafx.scene.layout.StackPane?>
 
-<?import entities.triggerButton.SwitchButton?>
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.lightbulb.LightbulbController">
    <children>
-       <Lightbulb  layoutX="100.0" layoutY="100.0" radius="100.0" strokeType="INSIDE" fx:id="lightbulb" styleClass="lightbulb">
+       <Lightbulb  strokeType="INSIDE" fx:id="lightbulb" styleClass="lightbulb" onMouseClicked="#resizeClick">
            <StackPane.margin>
                <Insets top="10" bottom="10"/>
            </StackPane.margin>

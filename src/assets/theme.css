@@ -107,7 +107,7 @@ Root
 /**
 TEXTFIELD
  */
-.text-field{
+.text-field {
     -fx-background-color: -fx-my-menu-color-highlighted;
 }
 
@@ -145,3 +145,15 @@ LIGHTBULB
     -fx-border-insets: 10px;
     -fx-background-insets: 10px;
 }
+
+.fileProps, .button, .text-field, .editorMenu {
+    -fx-padding: 15px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
+
+.fileProps .button {
+    -fx-min-width: 100px;
+    -fx-max-height: 30px;
+}
+

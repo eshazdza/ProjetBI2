@@ -75,7 +75,7 @@ public class Factory extends Throwable {
         if (directions.size() < 2) {
             throw new FactoryException("Intersection must contain a least two directions.");
         } else {
-//            check if every entities.direction has a traffic light
+//            check if every entities.DirectionController has a traffic light
             int trafficLight = 0;
 
             for (Direction direction :
@@ -86,11 +86,11 @@ public class Factory extends Throwable {
 //                TODO : handle priority
             }
 
-//            if at least one entities.direction has a traffic light, every entities.direction must have one.
+//            if at least one entities.DirectionController has a traffic light, every entities.DirectionController must have one.
             if (trafficLight > 0 && trafficLight != directions.size()) {
-                throw new FactoryException("One entities.direction does not have a traffic light. Cannot create entities.intersection.");
+                throw new FactoryException("One entities.DirectionController does not have a traffic light. Cannot create entities.intersection.");
             } else if (trafficLight == 0) {
-//                If no Direction has a traffic light : the Intersection state is uncontrolled
+//                If no DirectionController has a traffic light : the Intersection state is uncontrolled
                 return new Intersection(directions, IntersectionState.YOLO);
             } else {
                 return new ControlledIntersection(directions, IntersectionState.CONTROLLED);
@@ -100,8 +100,8 @@ public class Factory extends Throwable {
 
 
     /**
-     * @param direction1 Direction
-     * @param direction2 Direction
+     * @param direction1 DirectionController
+     * @param direction2 DirectionController
      * @return Intersection
      * @throws FactoryException
      */
@@ -111,11 +111,11 @@ public class Factory extends Throwable {
             if (direction2.hasTrafficLight()) {
                 return new ControlledIntersection(direction1, direction2, IntersectionState.CONTROLLED);
             } else {
-                throw new FactoryException("One entities.direction does not have a traffic light. Cannot create entities.intersection.");
+                throw new FactoryException("One entities.DirectionController does not have a traffic light. Cannot create entities.intersection.");
             }
         } else {
             if (direction2.hasTrafficLight()) {
-                throw new FactoryException("One entities.direction does not have a traffic light. Cannot create entities.intersection.");
+                throw new FactoryException("One entities.DirectionController does not have a traffic light. Cannot create entities.intersection.");
             } else {
                 return new Intersection(direction1, direction2, IntersectionState.YOLO);
             }

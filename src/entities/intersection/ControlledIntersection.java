@@ -13,7 +13,7 @@ public class ControlledIntersection extends Intersection {
     /**
      * Constructor : Intersection is always OFF when created.
      *
-     * @param directions Direction List
+     * @param directions DirectionController List
      * @param state      IntersectionState
      */
     public ControlledIntersection(ArrayList<Direction> directions, IntersectionState state) {
@@ -23,8 +23,8 @@ public class ControlledIntersection extends Intersection {
     }
 
     /**
-     * @param direction1 Direction
-     * @param direction2 Direction
+     * @param direction1 DirectionController
+     * @param direction2 DirectionController
      * @param state      IntersectionState
      */
     public ControlledIntersection(Direction direction1, Direction direction2, IntersectionState state) {

@@ -1,7 +1,10 @@
 package controllers;
 
+import controllers.direction.DirectionController;
+import controllers.direction.DirectionCreatorController;
 import controllers.lightbulb.LightbulbCreatorController;
 import controllers.trafficlight.TrafficlightCreatorController;
+import entities.direction.Direction;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
 import javafx.application.Platform;
@@ -125,7 +128,20 @@ public class MainController implements Initializable {
     }
 
     public void newDirection() {
-        System.out.println("direction");
+        stage = (Stage) mainRoot.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/directions/directionCreator.fxml"));
+            actionContent = loader.load();
+
+            DirectionCreatorController controller = loader.getController();
+            controller.initData();
+
+
+            actionWindow.getChildren().clear();
+            actionWindow.getChildren().add(actionContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void newIntersection() {
@@ -214,7 +230,7 @@ public class MainController implements Initializable {
                     public void handle(MouseEvent event) {
                         try {
                             String targetName = ((Text) event.getTarget()).getText();
-                            if (targetName.contains(".lightbulb") || targetName.contains(".trafficlight") || targetName.contains(".direction")){
+                            if (targetName.contains(".lightbulb") || targetName.contains(".trafficlight") || targetName.contains(".DirectionController")){
                                 System.out.println("drag started");
                                 Dragboard db = treeCell.startDragAndDrop(TransferMode.ANY);
                                 ClipboardContent content = new ClipboardContent();
@@ -255,7 +271,7 @@ public class MainController implements Initializable {
                         newTrafficLight(item.getValue());
                     }
 
-                    if (item.getValue().contains(".direction")) {
+                    if (item.getValue().contains(".DirectionController")) {
                         newDirection();
                     }
 

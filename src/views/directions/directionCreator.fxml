@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import entities.triggerButton.SwitchButton?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.direction.DirectionCreatorController"
+            prefHeight="400.0" prefWidth="600.0" fx:id="rootPane">
+
+    <children>
+        <HBox>
+            <children>
+                <VBox styleClass="editorMenu">
+                    <VBox styleClass="fileProps">
+                    <SwitchButton text="Turn On" onAction="#handleSwitchButton" fx:id="switchButton"/>
+                    <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton" fx:id="manualButton"
+                            disable="true"/>
+                    <Button mnemonicParsing="false" text="Auto" onAction="#handleModeButton" fx:id="autoButton"
+                            disable="true"/>
+                    <Button mnemonicParsing="false" text="Panic" onAction="#handleModeButton" fx:id="panicButton"
+                            disable="true"/>
+                    </VBox>
+
+                    <VBox styleClass="fileProps">
+                        <TextField fx:id="tlName" promptText="name :"/>
+                        <HBox>
+                            <Button mnemonicParsing="false" text="Save" onAction="#saveDirection"/>
+                            <Button mnemonicParsing="false" text="Delete" onAction="#deleteDirection"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+
+
+                <fx:include source="direction.fxml" fx:id="direction"/>
+
+            </children>
+        </HBox>
+
+    </children>
+
+
+</AnchorPane>

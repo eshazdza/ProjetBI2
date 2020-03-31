@@ -60,7 +60,7 @@ public class PhaseSwitcherThread implements Runnable {
                                 lightbulbs.get(i).performRequest("ON");
 
 //                                Refresh the view
-                                trafficlightController.initData(trafficLight, false);
+                                trafficlightController.initData(trafficLight, false, "large");
 
                             }   // End run
                         });     // End Platform.runLater

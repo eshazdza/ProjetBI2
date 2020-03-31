@@ -1,5 +1,6 @@
 package tools;
 
+import entities.direction.Direction;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
 import javafx.scene.LightBase;
@@ -106,14 +107,14 @@ public class ObjectIO {
         return folder.listFiles();
     }
 
-    private static String getPath(Object object){
+    private static String getPath(Object object) {
         String path;
         if (object instanceof Lightbulb) {
-            System.out.println("lightbulb");
             path = "src\\assets\\objects\\lightbulbs\\" + ((Lightbulb) object).getColor() + ".lightbulb";
         } else if (object instanceof TrafficLight) {
-            System.out.println(object);
             path = "src\\assets\\objects\\trafficlights\\" + ((TrafficLight) object).getName() + ".trafficlight";
+        } else if (object instanceof Direction) {
+            path = "src\\assets\\objects\\trafficlights\\" + ((Direction) object).getName() + ".trafficlight";
         } else {
             System.out.println("wait wat");
             path = "src\\assets\\objects\\";

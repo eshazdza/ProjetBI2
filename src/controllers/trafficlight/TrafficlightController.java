@@ -27,10 +27,11 @@ public class TrafficlightController {
     @FXML
     private VBox bulbContainer;
 
+//    TODO : this guy has to go in the creator
     @FXML
     private Button switchPhaseButton;
 
-
+    @FXML
     private TrafficLight trafficLight;
 
     private String mode = "MANUAL";
@@ -44,7 +45,6 @@ public class TrafficlightController {
     private ArrayList<Lightbulb> panicSignals = new ArrayList<>();
 
 
-
     /**
      * Initialize the view data
      *
@@ -53,10 +53,9 @@ public class TrafficlightController {
      * @param editMode     boolean
      *                     Can the trafficlight be edited
      */
-    public void initData(TrafficLight trafficLight, boolean editMode) {
+    public void initData(TrafficLight trafficLight, boolean editMode, String bulbSize) {
         bulbContainer.getChildren().clear();
         this.trafficLight = trafficLight;
-        System.out.println(trafficLight.getName());
 //        If we are in edit mode
 //        We turn all the lights on if the traffic light is off
         if (editMode && trafficLight.getStateString().equals("OFF")) {
@@ -76,6 +75,13 @@ public class TrafficlightController {
 //                Set the color of the bulbs
                 bulbController.setColor(l.getColor());
                 bulbController.setFill(l.getFill());
+
+                if (bulbSize.equals("small")) {
+                    pane.setMaxSize(50, 50);
+                    bulbController.setSize(20);
+                } else {
+                    bulbController.setSize(100);
+                }
 
 //                Context Menu on each bulb
                 pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -140,7 +146,7 @@ public class TrafficlightController {
      */
     public void removeBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         trafficLight.getLightbulbs().remove(lightbulb);
-        this.initData(trafficLight, true);
+        this.initData(trafficLight, true, "large");
     }
 
     /**
@@ -165,10 +171,12 @@ public class TrafficlightController {
         if (trafficLight.getStateString().equals("OFF") || trafficLight.getStateString().equals("FULLON")) {
             if (event.getDragboard().hasString()) {
                 String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
-                Lightbulb lightbulb = (Lightbulb) ObjectIO.open(fileName);
-                lightbulb.performRequest("ON");
-                this.trafficLight.addLightBulb(lightbulb);
-                this.initData(trafficLight, true);
+                if (fileName.contains(".lightbulb")) {
+                    Lightbulb lightbulb = (Lightbulb) ObjectIO.open(fileName);
+                    lightbulb.performRequest("ON");
+                    this.trafficLight.addLightBulb(lightbulb);
+                    this.initData(trafficLight, true, "large");
+                }
             }
         }
     }
@@ -183,7 +191,7 @@ public class TrafficlightController {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index > 0) {
             Collections.swap(trafficLight.getLightbulbs(), index, index - 1);
-            this.initData(trafficLight, true);
+            this.initData(trafficLight, true, "large");
         }
     }
 
@@ -197,7 +205,7 @@ public class TrafficlightController {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index < (trafficLight.getLightbulbs().size() - 1)) {
             Collections.swap(trafficLight.getLightbulbs(), index, index + 1);
-            this.initData(trafficLight, true);
+            this.initData(trafficLight, true, "large");
         }
     }
 
@@ -215,7 +223,7 @@ public class TrafficlightController {
      */
     public void runTrafficLight() {
         this.trafficLight.performRequest("STANDBY");
-        this.initData(trafficLight, false);
+        this.initData(trafficLight, false, "large");
     }
 
     /**
@@ -230,13 +238,13 @@ public class TrafficlightController {
             phaseSwitcher.stopThread();
         }
         this.trafficLight.performRequest("OFF");
-        this.initData(trafficLight, true);
+        this.initData(trafficLight, true, "large");
     }
 
     /**
      * Run the traffic light in automatic mode
      * runAutoModeFromCreator needs to implements a Thread runner
-     * since it does not depends on a direction or intersection
+     * since it does not depends on a DirectionController or intersection
      * It also needs to update the various buttons affiliated to the TrafficlightCreator
      */
     public boolean runAutoModeFromCreator() {
@@ -249,7 +257,7 @@ public class TrafficlightController {
                 phaseSwitcher.stopThread();
             }
             switchPhaseButton.setDisable(true);
-            this.initData(trafficLight, false);
+            this.initData(trafficLight, false, "large");
 
             phaseSwitcher = new PhaseSwitcherThread(trafficLight.getLightbulbs(), this, trafficLight);
             phaseSwitcher.startThread();
@@ -283,7 +291,7 @@ public class TrafficlightController {
      * Run the traffic light in panic mode
      *
      * @param fromCreator boolean : has the method been called from the traffic light creator/editor ?
-     *                    NO : the traffic light depends on a direction or intersection controller which will control the blinking of the lightbulbs
+     *                    NO : the traffic light depends on a DirectionController or intersection controller which will control the blinking of the lightbulbs
      *                    YES : the traffic light is in control of the blinking
      */
     public boolean runPanicMode(boolean fromCreator) {
@@ -299,7 +307,7 @@ public class TrafficlightController {
             this.trafficLight.performRequest("PANIC");
             if (this.trafficLight.performRequest("GET").equals("PANIC")) {
                 switchPhaseButton.setDisable(true);
-                this.initData(trafficLight, false);
+                this.initData(trafficLight, false, "large");
 
                 blinker = new BlinkerThread(panicSignals, this, trafficLight);
                 blinker.startThread();
@@ -348,7 +356,7 @@ public class TrafficlightController {
                 }
             }
         }
-        this.initData(trafficLight, false);
+        this.initData(trafficLight, false, "large");
     }
 
     public ArrayList<Lightbulb> getOnLights() {
@@ -363,7 +371,7 @@ public class TrafficlightController {
         return onBulbs;
     }
 
-    public TrafficLight getTrafficLight(){
+    public TrafficLight getTrafficLight() {
         return trafficLight;
     }
 

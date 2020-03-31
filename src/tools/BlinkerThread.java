@@ -27,7 +27,7 @@ public class BlinkerThread implements Runnable {
                     lightbulbs) {
                 l.performRequest();
             }
-            trafficlightController.initData(trafficLight, false);
+            trafficlightController.initData(trafficLight, false, "large");
 
         }
         this.stopThread = true;
@@ -49,7 +49,7 @@ public class BlinkerThread implements Runnable {
                                 lightbulbs) {
                             l.performRequest();
                         }
-                        trafficlightController.initData(trafficLight, false);
+                        trafficlightController.initData(trafficLight, false, "large");
                     }
                 });
 

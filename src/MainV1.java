@@ -1,6 +1,6 @@
 //
-//import entities.direction.Direction;
-//import entities.direction.DirectionException;
+//import entities.DirectionController.DirectionController;
+//import entities.DirectionController.DirectionException;
 //import factory.Factory;
 //import factory.FactoryException;
 //import entities.intersection.Intersection;
@@ -52,16 +52,16 @@
 //
 //        System.out.println(trafficLight);
 //
-//        Direction direction = Factory.makeUncontrolledDirection();
+//        DirectionController DirectionController = Factory.makeUncontrolledDirection();
 //
-//        System.out.println(direction);
+//        System.out.println(DirectionController);
 //        try {
-//            direction.addTrafficLight(trafficLight);
+//            DirectionController.addTrafficLight(trafficLight);
 //        } catch (DirectionException e) {
 //            System.out.println(e.getMessage());
 //        }
 //
-//        Direction direction1 = Factory.makeUncontrolledDirection();
+//        DirectionController direction1 = Factory.makeUncontrolledDirection();
 //        TrafficLight trafficLight1 = new TrafficLight();
 //
 //        try {
@@ -70,8 +70,8 @@
 //            System.out.println(e.getMessage());
 //        }
 //
-//        ArrayList<Direction> directions = new ArrayList<>();
-//        directions.add(direction);
+//        ArrayList<DirectionController> directions = new ArrayList<>();
+//        directions.add(DirectionController);
 //        directions.add(direction1);
 //
 //        try {
@@ -81,8 +81,8 @@
 //            System.out.println(e.getMessage());
 //        }
 //
-//        Direction direction2 = Factory.makeUncontrolledDirection();
-//        Direction direction3 = Factory.makeUncontrolledDirection();
+//        DirectionController direction2 = Factory.makeUncontrolledDirection();
+//        DirectionController direction3 = Factory.makeUncontrolledDirection();
 //
 //        try {
 //            Intersection intersection2 = Factory.makeIntersection(direction2, direction3);

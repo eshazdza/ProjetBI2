@@ -7,19 +7,25 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.shape.SVGPath?>
 
+<?import javafx.scene.layout.VBox?>
 <?import entities.direction.Direction?>
 
 <Direction prefHeight="134.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/11.0.1"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.direction.DirectionController"
-           onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop"
-           fx:id="direction">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.direction.DirectionController"
+            onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop"
+            fx:id="direction">
+
+
+<!--<AnchorPane prefHeight="134.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/11.0.1"-->
+<!--            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.direction.DirectionController"-->
+<!--            onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop">-->
     <children>
         <StackPane layoutY="171.0" prefHeight="230.0" prefWidth="606.0" AnchorPane.bottomAnchor="0.0"
                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#828f9a" height="59.0" stroke="BLACK"
-                           strokeType="INSIDE" strokeWidth="0.0" width="606.0"/>
-                <HBox alignment="CENTER" prefHeight="44.0" prefWidth="606.0">
+                           strokeType="INSIDE" strokeWidth="0.0" width="606.0" fx:id="road"/>
+                <HBox alignment="CENTER" prefHeight="44.0" prefWidth="${road.width}">
                     <children>
                         <SVGPath
                                 content="M5.975 17.504l14.287.001-6.367 6.366L16.021 26l10.004-10.003L16.029 6l-2.128 2.129 6.367 6.366H5.977z"
@@ -42,18 +48,19 @@
                                 <Insets/>
                             </HBox.margin>
                         </SVGPath>
-                        <StackPane fx:id="trafficlightContainer">
+                        <VBox fx:id="trafficlightContainer" prefHeight="${road.height}">
                             <HBox.margin>
                                 <Insets left="150.0"/>
                             </HBox.margin>
-                            <Rectangle arcHeight="5.0" arcWidth="5.0" height="94.0" stroke="BLACK" strokeType="INSIDE"
-                                       width="52.0" >
+                            <Rectangle arcHeight="5.0" arcWidth="5.0" stroke="BLACK" strokeType="INSIDE"
+                                       width="52.0" height="${road.height}">
 
                             </Rectangle>
-                        </StackPane>
+                        </VBox>
                     </children>
                 </HBox>
             </children>
         </StackPane>
     </children>
+<!--</AnchorPane>-->
 </Direction>

@@ -6,10 +6,8 @@ import entities.trafficlight.TrafficLight;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -21,15 +19,12 @@ import tools.PhaseSwitcherThread;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// TODO : refactor to keep track of multiple traffic lights
 
 public class TrafficlightController {
 
     @FXML
     private VBox bulbContainer;
-
-//    TODO : this guy has to go in the creator
-//    @FXML
-//    private Button switchPhaseButton;
 
     @FXML
     private TrafficLight trafficLight;
@@ -230,7 +225,6 @@ public class TrafficlightController {
      * Turn the traffic light off
      */
     public void turnOffTrafficLight(String bulbSize) {
-//        switchPhaseButton.setDisable(true);
         if (blinker != null) {
             blinker.stopThread();
         }

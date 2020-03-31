@@ -12,7 +12,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import tools.ObjectIO;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,7 +25,10 @@ public class DirectionController {
     private Direction direction;
 
     @FXML
-    private StackPane trafficlightContainer;
+    private VBox trafficlightContainer;
+
+    @FXML
+    private Rectangle road;
 
     private TrafficlightController trafficlightController;
 
@@ -46,8 +52,6 @@ public class DirectionController {
                 final Pane pane = loader.load();
 
                 trafficlightController = loader.getController();
-                pane.setMaxSize(50, 100);
-
                 trafficlightController.initData(trafficLight, false, bulbSize);
 
                 trafficlightContainer.getChildren().add(pane);
@@ -86,7 +90,6 @@ public class DirectionController {
                 try {
                     this.direction.addTrafficLight(trafficLight);
                     this.initData(direction);
-                    System.out.println(direction);
                 } catch (DirectionException e) {
                     e.getStackTrace();
                 }
@@ -97,7 +100,12 @@ public class DirectionController {
 
     public void runDirection() {
         if (direction.getStateString().equals("CONTROLLED")) {
-            trafficlightController.runTrafficLight(bulbSize);
+            for (TrafficLight tl :
+                    getTrafficlights()) {
+              tl.performRequest("STANDBY");
+              trafficlightController.initData(tl, false, bulbSize);
+            }
+//            trafficlightController.runTrafficLight(bulbSize);
         }
     }
 

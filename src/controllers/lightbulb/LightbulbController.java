@@ -34,8 +34,6 @@ public class LightbulbController {
 
     public void setSize(double radius){
         lightbulb.setRadius(radius);
-//        lightbulb.setLayoutX(5);
-//        lightbulb.setLayoutY(5);
     }
 
     public void resizeClick(){

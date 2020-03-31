@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import entities.trafficlight.TrafficLight?>
 
@@ -9,13 +8,9 @@
               fx:controller="controllers.trafficlight.TrafficlightController" onDragOver="#setOnDragOver"
               onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop" fx:id="trafficLight">
     <children>
-
         <HBox>
-<!--            <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase" fx:id="switchPhaseButton"-->
-<!--                    disable="true"/>-->
             <VBox alignment="CENTER" fx:id="bulbContainer" styleClass="trafficlightBG">
             </VBox>
-
         </HBox>
     </children>
 </TrafficLight>

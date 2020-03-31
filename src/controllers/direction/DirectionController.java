@@ -18,6 +18,7 @@ import tools.ObjectIO;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DirectionController {
 
@@ -114,32 +115,36 @@ public class DirectionController {
     }
 
     public boolean runAutoModeFromCreator() {
-        if (trafficlightController.runAutoModeFromCreator()){
+        if (trafficlightController.runAutoModeFromCreator()) {
             return true;
         }
         return false;
     }
 
     public boolean runManualMode() {
-        if (trafficlightController.runManualMode()){
+        if (trafficlightController.runManualMode()) {
             return true;
         }
         return false;
     }
 
     public boolean runPanicMode(boolean fromCreator) {
-        if (trafficlightController.runPanicMode(true)){
+        if (trafficlightController.runPanicMode(true)) {
             return true;
         }
         return false;
     }
 
-    public void enableSwitchPhase(){
-//        TEST IF THE DIRECTION IS IN MANUAL MODE
-//        if (this.direction.performRequest("GET").equals("MANUAL")) {
-//            switchPhaseButton.setDisable(false);
-//        }
-        System.out.println("sswitch phase button enabled");
+    public void switchPhase() {
+        trafficlightController.switchPhase();
+    }
+
+    public ArrayList<TrafficLight> getTrafficlights() {
+        return direction.getTrafficLights();
+    }
+
+    public boolean hasTrafficlight() {
+        return direction.hasTrafficLight();
     }
 
 }

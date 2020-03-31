@@ -28,8 +28,8 @@ public class TrafficlightController {
     private VBox bulbContainer;
 
 //    TODO : this guy has to go in the creator
-    @FXML
-    private Button switchPhaseButton;
+//    @FXML
+//    private Button switchPhaseButton;
 
     @FXML
     private TrafficLight trafficLight;
@@ -230,7 +230,7 @@ public class TrafficlightController {
      * Turn the traffic light off
      */
     public void turnOffTrafficLight() {
-        switchPhaseButton.setDisable(true);
+//        switchPhaseButton.setDisable(true);
         if (blinker != null) {
             blinker.stopThread();
         }
@@ -256,7 +256,7 @@ public class TrafficlightController {
             if (phaseSwitcher != null) {
                 phaseSwitcher.stopThread();
             }
-            switchPhaseButton.setDisable(true);
+//            switchPhaseButton.setDisable(true);
             this.initData(trafficLight, false, "large");
 
             phaseSwitcher = new PhaseSwitcherThread(trafficLight.getLightbulbs(), this, trafficLight);
@@ -306,7 +306,7 @@ public class TrafficlightController {
             }
             this.trafficLight.performRequest("PANIC");
             if (this.trafficLight.performRequest("GET").equals("PANIC")) {
-                switchPhaseButton.setDisable(true);
+//                switchPhaseButton.setDisable(true);
                 this.initData(trafficLight, false, "large");
 
                 blinker = new BlinkerThread(panicSignals, this, trafficLight);
@@ -326,11 +326,11 @@ public class TrafficlightController {
     /**
      * Control the switch phase button
      */
-    public void enableSwitchPhase() {
-        if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
-            switchPhaseButton.setDisable(false);
-        }
-    }
+//    public void enableSwitchPhase() {
+//        if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
+//            switchPhaseButton.setDisable(false);
+//        }
+//    }
 
     /**
      * Switch from different phase when the traffic light is in manual mode

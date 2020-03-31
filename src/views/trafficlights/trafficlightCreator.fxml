@@ -18,8 +18,14 @@
                 <VBox styleClass="editorMenu">
                     <VBox styleClass="fileProps">
                         <SwitchButton text="Turn On" onAction="#handleSwitchButton" fx:id="switchButton"/>
-                        <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton" fx:id="manualButton"
-                                disable="true"/>
+                        <HBox>
+                            <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton"
+                                    fx:id="manualButton"
+                                    disable="true"/>
+                            <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase"
+                                    fx:id="switchPhaseButton"
+                                    disable="true"/>
+                        </HBox>
                         <Button mnemonicParsing="false" text="Auto" onAction="#handleModeButton" fx:id="autoButton"
                                 disable="true"/>
                         <Button mnemonicParsing="false" text="Panic" onAction="#handleModeButton" fx:id="panicButton"

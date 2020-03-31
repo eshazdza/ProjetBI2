@@ -29,6 +29,9 @@ public class DirectionCreatorController {
     private Button manualButton;
 
     @FXML
+    private Button switchPhaseButton;
+
+    @FXML
     private Button autoButton;
 
     @FXML
@@ -45,20 +48,24 @@ public class DirectionCreatorController {
 
 
     public void handleSwitchButton() {
-        switchButton.switchOnOff();
-        switch (switchButton.getState()) {
-            case "ON":
-                directionController.runDirection();
-                manualButton.setDisable(false);
-                autoButton.setDisable(false);
-                panicButton.setDisable(false);
-                break;
-            case "OFF":
-                directionController.stopDirection();
-                manualButton.setDisable(true);
-                autoButton.setDisable(true);
-                panicButton.setDisable(true);
-                break;
+        if (directionController.hasTrafficlight()) {
+            switchButton.switchOnOff();
+            switch (switchButton.getState()) {
+                case "ON":
+                    directionController.runDirection();
+                    manualButton.setDisable(false);
+                    autoButton.setDisable(false);
+                    panicButton.setDisable(false);
+                    break;
+                case "OFF":
+                    directionController.stopDirection();
+                    manualButton.setDisable(true);
+                    autoButton.setDisable(true);
+                    panicButton.setDisable(true);
+                    break;
+            }
+        }else{
+            System.out.println("had trafficlight");
         }
     }
 
@@ -69,15 +76,16 @@ public class DirectionCreatorController {
                 if (directionController.runAutoModeFromCreator()) {
                     autoButton.setDisable(true);
                     manualButton.setDisable(false);
+                    switchPhaseButton.setDisable(true);
                     panicButton.setDisable(false);
                 }
                 break;
             case "MANUAL":
                 if (directionController.runManualMode()) {
                     manualButton.setDisable(true);
+                    switchPhaseButton.setDisable(false);
                     autoButton.setDisable(false);
                     panicButton.setDisable(false);
-                    directionController.enableSwitchPhase();
                 }
                 break;
             case "PANIC":
@@ -85,11 +93,18 @@ public class DirectionCreatorController {
                     panicButton.setDisable(true);
                     autoButton.setDisable(false);
                     manualButton.setDisable(false);
+                    switchPhaseButton.setDisable(true);
+
                 }
                 break;
         }
         directionController.setMode(mode);
     }
+
+    public void switchPhase(){
+        directionController.switchPhase();
+    }
+
 
     public void saveDirection() {
 

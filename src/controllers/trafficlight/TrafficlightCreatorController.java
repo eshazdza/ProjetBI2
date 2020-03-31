@@ -27,6 +27,9 @@ public class TrafficlightCreatorController {
     private Button manualButton;
 
     @FXML
+    private Button switchPhaseButton;
+
+    @FXML
     private Button autoButton;
 
     @FXML
@@ -74,15 +77,16 @@ public class TrafficlightCreatorController {
                 if (trafficlightController.runAutoModeFromCreator()) {
                     autoButton.setDisable(true);
                     manualButton.setDisable(false);
+                    switchPhaseButton.setDisable(true);
                     panicButton.setDisable(false);
                 }
                 break;
             case "MANUAL":
                 if (trafficlightController.runManualMode()) {
                     manualButton.setDisable(true);
+                    switchPhaseButton.setDisable(false);
                     autoButton.setDisable(false);
                     panicButton.setDisable(false);
-                    trafficlightController.enableSwitchPhase();
                 }
                 break;
             case "PANIC":
@@ -90,10 +94,15 @@ public class TrafficlightCreatorController {
                     panicButton.setDisable(true);
                     autoButton.setDisable(false);
                     manualButton.setDisable(false);
+                    switchPhaseButton.setDisable(true);
                 }
                 break;
         }
         trafficlightController.setMode(mode);
+    }
+
+    public void switchPhase(){
+        trafficlightController.switchPhase();
     }
 
     public void saveTrafficLight() {

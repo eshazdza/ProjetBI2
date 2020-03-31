@@ -11,8 +11,8 @@
     <children>
 
         <HBox>
-            <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase" fx:id="switchPhaseButton"
-                    disable="true"/>
+<!--            <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase" fx:id="switchPhaseButton"-->
+<!--                    disable="true"/>-->
             <VBox alignment="CENTER" fx:id="bulbContainer" styleClass="trafficlightBG">
             </VBox>
 

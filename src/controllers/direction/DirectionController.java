@@ -4,7 +4,6 @@ package controllers.direction;
 import controllers.trafficlight.TrafficlightController;
 import entities.direction.Direction;
 import entities.direction.DirectionException;
-import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +12,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import tools.ObjectIO;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,6 +27,8 @@ public class DirectionController {
     private TrafficlightController trafficlightController;
 
     private String mode = "MANUAL";
+
+    private String bulbSize = "small";
 
     public void initData() {
     }
@@ -50,7 +48,7 @@ public class DirectionController {
                 trafficlightController = loader.getController();
                 pane.setMaxSize(50, 100);
 
-                trafficlightController.initData(trafficLight, false, "small");
+                trafficlightController.initData(trafficLight, false, bulbSize);
 
                 trafficlightContainer.getChildren().add(pane);
 
@@ -85,11 +83,10 @@ public class DirectionController {
             String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
             if (fileName.contains(".trafficlight")) {
                 TrafficLight trafficLight = (TrafficLight) ObjectIO.open(fileName);
-                trafficLight.performRequest("FULLON");
-                System.out.println(direction);
                 try {
                     this.direction.addTrafficLight(trafficLight);
                     this.initData(direction);
+                    System.out.println(direction);
                 } catch (DirectionException e) {
                     e.getStackTrace();
                 }
@@ -100,13 +97,13 @@ public class DirectionController {
 
     public void runDirection() {
         if (direction.getStateString().equals("CONTROLLED")) {
-            trafficlightController.runTrafficLight();
+            trafficlightController.runTrafficLight(bulbSize);
         }
     }
 
     public void stopDirection() {
         if (direction.getStateString().equals("CONTROLLED")) {
-            trafficlightController.turnOffTrafficLight();
+            trafficlightController.turnOffTrafficLight(bulbSize);
         }
     }
 
@@ -115,28 +112,28 @@ public class DirectionController {
     }
 
     public boolean runAutoModeFromCreator() {
-        if (trafficlightController.runAutoModeFromCreator()) {
+        if (trafficlightController.runAutoModeFromCreator(bulbSize)) {
             return true;
         }
         return false;
     }
 
     public boolean runManualMode() {
-        if (trafficlightController.runManualMode()) {
+        if (trafficlightController.runManualMode(bulbSize)) {
             return true;
         }
         return false;
     }
 
     public boolean runPanicMode(boolean fromCreator) {
-        if (trafficlightController.runPanicMode(true)) {
+        if (trafficlightController.runPanicMode(true, bulbSize)) {
             return true;
         }
         return false;
     }
 
     public void switchPhase() {
-        trafficlightController.switchPhase();
+        trafficlightController.switchPhase(bulbSize);
     }
 
     public ArrayList<TrafficLight> getTrafficlights() {

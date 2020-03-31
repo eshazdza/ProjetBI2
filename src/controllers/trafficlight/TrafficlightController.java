@@ -77,7 +77,7 @@ public class TrafficlightController {
                 bulbController.setFill(l.getFill());
 
                 if (bulbSize.equals("small")) {
-                    pane.setMaxSize(50, 50);
+//                    pane.setMaxSize(50, 50);
                     bulbController.setSize(20);
                 } else {
                     bulbController.setSize(100);
@@ -221,15 +221,15 @@ public class TrafficlightController {
     /**
      * Turn the traffic light on
      */
-    public void runTrafficLight() {
+    public void runTrafficLight(String bulbSize) {
         this.trafficLight.performRequest("STANDBY");
-        this.initData(trafficLight, false, "large");
+        this.initData(trafficLight, false, bulbSize);
     }
 
     /**
      * Turn the traffic light off
      */
-    public void turnOffTrafficLight() {
+    public void turnOffTrafficLight(String bulbSize) {
 //        switchPhaseButton.setDisable(true);
         if (blinker != null) {
             blinker.stopThread();
@@ -238,7 +238,7 @@ public class TrafficlightController {
             phaseSwitcher.stopThread();
         }
         this.trafficLight.performRequest("OFF");
-        this.initData(trafficLight, true, "large");
+        this.initData(trafficLight, true, bulbSize);
     }
 
     /**
@@ -247,7 +247,7 @@ public class TrafficlightController {
      * since it does not depends on a DirectionController or intersection
      * It also needs to update the various buttons affiliated to the TrafficlightCreator
      */
-    public boolean runAutoModeFromCreator() {
+    public boolean runAutoModeFromCreator(String bulbSize) {
         this.trafficLight.performRequest("AUTO");
         if (this.trafficLight.performRequest("GET").equals("AUTO")) {
             if (blinker != null) {
@@ -256,10 +256,10 @@ public class TrafficlightController {
             if (phaseSwitcher != null) {
                 phaseSwitcher.stopThread();
             }
-//            switchPhaseButton.setDisable(true);
-            this.initData(trafficLight, false, "large");
 
-            phaseSwitcher = new PhaseSwitcherThread(trafficLight.getLightbulbs(), this, trafficLight);
+            this.initData(trafficLight, false, bulbSize);
+
+            phaseSwitcher = new PhaseSwitcherThread(trafficLight.getLightbulbs(), this, trafficLight, bulbSize);
             phaseSwitcher.startThread();
             Thread backgroundThread = new Thread(phaseSwitcher);
             backgroundThread.setDaemon(true);
@@ -273,7 +273,7 @@ public class TrafficlightController {
     /**
      * Run the traffic light in manual mode
      */
-    public boolean runManualMode() {
+    public boolean runManualMode(String bulbSize) {
         this.trafficLight.performRequest("MANUAL");
         if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
             if (blinker != null) {
@@ -294,7 +294,7 @@ public class TrafficlightController {
      *                    NO : the traffic light depends on a DirectionController or intersection controller which will control the blinking of the lightbulbs
      *                    YES : the traffic light is in control of the blinking
      */
-    public boolean runPanicMode(boolean fromCreator) {
+    public boolean runPanicMode(boolean fromCreator, String bulbSize) {
 
 //        Check that a panic signal bulb has been chosen by the user
 //        Run the blinking thread if yes
@@ -306,14 +306,15 @@ public class TrafficlightController {
             }
             this.trafficLight.performRequest("PANIC");
             if (this.trafficLight.performRequest("GET").equals("PANIC")) {
-//                switchPhaseButton.setDisable(true);
-                this.initData(trafficLight, false, "large");
+                this.initData(trafficLight, false, bulbSize);
 
-                blinker = new BlinkerThread(panicSignals, this, trafficLight);
+                blinker = new BlinkerThread(panicSignals, this, trafficLight, bulbSize);
                 blinker.startThread();
+
                 Thread backgroundThread = new Thread(blinker);
                 backgroundThread.setDaemon(true);
                 backgroundThread.start();
+
                 return true;
             }
 
@@ -335,7 +336,7 @@ public class TrafficlightController {
     /**
      * Switch from different phase when the traffic light is in manual mode
      */
-    public void switchPhase() {
+    public void switchPhase(String bulbSize) {
 
 //        IF the traffic light contains only one bulb, we switch it on/off
         if (trafficLight.getLightbulbs().size() == 1) {
@@ -356,7 +357,7 @@ public class TrafficlightController {
                 }
             }
         }
-        this.initData(trafficLight, false, "large");
+        this.initData(trafficLight, false, bulbSize);
     }
 
     public ArrayList<Lightbulb> getOnLights() {

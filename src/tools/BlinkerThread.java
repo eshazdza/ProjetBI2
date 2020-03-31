@@ -13,11 +13,13 @@ public class BlinkerThread implements Runnable {
     private TrafficlightController trafficlightController;
     private TrafficLight trafficLight;
     private boolean stopThread = false;
+    private String bulbSize;
 
-    public BlinkerThread(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight) {
+    public BlinkerThread(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight, String bulbSize) {
         this.lightbulbs = lightbulbs;
         this.trafficlightController = trafficlightController;
         this.trafficLight = trafficLight;
+        this.bulbSize = bulbSize;
     }
 
     public void stopThread() {
@@ -27,7 +29,7 @@ public class BlinkerThread implements Runnable {
                     lightbulbs) {
                 l.performRequest();
             }
-            trafficlightController.initData(trafficLight, false, "large");
+            trafficlightController.initData(trafficLight, false, bulbSize);
 
         }
         this.stopThread = true;
@@ -49,7 +51,7 @@ public class BlinkerThread implements Runnable {
                                 lightbulbs) {
                             l.performRequest();
                         }
-                        trafficlightController.initData(trafficLight, false, "large");
+                        trafficlightController.initData(trafficLight, false, bulbSize);
                     }
                 });
 

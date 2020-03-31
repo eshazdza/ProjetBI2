@@ -129,6 +129,7 @@ public class TrafficLight extends StackPane implements Serializable {
         return "entities.trafficlight.TrafficLight{" +
                 "lightbulbs=" + lightbulbs +
                 ", state=" + state +
+                "is binded = " + isBinded +
                 this.getClass() +
                 '}';
     }

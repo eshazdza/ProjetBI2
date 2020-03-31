@@ -62,9 +62,10 @@ public class DirectionCreatorController {
                     manualButton.setDisable(true);
                     autoButton.setDisable(true);
                     panicButton.setDisable(true);
+                    switchPhaseButton.setDisable(true);
                     break;
             }
-        }else{
+        } else {
             System.out.println("had trafficlight");
         }
     }
@@ -101,7 +102,7 @@ public class DirectionCreatorController {
         directionController.setMode(mode);
     }
 
-    public void switchPhase(){
+    public void switchPhase() {
         directionController.switchPhase();
     }
 

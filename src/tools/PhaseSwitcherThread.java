@@ -6,6 +6,7 @@ import entities.trafficlight.TrafficLight;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class PhaseSwitcherThread implements Runnable {
 
@@ -15,12 +16,14 @@ public class PhaseSwitcherThread implements Runnable {
     private Lightbulb currentBulb;
     private int i = 0;
     private boolean stopThread = false;
+    private String bulbSize;
 
-    public PhaseSwitcherThread(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight) {
+    public PhaseSwitcherThread(ArrayList<Lightbulb> lightbulbs, TrafficlightController trafficlightController, TrafficLight trafficLight, String bulbSize) {
 //        this.lightbulbs = lightbulbs;
         this.lightbulbs = trafficLight.getLightbulbs();
         this.trafficlightController = trafficlightController;
         this.trafficLight = trafficLight;
+        this.bulbSize = bulbSize;
     }
 
     public void stopThread() {
@@ -60,7 +63,7 @@ public class PhaseSwitcherThread implements Runnable {
                                 lightbulbs.get(i).performRequest("ON");
 
 //                                Refresh the view
-                                trafficlightController.initData(trafficLight, false, "large");
+                                trafficlightController.initData(trafficLight, false, bulbSize);
 
                             }   // End run
                         });     // End Platform.runLater

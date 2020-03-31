@@ -33,7 +33,7 @@ public class Direction extends AnchorPane {
 //        TODO :
 //        You have to be able to use the same "model" of traffic light on different directions.
 //        So this doesn't really make sense except for the fact that the Same tl can't be used twice
-//         SO we need to copy it without the bind status if it's already bound.
+//        SO we need to copy it without the bind status if it's already bound.
         if (!trafficLight.isBinded()) {
             this.trafficLights.add(trafficLight);
             trafficLight.setBinded(true);
@@ -73,6 +73,7 @@ public class Direction extends AnchorPane {
     public String toString() {
         return "DirectionController{" +
                 "state=" + state +
+                "nb TL ="+trafficLights.size() +
                 ", hasPriority=" + hasPriority +
                 ", trafficLights=" + trafficLights +
                 '}';

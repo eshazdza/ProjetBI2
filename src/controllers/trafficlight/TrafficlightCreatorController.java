@@ -39,6 +39,8 @@ public class TrafficlightCreatorController {
     @FXML
     private TextField tlName;
 
+    private String bulbSize = "large";
+
 
     public void initData(TrafficLight trafficLight) {
         tlName.setText(trafficLight.getName());
@@ -55,16 +57,18 @@ public class TrafficlightCreatorController {
         switchButton.switchOnOff();
         switch (switchButton.getState()) {
             case "ON":
-                trafficlightController.runTrafficLight();
+                trafficlightController.runTrafficLight(bulbSize);
                 manualButton.setDisable(false);
                 autoButton.setDisable(false);
                 panicButton.setDisable(false);
                 break;
             case "OFF":
-                trafficlightController.turnOffTrafficLight();
+                trafficlightController.turnOffTrafficLight(bulbSize);
                 manualButton.setDisable(true);
                 autoButton.setDisable(true);
                 panicButton.setDisable(true);
+                switchPhaseButton.setDisable(true);
+
                 break;
         }
 
@@ -74,7 +78,7 @@ public class TrafficlightCreatorController {
         String mode = ((Button) event.getSource()).getText().toUpperCase();
         switch (mode) {
             case "AUTO":
-                if (trafficlightController.runAutoModeFromCreator()) {
+                if (trafficlightController.runAutoModeFromCreator(bulbSize)) {
                     autoButton.setDisable(true);
                     manualButton.setDisable(false);
                     switchPhaseButton.setDisable(true);
@@ -82,7 +86,7 @@ public class TrafficlightCreatorController {
                 }
                 break;
             case "MANUAL":
-                if (trafficlightController.runManualMode()) {
+                if (trafficlightController.runManualMode(bulbSize)) {
                     manualButton.setDisable(true);
                     switchPhaseButton.setDisable(false);
                     autoButton.setDisable(false);
@@ -90,7 +94,7 @@ public class TrafficlightCreatorController {
                 }
                 break;
             case "PANIC":
-                if (trafficlightController.runPanicMode(true)) {
+                if (trafficlightController.runPanicMode(true, bulbSize)) {
                     panicButton.setDisable(true);
                     autoButton.setDisable(false);
                     manualButton.setDisable(false);
@@ -101,8 +105,8 @@ public class TrafficlightCreatorController {
         trafficlightController.setMode(mode);
     }
 
-    public void switchPhase(){
-        trafficlightController.switchPhase();
+    public void switchPhase() {
+        trafficlightController.switchPhase(bulbSize);
     }
 
     public void saveTrafficLight() {

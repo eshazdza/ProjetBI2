@@ -94,7 +94,10 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
-            System.out.println("Goind to fullOn");
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest();
+            }
             return FULLON;
         }
 
@@ -148,7 +151,10 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
-            System.out.println("Goind to fullOn");
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest();
+            }
             return FULLON;
         }
 
@@ -199,7 +205,10 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
-            System.out.println("Goind to fullOn");
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest();
+            }
             return FULLON;
         }
 
@@ -262,7 +271,10 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
-            System.out.println("already in fullOn");
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest();
+            }
             return FULLON;
         }
 
@@ -317,7 +329,10 @@ public enum TrafficLightState {
 
         @Override
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
-            System.out.println("already in fullOn");
+            for (Lightbulb l :
+                    bulbs) {
+                l.performRequest();
+            }
             return FULLON;
         }
 

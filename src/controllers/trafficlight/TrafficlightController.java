@@ -53,6 +53,7 @@ public class TrafficlightController {
         this.trafficLight = trafficLight;
 //        If we are in edit mode
 //        We turn all the lights on if the traffic light is off
+
         if (editMode && trafficLight.getStateString().equals("OFF")) {
             trafficLight.performRequest("FULLON");
         }

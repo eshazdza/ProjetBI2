@@ -46,7 +46,8 @@ public enum TrafficLightState {
         TrafficLightState engageFullON(ArrayList<Lightbulb> bulbs) {
             for (Lightbulb l :
                     bulbs) {
-                l.performRequest();
+                l.performRequest("ON");
+                System.out.println("lightbub state = " + l.getStateString());
             }
             return FULLON;
         }

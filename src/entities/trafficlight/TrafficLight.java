@@ -138,8 +138,7 @@ public class TrafficLight extends StackPane implements Serializable {
 
         ois.defaultReadObject();
 
-        String state = ois.readLine();
-        this.setState(state);
+        this.setState("OFF");
 
     }
 

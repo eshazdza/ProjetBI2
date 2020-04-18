@@ -40,7 +40,7 @@ public enum LightbulbState {
 
         @Override
         LightbulbState turnON(Lightbulb lightbulb) {
-            System.out.println("Already ON");
+            lightbulb.setFill(lightbulb.getColor());
             return ON;
         }
 

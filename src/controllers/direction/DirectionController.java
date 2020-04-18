@@ -11,7 +11,6 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import tools.ObjectIO;
@@ -30,7 +29,7 @@ public class DirectionController {
     @FXML
     private Rectangle road;
 
-    private TrafficlightController trafficlightController;
+    private ArrayList<TrafficlightController> trafficlightControllers =new ArrayList<>();
 
     private String mode = "MANUAL";
 
@@ -41,8 +40,8 @@ public class DirectionController {
 
     public void initData(Direction direction) {
         trafficlightContainer.getChildren().clear();
+        trafficlightControllers.clear();
         this.direction = direction;
-
 
         for (TrafficLight trafficLight :
                 direction.getTrafficLights()) {
@@ -51,8 +50,16 @@ public class DirectionController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlight.fxml"));
                 final Pane pane = loader.load();
 
-                trafficlightController = loader.getController();
-                trafficlightController.initData(trafficLight, false, bulbSize);
+                TrafficlightController trafficlightController = loader.getController();
+                trafficlightController.initData(trafficLight, true, bulbSize);
+                trafficlightControllers.add(trafficlightController);
+                int i = 1;
+                for (TrafficlightController tl :
+                        trafficlightControllers) {
+
+                    System.out.println(i);
+                    i++;
+                }
 
                 trafficlightContainer.getChildren().add(pane);
 
@@ -87,6 +94,10 @@ public class DirectionController {
             String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
             if (fileName.contains(".trafficlight")) {
                 TrafficLight trafficLight = (TrafficLight) ObjectIO.open(fileName);
+                for (TrafficLight tl:
+                     getTrafficlights()) {
+                    tl.performRequest("OFF");
+                }
                 try {
                     this.direction.addTrafficLight(trafficLight);
                     this.initData(direction);
@@ -100,18 +111,22 @@ public class DirectionController {
 
     public void runDirection() {
         if (direction.getStateString().equals("CONTROLLED")) {
-            for (TrafficLight tl :
-                    getTrafficlights()) {
-              tl.performRequest("STANDBY");
-              trafficlightController.initData(tl, false, bulbSize);
+
+            if (direction.getStateString().equals("CONTROLLED")) {
+                for (TrafficlightController tl :
+                        this.trafficlightControllers) {
+                    tl.runTrafficLight(bulbSize);
+                }
             }
-//            trafficlightController.runTrafficLight(bulbSize);
         }
     }
 
     public void stopDirection() {
         if (direction.getStateString().equals("CONTROLLED")) {
-            trafficlightController.turnOffTrafficLight(bulbSize);
+            for (TrafficlightController tl :
+                    this.trafficlightControllers) {
+                tl.turnOffTrafficLight(bulbSize);
+            }
         }
     }
 
@@ -120,28 +135,43 @@ public class DirectionController {
     }
 
     public boolean runAutoModeFromCreator() {
-        if (trafficlightController.runAutoModeFromCreator(bulbSize)) {
-            return true;
+        for (TrafficlightController tl :
+                this.trafficlightControllers) {
+            if (!tl.runAutoModeFromCreator(bulbSize)) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
+
     public boolean runManualMode() {
-        if (trafficlightController.runManualMode(bulbSize)) {
-            return true;
+        for (TrafficlightController tl :
+                this.trafficlightControllers) {
+            if (!tl.runManualMode(bulbSize)) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     public boolean runPanicMode(boolean fromCreator) {
-        if (trafficlightController.runPanicMode(true, bulbSize)) {
-            return true;
+        for (TrafficlightController tl :
+                this.trafficlightControllers) {
+            if (!tl.runPanicMode(true, bulbSize)) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
-    public void switchPhase() {
-        trafficlightController.switchPhase(bulbSize);
+    public boolean switchPhase() {
+        for (TrafficlightController tl :
+                this.trafficlightControllers) {
+            tl.switchPhase(bulbSize);
+            System.out.println("switch phase");
+        }
+        return true;
     }
 
     public ArrayList<TrafficLight> getTrafficlights() {

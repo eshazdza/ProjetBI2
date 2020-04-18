@@ -1,15 +1,13 @@
 package controllers.direction;
 
-import controllers.trafficlight.TrafficlightController;
 import entities.direction.Direction;
 import entities.triggerButton.SwitchButton;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import tools.ObjectIO;
 
 public class DirectionCreatorController {
 
@@ -43,7 +41,18 @@ public class DirectionCreatorController {
 
 
     public void initData() {
-        System.out.println("hello from direction creator COntrolleer");
+
+        tlName.focusedProperty().addListener(((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                direction.setName(tlName.getText());
+            }
+        }));
+    }
+
+    public void initData(Direction direction) {
+        tlName.setText(direction.getName());
+
+        directionController.initData(direction);
     }
 
 
@@ -66,7 +75,7 @@ public class DirectionCreatorController {
                     break;
             }
         } else {
-            System.out.println("had trafficlight");
+            System.out.println("add trafficlight");
         }
     }
 
@@ -108,6 +117,11 @@ public class DirectionCreatorController {
 
 
     public void saveDirection() {
+        if (this.directionController.getDirection().getName() == null || this.directionController.getDirection().getName().isBlank()) {
+            System.out.println("must name direction");
+        } else {
+            ObjectIO.save(this.directionController.getDirection());
+        }
 
     }
 

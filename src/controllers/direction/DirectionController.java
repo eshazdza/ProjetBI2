@@ -53,13 +53,6 @@ public class DirectionController {
                 TrafficlightController trafficlightController = loader.getController();
                 trafficlightController.initData(trafficLight, true, bulbSize);
                 trafficlightControllers.add(trafficlightController);
-                int i = 1;
-                for (TrafficlightController tl :
-                        trafficlightControllers) {
-
-                    System.out.println(i);
-                    i++;
-                }
 
                 trafficlightContainer.getChildren().add(pane);
 
@@ -89,7 +82,6 @@ public class DirectionController {
      * @param event DragEvent
      */
     public void handleDragDrop(DragEvent event) {
-        System.out.println("drag dropped");
         if (event.getDragboard().hasString()) {
             String fileName = (String) event.getDragboard().getContent(DataFormat.PLAIN_TEXT);
             if (fileName.contains(".trafficlight")) {
@@ -158,7 +150,7 @@ public class DirectionController {
     public boolean runPanicMode(boolean fromCreator) {
         for (TrafficlightController tl :
                 this.trafficlightControllers) {
-            if (!tl.runPanicMode(true, bulbSize)) {
+            if (!tl.runPanicMode(fromCreator, bulbSize)) {
                 return false;
             }
         }
@@ -169,7 +161,6 @@ public class DirectionController {
         for (TrafficlightController tl :
                 this.trafficlightControllers) {
             tl.switchPhase(bulbSize);
-            System.out.println("switch phase");
         }
         return true;
     }
@@ -182,4 +173,7 @@ public class DirectionController {
         return direction.hasTrafficLight();
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
 }

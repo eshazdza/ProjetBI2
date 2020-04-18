@@ -47,7 +47,6 @@ public enum TrafficLightState {
             for (Lightbulb l :
                     bulbs) {
                 l.performRequest("ON");
-                System.out.println("lightbub state = " + l.getStateString());
             }
             return FULLON;
         }
@@ -305,7 +304,6 @@ public enum TrafficLightState {
             System.out.println("turning the trafficLight off.");
             for (Lightbulb l :
                     bulbs) {
-                System.out.println(l);
                 l.performRequest("OFF");
             }
             return OFF;

@@ -60,9 +60,10 @@ public class ObjectIO {
 
         if (fileName.contains(".lightbulb")) {
             path = "src\\assets\\objects\\lightbulbs\\" + fileName;
-
         } else if (fileName.contains(".trafficlight")) {
             path = "src\\assets\\objects\\trafficlights\\" + fileName;
+        } else if (fileName.contains(".direction")) {
+            path = "src\\assets\\objects\\directions\\" + fileName;
         }
 
         try {
@@ -114,7 +115,7 @@ public class ObjectIO {
         } else if (object instanceof TrafficLight) {
             path = "src\\assets\\objects\\trafficlights\\" + ((TrafficLight) object).getName() + ".trafficlight";
         } else if (object instanceof Direction) {
-            path = "src\\assets\\objects\\trafficlights\\" + ((Direction) object).getName() + ".trafficlight";
+            path = "src\\assets\\objects\\directions\\" + ((Direction) object).getName() + ".direction";
         } else {
             System.out.println("wait wat");
             path = "src\\assets\\objects\\";

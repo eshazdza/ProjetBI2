@@ -52,10 +52,6 @@
                             <HBox.margin>
                                 <Insets left="150.0"/>
                             </HBox.margin>
-                            <Rectangle arcHeight="5.0" arcWidth="5.0" stroke="BLACK" strokeType="INSIDE"
-                                       width="52.0" height="${road.height}">
-
-                            </Rectangle>
                         </VBox>
                     </children>
                 </HBox>

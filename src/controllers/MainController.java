@@ -144,6 +144,25 @@ public class MainController implements Initializable {
         }
     }
 
+    public void newDirection(String directionName) {
+        stage = (Stage) mainRoot.getScene().getWindow();
+        Direction direction = (Direction) ObjectIO.open(directionName);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/directions/directionCreator.fxml"));
+            actionContent = loader.load();
+
+            DirectionCreatorController controller = loader.getController();
+            controller.initData(direction);
+
+
+            actionWindow.getChildren().clear();
+            actionWindow.getChildren().add(actionContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void newIntersection() {
         System.out.println("intersection");
     }
@@ -193,6 +212,7 @@ public class MainController implements Initializable {
          */
         File[] lightbulbsFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\lightbulbs\\");
         File[] trafficlightFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\trafficlights\\");
+        File[] directionsFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\directions\\");
 
         for (int i = 0; i < lightbulbsFiles.length; i++) {
             TreeItem<String> bulb = new TreeItem<>(lightbulbsFiles[i].getName());
@@ -202,6 +222,11 @@ public class MainController implements Initializable {
         for (int i = 0; i < trafficlightFiles.length; i++) {
             TreeItem<String> trafficlight = new TreeItem<>(trafficlightFiles[i].getName());
             trafficLightItem.getChildren().add(trafficlight);
+        }
+
+        for (int i = 0; i < directionsFiles.length; i++) {
+            TreeItem<String> direction = new TreeItem<>(directionsFiles[i].getName());
+            directionsItem.getChildren().add(direction);
         }
 
 
@@ -231,7 +256,6 @@ public class MainController implements Initializable {
                         try {
                             String targetName = ((Text) event.getTarget()).getText();
                             if (targetName.contains(".lightbulb") || targetName.contains(".trafficlight") || targetName.contains(".DirectionController")){
-                                System.out.println("drag started");
                                 Dragboard db = treeCell.startDragAndDrop(TransferMode.ANY);
                                 ClipboardContent content = new ClipboardContent();
                                 content.putString(targetName);
@@ -271,8 +295,8 @@ public class MainController implements Initializable {
                         newTrafficLight(item.getValue());
                     }
 
-                    if (item.getValue().contains(".DirectionController")) {
-                        newDirection();
+                    if (item.getValue().contains(".direction")) {
+                        newDirection(item.getValue());
                     }
 
                     if (item.getValue().contains(".intersection")) {

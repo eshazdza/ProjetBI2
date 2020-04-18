@@ -3,9 +3,13 @@ package entities.direction;
 import entities.trafficlight.TrafficLight;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Direction extends AnchorPane {
+public class Direction extends AnchorPane implements Serializable {
 
     private DirectionState state;
     private boolean hasPriority;
@@ -65,7 +69,7 @@ public class Direction extends AnchorPane {
         return false;
     }
 
-    public String getStateString(){
+    public String getStateString() {
         return this.state.getStateString();
     }
 
@@ -73,9 +77,20 @@ public class Direction extends AnchorPane {
     public String toString() {
         return "DirectionController{" +
                 "state=" + state +
-                "nb TL ="+trafficLights.size() +
+                "nb TL =" + trafficLights.size() +
                 ", hasPriority=" + hasPriority +
                 ", trafficLights=" + trafficLights +
                 '}';
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+
+        oos.writeBytes(state.getStateString());
     }
 }

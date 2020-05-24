@@ -1,6 +1,7 @@
 package tools;
 
 import entities.direction.Direction;
+import entities.intersection.Intersection;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
 import javafx.scene.LightBase;
@@ -14,23 +15,17 @@ public class ObjectIO {
     public static void save(Object object) {
         String path = getPath(object);
 
-        System.out.println(path);
         try {
             FileOutputStream f = new FileOutputStream(new File(path));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(object);
-            System.out.println("Object Saved");
 
             o.close();
             f.close();
 
-            System.out.println("Opening Input Stream");
             FileInputStream fi = new FileInputStream(new File(path));
             ObjectInputStream ois = new ObjectInputStream(fi);
-
-            System.out.println("Building object from file");
-
 
             Object readObject = null;
 
@@ -38,13 +33,15 @@ public class ObjectIO {
                 readObject = (Lightbulb) ois.readObject();
             } else if (object instanceof TrafficLight) {
                 readObject = (TrafficLight) ois.readObject();
+            } else if (object instanceof Direction) {
+                readObject = (Direction) ois.readObject();
+            } else if (object instanceof Intersection) {
+                readObject = (Intersection) ois.readObject();
             }
 
 
             ois.close();
             fi.close();
-
-            System.out.println(readObject);
 
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -64,6 +61,8 @@ public class ObjectIO {
             path = "src\\assets\\objects\\trafficlights\\" + fileName;
         } else if (fileName.contains(".direction")) {
             path = "src\\assets\\objects\\directions\\" + fileName;
+        } else if (fileName.contains(".intersection")) {
+            path = "src\\assets\\objects\\intersections\\" + fileName;
         }
 
         try {
@@ -116,8 +115,9 @@ public class ObjectIO {
             path = "src\\assets\\objects\\trafficlights\\" + ((TrafficLight) object).getName() + ".trafficlight";
         } else if (object instanceof Direction) {
             path = "src\\assets\\objects\\directions\\" + ((Direction) object).getName() + ".direction";
+        } else if (object instanceof Intersection) {
+            path = "src\\assets\\objects\\intersections\\" + ((Intersection) object).getName() + ".intersection";
         } else {
-            System.out.println("wait wat");
             path = "src\\assets\\objects\\";
         }
         return path;

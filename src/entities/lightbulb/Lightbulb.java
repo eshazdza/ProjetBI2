@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
@@ -136,5 +137,17 @@ public class Lightbulb extends Circle implements Serializable {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lightbulb lightbulb = (Lightbulb) o;
+        return isPanicSignal == lightbulb.isPanicSignal &&
+                Objects.equals(color, lightbulb.color);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, state, isPanicSignal);
+    }
 }

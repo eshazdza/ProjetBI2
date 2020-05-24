@@ -1,5 +1,6 @@
 package controllers.trafficlight;
 
+import controllers.direction.DirectionController;
 import controllers.lightbulb.LightbulbController;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
@@ -8,8 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.Light;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tools.AlertBox;
 import tools.BlinkerThread;
@@ -19,7 +22,6 @@ import tools.PhaseSwitcherThread;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// TODO : refactor to keep track of multiple traffic lights
 
 public class TrafficlightController {
 
@@ -39,6 +41,14 @@ public class TrafficlightController {
 
     private ArrayList<Lightbulb> panicSignals = new ArrayList<>();
 
+    //    bulbsize : allows us to render the bulbs in different size depending on context
+    private String bulbSize;
+
+    //    LightbulbControllers : list of the controllers linked to added lightbulbs
+    private ArrayList<LightbulbController> lightbulbControllers = new ArrayList<>();
+
+    //    DirectionController : allow us to know if the TrafficlightController is instantiated from within a DirectionController and potentially reflect the changes
+    private DirectionController directionController = null;
 
     /**
      * Initialize the view data
@@ -49,70 +59,97 @@ public class TrafficlightController {
      *                     Can the trafficlight be edited
      */
     public void initData(TrafficLight trafficLight, boolean editMode, String bulbSize) {
+//        Clear the container and lists
         bulbContainer.getChildren().clear();
-        this.trafficLight = trafficLight;
+        lightbulbControllers.clear();
+
+//        Initialize panel data
+        this.trafficLight.setBinded(trafficLight.isBinded());
+        this.trafficLight.setLightbulbs(trafficLight.getLightbulbs());
+        this.trafficLight.setState(trafficLight.getStateString());
+        this.trafficLight.setName(trafficLight.getName());
+
+//        ****
+//        this.trafficLight = trafficLight;       part of refactor; delete if refactor works
+//        ***
+
+        this.bulbSize = bulbSize;
+
+//        ***
 //        If we are in edit mode
 //        We turn all the lights on if the traffic light is off
+//        if (editMode && trafficLight.getStateString().equals("OFF")) {
+//            trafficLight.performRequest("FULLON");
+//        }
+//        ***
 
-        if (editMode && trafficLight.getStateString().equals("OFF")) {
-            trafficLight.performRequest("FULLON");
+//        If we are in edit mode
+//        We turn all the lights on if the traffic light is off
+        if (editMode && this.trafficLight.getStateString().equals("OFF")) {
+            this.trafficLight.performRequest("FULLON");
         }
 
-//        We add each lightbulb of the traffic light to the view
-        for (Lightbulb l :
+//        We add each lightbulb of the trafficlight to the view
+        for (Lightbulb lightbulb :
                 trafficLight.getLightbulbs()) {
-            try {
-//                Load FXML view and related controller
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulb.fxml"));
-                final Pane pane = loader.load();
 
-                LightbulbController bulbController = loader.getController();
-
-//                Set the color of the bulbs
-                bulbController.setColor(l.getColor());
-                bulbController.setFill(l.getFill());
-
-                if (bulbSize.equals("small")) {
-//                    pane.setMaxSize(50, 50);
-                    bulbController.setSize(20);
-                } else {
-                    bulbController.setSize(100);
-                }
-
-//                Context Menu on each bulb
-                pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (event.getButton() == MouseButton.SECONDARY) {
-                            ContextMenu contextMenu = new ContextMenu();
-
-                            MenuItem moveUpItem = new MenuItem("Move Up");
-                            MenuItem moveDownItem = new MenuItem("Move Down");
-                            MenuItem addPanicSignalItem = new MenuItem("Set as panic signal");
-                            MenuItem removePanicSignalItem = new MenuItem("Unset as panic signal");
-                            MenuItem deleteItem = new MenuItem("Remove");
-
-                            moveUpItem.setOnAction(event1 -> moveUpBulb(trafficLight, l));
-                            moveDownItem.setOnAction(event1 -> moveDownBulb(trafficLight, l));
-                            addPanicSignalItem.setOnAction(event1 -> setAsPanic(l));
-                            removePanicSignalItem.setOnAction(event1 -> unsetAsPanic(l));
-                            deleteItem.setOnAction(event1 -> removeBulb(trafficLight, l));
-
-                            contextMenu.getItems().addAll(moveUpItem, moveDownItem, addPanicSignalItem, removePanicSignalItem, deleteItem);
-                            contextMenu.show(pane, event.getScreenX(), event.getScreenY());
-
-                        }
-                    }
-                });
-
-//                Add the bulbs to the view
-                bulbContainer.getChildren().add(pane);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            this.addLightbulb(lightbulb);
         }
     }
+
+    private void addLightbulb(Lightbulb lightbulb) {
+        try {
+//            Load FXML view and related controller
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulb.fxml"));
+            final StackPane pane = loader.load();
+
+            LightbulbController bulbController = loader.getController();
+
+//            Set the color of the bulbs
+            bulbController.setColor(lightbulb.getColor());
+            bulbController.setFill(lightbulb.getFill());
+
+//            Set the display size of the bulbs
+            if (this.bulbSize.equals("small")) {
+                bulbController.setSize(20);
+            } else {
+                bulbController.setSize(100);
+            }
+
+//            Context Menu
+            pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getButton() == MouseButton.SECONDARY) {
+                        ContextMenu contextMenu = new ContextMenu();
+
+                        MenuItem moveUpItem = new MenuItem("Move Up");
+                        MenuItem moveDownItem = new MenuItem("Move Down");
+                        MenuItem addPanicSignalItem = new MenuItem("Set as panic signal");
+                        MenuItem removePanicSignalItem = new MenuItem("Unset as panic signal");
+                        MenuItem deleteItem = new MenuItem("Remove");
+
+                        moveUpItem.setOnAction(event1 -> moveUpBulb(trafficLight, lightbulb));
+                        moveDownItem.setOnAction(event1 -> moveDownBulb(trafficLight, lightbulb));
+                        addPanicSignalItem.setOnAction(event1 -> setAsPanic(lightbulb));
+                        removePanicSignalItem.setOnAction(event1 -> unsetAsPanic(lightbulb));
+                        deleteItem.setOnAction(event1 -> removeBulb(trafficLight, lightbulb));
+
+                        contextMenu.getItems().addAll(moveUpItem, moveDownItem, addPanicSignalItem, removePanicSignalItem, deleteItem);
+                        contextMenu.show(pane, event.getScreenX(), event.getScreenY());
+
+                    }
+                }
+            });
+
+//            Add the bulbs to the view
+            bulbContainer.getChildren().add(pane);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Set a bulb as a panic signal (will blink when traffic light goes in panic mode)
@@ -142,7 +179,7 @@ public class TrafficlightController {
      */
     public void removeBulb(TrafficLight trafficLight, Lightbulb lightbulb) {
         trafficLight.getLightbulbs().remove(lightbulb);
-        this.initData(trafficLight, true, "large");
+        this.initData(trafficLight, true, this.bulbSize);
     }
 
     /**
@@ -187,7 +224,7 @@ public class TrafficlightController {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index > 0) {
             Collections.swap(trafficLight.getLightbulbs(), index, index - 1);
-            this.initData(trafficLight, true, "large");
+            this.initData(trafficLight, true, this.bulbSize);
         }
     }
 
@@ -201,7 +238,7 @@ public class TrafficlightController {
         int index = trafficLight.getLightbulbs().indexOf(lightbulb);
         if (index < (trafficLight.getLightbulbs().size() - 1)) {
             Collections.swap(trafficLight.getLightbulbs(), index, index + 1);
-            this.initData(trafficLight, true, "large");
+            this.initData(trafficLight, true, this.bulbSize);
         }
     }
 
@@ -319,14 +356,6 @@ public class TrafficlightController {
 
     }
 
-    /**
-     * Control the switch phase button
-     */
-//    public void enableSwitchPhase() {
-//        if (this.trafficLight.performRequest("GET").equals("MANUAL")) {
-//            switchPhaseButton.setDisable(false);
-//        }
-//    }
 
     /**
      * Switch from different phase when the traffic light is in manual mode

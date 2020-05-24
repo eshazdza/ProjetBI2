@@ -1,62 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.shape.SVGPath?>
 
-<?import javafx.scene.layout.VBox?>
 <?import entities.direction.Direction?>
 
-<Direction prefHeight="134.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.direction.DirectionController"
-            onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop"
-            fx:id="direction">
 
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<Direction xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.direction.DirectionController"
+           prefHeight="160" prefWidth="500"
+           style="
+                -fx-background-color: transparent;
+                -fx-border-width: 5 0 0 0;
+                -fx-border-color: white;
+           "
+           alignment="CENTER"
+           fx:id="direction"
+           onMousePressed="#onDirectionPressed"
+           onDragDetected="#onDirectionDragDetected"
+           onMouseDragged="#onDirectionDragged"
+           onMouseReleased="#onDirectionReleased"
+           onDragOver="#setOnDragOver"
+           onDragEntered="#handleDragEntered"
+           onDragDropped="#handleDragDrop"
+            >
 
-<!--<AnchorPane prefHeight="134.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/11.0.1"-->
-<!--            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.direction.DirectionController"-->
-<!--            onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop">-->
     <children>
-        <StackPane layoutY="171.0" prefHeight="230.0" prefWidth="606.0" AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox style="-fx-border-width: 2 2 2 2; -fx-border-color: yellow">
             <children>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#828f9a" height="59.0" stroke="BLACK"
-                           strokeType="INSIDE" strokeWidth="0.0" width="606.0" fx:id="road"/>
-                <HBox alignment="CENTER" prefHeight="44.0" prefWidth="${road.width}">
-                    <children>
-                        <SVGPath
-                                content="M5.975 17.504l14.287.001-6.367 6.366L16.021 26l10.004-10.003L16.029 6l-2.128 2.129 6.367 6.366H5.977z"
-                                fill="WHITE">
-                            <HBox.margin>
-                                <Insets left="100.0" right="100.0"/>
-                            </HBox.margin>
-                        </SVGPath>
-                        <SVGPath
-                                content="M5.975 17.504l14.287.001-6.367 6.366L16.021 26l10.004-10.003L16.029 6l-2.128 2.129 6.367 6.366H5.977z"
-                                fill="WHITE">
-                            <HBox.margin>
-                                <Insets right="100.0"/>
-                            </HBox.margin>
-                        </SVGPath>
-                        <SVGPath
-                                content="M5.975 17.504l14.287.001-6.367 6.366L16.021 26l10.004-10.003L16.029 6l-2.128 2.129 6.367 6.366H5.977z"
-                                fill="WHITE">
-                            <HBox.margin>
-                                <Insets/>
-                            </HBox.margin>
-                        </SVGPath>
-                        <VBox fx:id="trafficlightContainer" prefHeight="${road.height}">
-                            <HBox.margin>
-                                <Insets left="150.0"/>
-                            </HBox.margin>
-                        </VBox>
-                    </children>
+                <StackPane>
+                    <Rectangle height="100" width="800"/>
+                    <SVGPath content="M-22.86,6.339H0.069v6.801L22.86,0.001L0.069-13.14v6.801H-22.86V6.339z"
+                             fill="white" StackPane.alignment="CENTER_LEFT"/>
+                    <SVGPath content="M-22.86,6.339H0.069v6.801L22.86,0.001L0.069-13.14v6.801H-22.86V6.339z"
+                             fill="white" StackPane.alignment="CENTER_RIGHT"/>
+                </StackPane>
+                <HBox fx:id="trafficLightContainer"
+                      style="-fx-border-width: 5 1 1 1; -fx-border-color: white; -fx-background-color: transparent"
+                      alignment="BOTTOM_CENTER" prefHeight="126" maxHeight="126" >
+
                 </HBox>
             </children>
-        </StackPane>
+        </VBox>
     </children>
-<!--</AnchorPane>-->
+
+
 </Direction>

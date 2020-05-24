@@ -6,11 +6,11 @@
 
 <TrafficLight xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
               fx:controller="controllers.trafficlight.TrafficlightController" onDragOver="#setOnDragOver"
-              onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop" fx:id="trafficLight">
+              onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop" fx:id="trafficLight" style="-fx-border-width: 2; -fx-border-color: green">
     <children>
-        <HBox>
-            <VBox alignment="CENTER" fx:id="bulbContainer" styleClass="trafficlightBG">
+<!--        <HBox>-->
+            <VBox alignment="CENTER" fx:id="bulbContainer" styleClass="trafficlightBG" id="trafficlight">
             </VBox>
-        </HBox>
+<!--        </HBox>-->
     </children>
 </TrafficLight>

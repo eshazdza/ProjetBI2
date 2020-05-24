@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import entities.triggerButton.SwitchButton?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            onDragOver="#setOnDragOver" onDragEntered="#handleDragEntered" onDragDropped="#handleDragDrop"
+            fx:controller="controllers.intersection.IntersectionCreatorController"
+            prefHeight="Infinity" prefWidth="Infinity" fx:id="rootPane" style="-fx-border-color: blue; -fx-border-width: 10">
+
+
+    <children>
+        <HBox>
+            <children>
+                <VBox styleClass="editorMenu">
+                    <VBox styleClass="fileProps">
+                        <SwitchButton text="Turn On" onAction="#handleSwitchButton" fx:id="switchButton"/>
+                        <HBox>
+                            <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton"
+                                    fx:id="manualButton"
+                                    disable="true"/>
+                            <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase"
+                                    fx:id="switchPhaseButton"
+                                    disable="true"/>
+                        </HBox>
+                        <Button mnemonicParsing="false" text="Auto" onAction="#handleModeButton" fx:id="autoButton"
+                                disable="true"/>
+                        <Button mnemonicParsing="false" text="Panic" onAction="#handleModeButton" fx:id="panicButton"
+                                disable="true"/>
+                    </VBox>
+
+                    <VBox styleClass="fileProps">
+                        <TextField fx:id="tlName" promptText="name :"/>
+                        <HBox>
+                            <Button mnemonicParsing="false" text="Save" onAction="#saveIntersection"/>
+                            <Button mnemonicParsing="false" text="Delete" onAction="#deleteIntersection"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+
+
+                <fx:include source="intersection.fxml" fx:id="intersection"/>
+
+            </children>
+        </HBox>
+
+    </children>
+
+</AnchorPane>

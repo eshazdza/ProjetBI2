@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import entities.intersection.Intersection?>
+<Intersection xmlns="http://javafx.com/javafx"
+              xmlns:fx="http://javafx.com/fxml"
+              fx:controller="controllers.intersection.IntersectionController"
+              prefHeight="Infinity" prefWidth="Infinity"
+              fx:id="intersection">
+<!--              prefHeight="400.0" prefWidth="600.0"-->
+
+    <Pane fx:id="directionsContainer"
+          style="-fx-border-width: 5; -fx-border-color: red"
+          prefHeight="Infinity" prefWidth="Infinity">
+<!--          prefHeight="400.0" prefWidth="600.0">-->
+        <children>
+
+        </children>
+    </Pane>
+
+</Intersection>

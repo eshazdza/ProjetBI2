@@ -49,10 +49,9 @@
         </HBox>
     </bottom>
    <center>
-      <Pane fx:id="actionWindow" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 0;" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Welcome To Traffic Light Simulator 2020 V1" />
-         </children>
+      <Pane fx:id="actionWindow"
+            style="-fx-border-width: 0; -fx-background-color: black;"
+            BorderPane.alignment="CENTER">
       </Pane>
    </center>
    <left>

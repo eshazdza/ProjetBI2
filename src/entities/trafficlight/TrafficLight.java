@@ -7,11 +7,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class TrafficLight extends StackPane implements Serializable {
+public class TrafficLight extends StackPane implements Serializable, Cloneable {
 
     protected ArrayList<Lightbulb> lightbulbs;
     protected transient TrafficLightState state;
@@ -56,6 +57,7 @@ public class TrafficLight extends StackPane implements Serializable {
     }
 
 
+
     public String performRequest(String request) {
         switch (request) {
             case "STANDBY":
@@ -87,7 +89,7 @@ public class TrafficLight extends StackPane implements Serializable {
         return this.state.getStateString();
     }
 
-    private void setState(String state) {
+    public void setState(String state) {
         switch (state){
             case "OFF":
                 this.state =  TrafficLightState.OFF;
@@ -108,6 +110,8 @@ public class TrafficLight extends StackPane implements Serializable {
         }
     }
 
+
+
     public boolean isBinded() {
         return isBinded;
     }
@@ -124,13 +128,14 @@ public class TrafficLight extends StackPane implements Serializable {
         return name;
     }
 
+
     @Override
     public String toString() {
-        return "entities.trafficlight.TrafficLight{" +
+        return "TrafficLight{" +
                 "lightbulbs=" + lightbulbs +
                 ", state=" + state +
-                "is binded = " + isBinded +
-                this.getClass() +
+                ", isBinded=" + isBinded +
+                ", name='" + name + '\'' +
                 '}';
     }
 
@@ -150,5 +155,23 @@ public class TrafficLight extends StackPane implements Serializable {
 
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrafficLight that = (TrafficLight) o;
+        return isBinded == that.isBinded &&
+                Objects.equals(lightbulbs, that.lightbulbs) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lightbulbs, state, isBinded, name);
+    }
 }

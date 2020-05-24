@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import entities.triggerButton.SwitchButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
 
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.direction.DirectionCreatorController"
-            prefHeight="400.0" prefWidth="600.0" fx:id="rootPane">
+            style="-fx-background-color: #8a8b0d"
+            minHeight="-Infinity" minWidth="-Infinity"
+            maxHeight="Infinity" maxWidth="Infinity"
+            fx:id="rootPane">
 
-    <children>
-        <HBox>
-            <children>
-                <VBox styleClass="editorMenu">
-                    <VBox styleClass="fileProps">
+    <HBox fx:id="creatorContainer" style="-fx-background-color: purple" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
+        <children>        <!--    CREATOR MENU -->
+            <VBox styleClass="editorMenu" style="-fx-background-color: green">
+                <VBox styleClass="fileProps">
                     <SwitchButton text="Turn On" onAction="#handleSwitchButton" fx:id="switchButton"/>
-                        <HBox>
-                            <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton"
-                                    fx:id="manualButton"
-                                    disable="true"/>
-                            <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase"
-                                    fx:id="switchPhaseButton"
-                                    disable="true"/>
-                        </HBox>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="Manual" onAction="#handleModeButton"
+                                fx:id="manualButton"
+                                disable="true"/>
+                        <Button mnemonicParsing="false" text="Switch Phase" onAction="#switchPhase"
+                                fx:id="switchPhaseButton"
+                                disable="true"/>
+                    </HBox>
                     <Button mnemonicParsing="false" text="Auto" onAction="#handleModeButton" fx:id="autoButton"
                             disable="true"/>
                     <Button mnemonicParsing="false" text="Panic" onAction="#handleModeButton" fx:id="panicButton"
                             disable="true"/>
-                    </VBox>
-
-                    <VBox styleClass="fileProps">
-                        <TextField fx:id="tlName" promptText="name :"/>
-                        <HBox>
-                            <Button mnemonicParsing="false" text="Save" onAction="#saveDirection"/>
-                            <Button mnemonicParsing="false" text="Delete" onAction="#deleteDirection"/>
-                        </HBox>
-                    </VBox>
-
                 </VBox>
 
+                <VBox styleClass="fileProps">
+                    <TextField fx:id="tlName" promptText="name :"/>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="Save" onAction="#saveDirection"/>
+                        <Button mnemonicParsing="false" text="Delete" onAction="#deleteDirection"/>
+                    </HBox>
+                </VBox>
 
-                <fx:include source="direction.fxml" fx:id="direction"/>
+            </VBox>
+            <!--        END CREATOR MENU -->
+            <!--        DRAWING BOARD -->
+            <Pane fx:id="drawingBoard" style="-fx-background-color: blue" onMouseClicked="#handleMouseClicked" HBox.hgrow="ALWAYS">
 
-            </children>
-        </HBox>
-
-    </children>
+            </Pane>
+            <!--        END DRAWING BOARD -->
+        </children>
+    </HBox>
 
 
 </AnchorPane>

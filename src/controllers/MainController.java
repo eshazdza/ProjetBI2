@@ -1,13 +1,16 @@
 package controllers;
 
-import controllers.direction.DirectionController;
 import controllers.direction.DirectionCreatorController;
+import controllers.intersection.IntersectionCreatorController;
 import controllers.lightbulb.LightbulbCreatorController;
 import controllers.trafficlight.TrafficlightCreatorController;
 import entities.direction.Direction;
+import entities.intersection.Intersection;
 import entities.lightbulb.Lightbulb;
 import entities.trafficlight.TrafficLight;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import tools.ConfirmBox;
 import tools.ObjectIO;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -69,7 +73,7 @@ public class MainController implements Initializable {
     public void newLightbulb(String bulbName) {
         stage = (Stage) mainRoot.getScene().getWindow();
 
-        Lightbulb lightbulb = (Lightbulb)ObjectIO.open(bulbName);
+        Lightbulb lightbulb = (Lightbulb) ObjectIO.open(bulbName);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/lightbulbs/lightbulbCreator.fxml"));
@@ -87,37 +91,24 @@ public class MainController implements Initializable {
 
 
     public void newTrafficLight() {
-        stage = (Stage) mainRoot.getScene().getWindow();
-
-        TrafficLight trafficLight = new TrafficLight();
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlightCreator.fxml"));
-            actionContent = loader.load();
-
-            TrafficlightCreatorController controller = loader.getController();
-            controller.initData(trafficLight);
-
-
-            actionWindow.getChildren().clear();
-            actionWindow.getChildren().add(actionContent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        newTrafficLight(null);
     }
 
     public void newTrafficLight(String trafficlightName) {
         stage = (Stage) mainRoot.getScene().getWindow();
+        TrafficLight trafficLight = new TrafficLight();
 
-        TrafficLight trafficLight =(TrafficLight) ObjectIO.open(trafficlightName);
+        if (trafficlightName != null) {
+            trafficLight = (TrafficLight) ObjectIO.open(trafficlightName);
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/trafficlights/trafficlightCreator.fxml"));
             actionContent = loader.load();
 
             TrafficlightCreatorController controller = loader.getController();
-            controller.initData(trafficLight);
 
+            controller.initData(trafficLight);
 
             actionWindow.getChildren().clear();
             actionWindow.getChildren().add(actionContent);
@@ -128,43 +119,99 @@ public class MainController implements Initializable {
     }
 
     public void newDirection() {
-        stage = (Stage) mainRoot.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/directions/directionCreator.fxml"));
-            actionContent = loader.load();
-
-            DirectionCreatorController controller = loader.getController();
-            controller.initData();
-
-
-            actionWindow.getChildren().clear();
-            actionWindow.getChildren().add(actionContent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        newDirection(null);
     }
 
     public void newDirection(String directionName) {
         stage = (Stage) mainRoot.getScene().getWindow();
-        Direction direction = (Direction) ObjectIO.open(directionName);
+        Direction direction = new Direction();
+        if (directionName != null) {
+            direction = (Direction) ObjectIO.open(directionName);
+        }
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/directions/directionCreator.fxml"));
             actionContent = loader.load();
 
-            DirectionCreatorController controller = loader.getController();
-            controller.initData(direction);
+            // Set Action content min size
+            actionContent.setMinHeight(actionWindow.getHeight());
+            actionContent.setMinWidth(actionWindow.getWidth());
 
+            // Resize the action content to match the parent (action window) size
+            actionWindow.heightProperty().addListener(new ChangeListener<Number>() {
+
+                @Override
+                public void changed(ObservableValue<? extends Number> arg0,
+                                    Number arg1, Number arg2) {
+                    actionContent.setPrefHeight(arg2.doubleValue());
+                }
+            });
+
+            actionWindow.widthProperty().addListener(new ChangeListener<Number>() {
+
+                @Override
+                public void changed(ObservableValue<? extends Number> arg0,
+                                    Number arg1, Number arg2) {
+                    actionContent.setPrefWidth(arg2.doubleValue());
+                }
+            });
 
             actionWindow.getChildren().clear();
             actionWindow.getChildren().add(actionContent);
+
+            DirectionCreatorController controller = loader.getController();
+
+            if (directionName != null) {
+                controller.initData(direction);
+            } else {
+                controller.initData();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void newIntersection() {
-        System.out.println("intersection");
+        stage = (Stage) mainRoot.getScene().getWindow();
+        Intersection intersection = new Intersection();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/intersection/intersectionCreator.fxml"));
+            actionContent = loader.load();
+
+            IntersectionCreatorController controller = loader.getController();
+            controller.initData();
+
+            actionWindow.getChildren().clear();
+            actionWindow.getChildren().addAll(actionContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void newIntersection(String intersectionName) {
+        stage = (Stage) mainRoot.getScene().getWindow();
+        Intersection intersection = new Intersection();
+
+        if (intersectionName != null) {
+            intersection = (Intersection) ObjectIO.open(intersectionName);
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/intersection/intersectionCreator.fxml"));
+            actionContent = loader.load();
+
+            IntersectionCreatorController controller = loader.getController();
+
+            controller.initData(intersection);
+
+            actionWindow.getChildren().clear();
+            actionWindow.getChildren().add(actionContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* END  NEW */
@@ -213,6 +260,7 @@ public class MainController implements Initializable {
         File[] lightbulbsFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\lightbulbs\\");
         File[] trafficlightFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\trafficlights\\");
         File[] directionsFiles = ObjectIO.getFilesNameFromDir("src\\assets\\objects\\directions\\");
+        File[] intersectionsFiles =  ObjectIO.getFilesNameFromDir("src\\assets\\objects\\intersections\\");
 
         for (int i = 0; i < lightbulbsFiles.length; i++) {
             TreeItem<String> bulb = new TreeItem<>(lightbulbsFiles[i].getName());
@@ -227,6 +275,11 @@ public class MainController implements Initializable {
         for (int i = 0; i < directionsFiles.length; i++) {
             TreeItem<String> direction = new TreeItem<>(directionsFiles[i].getName());
             directionsItem.getChildren().add(direction);
+        }
+
+        for (int i = 0; i < intersectionsFiles.length; i++) {
+            TreeItem<String> intersection = new TreeItem<>(intersectionsFiles[i].getName());
+            intersectionItem.getChildren().add(intersection);
         }
 
 
@@ -255,7 +308,7 @@ public class MainController implements Initializable {
                     public void handle(MouseEvent event) {
                         try {
                             String targetName = ((Text) event.getTarget()).getText();
-                            if (targetName.contains(".lightbulb") || targetName.contains(".trafficlight") || targetName.contains(".DirectionController")){
+                            if (targetName.contains(".lightbulb") || targetName.contains(".trafficlight") || targetName.contains(".direction")) {
                                 Dragboard db = treeCell.startDragAndDrop(TransferMode.ANY);
                                 ClipboardContent content = new ClipboardContent();
                                 content.putString(targetName);
@@ -300,13 +353,14 @@ public class MainController implements Initializable {
                     }
 
                     if (item.getValue().contains(".intersection")) {
-                        newIntersection();
+                        newIntersection(item.getValue());
                     }
 
                 }
             }
         });
     }
+
 
     /* *******************   END   ASSETS MENU      ******************* */
 
@@ -315,4 +369,6 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         buildMenu();
     }
+
+
 }

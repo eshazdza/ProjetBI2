@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<AnchorPane prefHeight="81.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <StackPane>
+        <Rectangle height="100" width="800" />
+        <SVGPath content="M-22.86,6.339H0.069v6.801L22.86,0.001L0.069-13.14v6.801H-22.86V6.339z" fill="white" layoutX="100" layoutY="10" StackPane.alignment="CENTER_LEFT" />
+      <SVGPath content="M-22.86,6.339H0.069v6.801L22.86,0.001L0.069-13.14v6.801H-22.86V6.339z" fill="white" layoutX="33.0" layoutY="60.0" StackPane.alignment="CENTER_RIGHT" />
+    </StackPane>
+
+</AnchorPane>

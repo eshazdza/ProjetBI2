@@ -4,11 +4,15 @@ import entities.trafficlight.TrafficLight;
 import entities.triggerButton.SwitchButton;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import tools.ObjectIO;
 
-public class TrafficlightCreatorController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class TrafficlightCreatorController implements Initializable {
 
 
     @FXML
@@ -41,15 +45,26 @@ public class TrafficlightCreatorController {
 
     private String bulbSize = "large";
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initData();
+    }
+
+
+    public void initData() {
+        tlName.focusedProperty().addListener(((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                if (trafficlight != null) {
+                    trafficlight.setName(tlName.getText());
+                }
+            }
+        }));
+    }
 
     public void initData(TrafficLight trafficLight) {
+        this.initData();
         tlName.setText(trafficLight.getName());
 
-        tlName.focusedProperty().addListener((ov, oldV, newV) -> {
-            if (!newV) {
-                trafficLight.setName(tlName.getText());
-            }
-        });
         trafficlightController.initData(trafficLight, true, "large");
     }
 
